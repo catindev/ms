@@ -1,0 +1,134 @@
+<%
+function dF( date ) {
+    var d = new Date(date);
+    var m = "" + (d.getMonth() + 1);
+    m.length === 1 && ( m = '0' + m );
+    return d.getDate() + '.' + m + '.' + d.getFullYear();
+}
+
+function dFS( date ) {
+    var d = new Date(date);
+    var m = "" + (d.getMonth() + 1);
+    m.length === 1 && ( m = '0' + m );
+    return d.getDate() + '.' + m;
+}
+
+%>
+<!doctype html>
+<html>
+<head>
+    <%- include ../common/page-title.ejs %>
+    <link href="assets/css/datepicker.css" rel="stylesheet">
+    <style>
+        .submenu {
+            padding: .5rem 0;
+            margin: 0 auto;
+            width: 70%;
+            max-width: 960px;
+        }
+
+        .l-filter {
+            display: inline-block;
+            border-bottom: 1px solid dashed;
+            margin-left: 2px;
+            margin-right: 8px;
+        }
+
+        .f-active {
+            opacity: .5;
+            text-decoration: none;
+        }
+
+        .f-delimeter {
+            display: inline-block;
+            color: #ccc;
+            margin: 0 4px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <%- include ../common/main-menu.ejs %>
+    <div class="content">
+
+        <%- include ./submenu.ejs %>
+
+        <div class="title"><h1>Пропущенные звонки</h1></div>
+
+        <div class="form-section">
+            <h3>Период</h3>
+            <form class="form" id="periodForm">
+                <div class="row">
+                    <div class="col col-5">
+                        <div class="form-item">
+                            <label>
+                                Дата начала
+                                <span class="desc">периода</span>
+                            </label>
+                            <input type="text" class="datepicker-here" id="periodStart" name="start" value="<%= dF(range.start) %>"/>
+                        </div>
+                    </div>
+                    <div class="col col-5">
+                        <div class="form-item">
+                            <label>Дата конца</label>
+                            <input type="text" class="datepicker-here" id="periodEnd" name="end" value="<%= dF(range.end) %>">
+                        </div>
+                    </div>
+                    <div class="col col-2">
+                        <div class="form-item">
+                            <label style="visibility: hidden">Action</label>
+                            <button type="button" id="setPeriod" class="button primary">
+                                Показать
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <div id="piechart" style="height: 500px;"></div>
+        </div>
+    </div>
+</body>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/datepicker.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<% if ( data && data.length > 0 ) { %>
+<script type="text/javascript">
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
+        <% if ( currentWeek ) { %>
+        var options = {
+            title: 'Пропущенные звонки за текущую неделю'
+        };
+        <% } else { %>
+        var options = {
+            title: 'Пропущенные звонки c <%= dFS(range.start) %> по <%= dFS(range.end) %>'
+        };
+        <% } %>
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+<% } %>
+
+<script>
+(function($) {
+    $("#setPeriod").on('click', setPeriod);
+    function setPeriod() {
+        const period = readForm('periodForm');
+        if ( period && period.start && period.end ) {
+            location.href = `${ location.pathname }?start=${ period.start }&end=${ period.end }`;
+        }
+    }
+})(jQuery);
+</script>
+</html>

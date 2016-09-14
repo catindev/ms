@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <title>MindSales: вход</title>
+    <base href="/">
+    <link href="assets/css/reset.css" rel="stylesheet">
+    <link href="assets/css/kube.css" rel="stylesheet">
+    <style>
+        body { background: #f3f4ee; padding: 2rem; }
+        .c { text-align: center; }
+        .h { display: none; }
+
+        .title {
+            padding: .1rem 0;
+            padding-top: 3rem;
+            margin: 0 auto;
+            width: 70%;
+            max-width: 400px;
+        }
+
+        .form-section {
+            padding: 2rem 3rem;
+            padding-bottom: 1rem;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,.1);
+            border: 1px solid rgba(0,0,0,.09);
+            border-radius: 3px;
+            width: 70%;
+            max-width: 400px;
+        }
+
+        .form-item input, .form-item textarea, .form-item select { border: 1px solid #bfbfbf; }
+        .form-item input:focus {
+            border-color: #5badff;
+            box-shadow: 0 0 6px rgba(27,106,201,0.5);
+            transition: all 0.2s ease;
+        }
+
+        .remove-button { background: #F9543F; color: #fff; }
+        .remove-button:hover { color: #fff; }
+
+        .tds { width: 10%; }
+
+        h1, h2, h3 { font-weight: 500; }
+        h1 { font-weight: 300; font-size: 3.2rem; line-height: 1.2; }
+        h3 { font-weight: 700; font-size: 1.1rem; line-height: 1.2; }
+    </style>
+</head>
+<body>
+        <div class="title"><h1>MindSales</h1></div>
+
+        <div class="form-section">
+            <form class="form" id="login-data">
+                <div class="form-item">
+                    <label>Логин</label>
+                    <input type="text" name="login" placeholder="Эл. почта или номер телефона">
+                </div>
+                <div class="form-item">
+                    <label>Пароль</label>
+                    <input type="password" name="password">
+                </div>
+
+                <div class="form-item">
+                    <button type="button" class="button primary big" id="login">
+                        Войти
+                    </button>
+                </div>
+            </form>
+        </div>
+
+</body>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/login.js"></script>
+</html>

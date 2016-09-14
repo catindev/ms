@@ -1,0 +1,36 @@
+module.exports = (request, response) => {
+    const missingVersusAllBarChart = require('./missing-vs-all');
+    const moment = require("moment");
+
+    let { start, end, interval = 'days' } = request.query;
+    let currentWeek = true, range = {
+        start: moment().startOf('isoWeek').toDate(),
+        end: moment().endOf('isoWeek').toDate()
+    };
+
+    if ( start && end ) {
+        start = new Date( (start.split('.')).reverse() );
+        end = new Date( (end.split('.')).reverse() );
+        range = { start, end };
+        currentWeek = false;
+    }
+
+    missingVersusAllBarChart({
+        start: range.start,
+        end: range.end,
+        interval,
+        account: request.user.account
+    }).then(data => {
+        response.render('stats/missing-vs-all', {
+            data,
+            interval,
+            range,
+            currentWeek,
+            page:"stats",
+            subPage: "missing-vs-all",
+            title: 'Эффективность ответов на звонки',
+            user: request.user,
+            backURL: '/'
+        });
+    }).catch( error => { throw error });
+};

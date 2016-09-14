@@ -1,0 +1,39 @@
+<div class="form-section">
+    <h3>Источники звонков</h3>
+    <form class="form" id="numberForm">
+        <div class="row">
+            <div class="col col-6">
+                <div class="form-item">
+                    <label>
+                        Номер телефона
+                        <span class="desc">рекламного источника</span>
+                    </label>
+                    <div class="controls">
+                        <span>+7</span>
+                        <input type="text" placeholder="7XX XX XX" name="phone">
+                    </div>
+                </div>
+            </div>
+            <div class="col col-6">
+                <div class="form-item">
+                    <label>Название</label>
+                    <input type="text" name="name">
+                    <div class="desc">Где этот номер увидят клиенты?</div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="form-item">
+        <button type="button" class="button primary small width-100" id="createNumber">
+            Добавить источник
+        </button>
+    </div>
+
+    <table id="numbers" class="hide">
+        <thead>
+        <tr><th></th><th></th><th></th></tr>
+        </thead>
+        <tbody id="numbersList"></tbody>
+    </table>
+</div>

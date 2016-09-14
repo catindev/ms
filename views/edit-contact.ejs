@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <%- include common/page-title.ejs %>
+</head>
+<body>
+    <%- include common/main-menu.ejs %>
+    <div class="content">
+        <div class="title">
+            <% if (contact) { %>
+            <h1><%= contact.name || 'Заполнить профиль' %></h1>
+            <% } else { %>
+            <h1>Новый контакт</h1>
+            <% } %>
+        </div>
+
+        <div id="service-info" class="hide">{"_id":"<%= (contact && contact._id) || 'new' %>","backURL":"<%= backURL %>"}</div>
+
+        <div class="form-section">
+            <h3>Контактная информация</h3>
+            <form class="form" id="contact-details">
+                <div class="form-item">
+                    <label>Имя и фамилия</label>
+                    <input type="text" name="name" class="big"
+                           value="<%= contact && contact.name %>">
+                </div>
+
+                <div class="form-item">
+                    <label>Эл. почта</label>
+                    <input type="text" name="email"
+                           class="width-50"
+                           value="<%= contact && contact.email %>"/>
+                </div>
+
+                <div class="form-item">
+                    <label>Номер телефона</label>
+                    <div class="controls width-50">
+                        <span>+7</span>
+                        <input type="text" disabled
+                               value="<%= contact && contact.phone.replace('+7', '') %>"/>
+                        <input type="hidden" name="phone"
+                               value="<%= contact && contact.phone.replace('+7', '') %>"/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="form-section">
+            <h3>Служебная информация</h3>
+            <form class="form" id="contact-additionals">
+                <div class="form-item">
+                    <% if (contact && contact.user) { %>
+                    <label>Менеджер <span class="desc">ответственный</span></label>
+                    <input type="text" disabled value="<%= contact.user.name %>"/>
+                    <input type="hidden" name="updatedBy" value="<%= contact.user._id %>"/>
+                    <% } else { %>
+                    <label>Менеджер</label>
+                    <input type="text" disabled value="<%= user.name %>"/>
+                    <input type="hidden" name="updatedBy" value="<%= user._id %>"/>
+                    <% } %>
+                </div>
+
+                <div class="form-item">
+                    <label>Заметки</label>
+                    <textarea cols="5" rows="5" name="notes"><%= contact && contact.notes %></textarea>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <a href="<%= backURL %>" role="button" class="button" style="margin-right: 1.5rem">
+                Вернуться назад
+            </a>
+
+            <button type="button" class="button primary" id="save">
+                Сохранить изменения
+            </button>
+        </div>
+    </div>
+</body>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/contact-update.js"></script>
+</html>

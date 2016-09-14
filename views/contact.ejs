@@ -1,0 +1,81 @@
+<%
+
+ function canEdit() {
+     return user.type !== 'admin' && ( !contact.user ||
+            contact.user._id.toString() === user._id.toString() );
+ }
+
+%>
+<!doctype html>
+<html>
+<head>
+    <%- include common/page-title.ejs %>
+    <style>
+        .title {
+            padding: .5rem 0;
+        }
+
+        .contact-item {
+            padding: .5rem 0;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        .item-label {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <%- include common/main-menu.ejs %>
+
+    <div class="content">
+        <div class="title">
+            <h1><%= contact.name %></h1>
+        </div>
+
+        <div class="form-section">
+            <div class="contact-item">
+                <span class="item-label">Номер:</span>
+                <span><%= contact.phone %></span>
+            </div>
+
+            <% if (contact.email) { %>
+                <div class="contact-item">
+                    <span class="item-label">Эл. почта:</span>
+                    <span><%= contact.email %></span>
+                </div>
+            <% } %>
+
+            <% if (contact.user) { %>
+                <div class="contact-item">
+                    <span class="item-label">Ответственный:</span>
+                    <span><%= contact.user.name %></span>
+                </div>
+            <% } %>
+
+            <% if (contact.notes) { %>
+                <div style="margin-top: .4rem;">
+                    <div class="item-label">Заметки:</div>
+                    <div style="font-size: .95rem;">
+                        <%- contact.notes.replace(/\n/g,'<br>') %>
+                    </div>
+                </div>
+            <% } %>
+
+        </div>
+
+        <% if ( canEdit() ) { %>
+            <div class="form-section">
+                <a href="/contacts/edit/<%= contact._id %>" role="button"
+                   class="button primary" style="margin-right: 1.5rem">
+                    Редактировать
+                </a>
+            </div>
+        <% } %>
+    </div>
+</body>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/contact-update.js"></script>
+</html>

@@ -1,0 +1,37 @@
+<ul class="main-menu">
+    <li class="main-menu__item">
+        <a class="mm-item__link logotype" href="/" style="font-weight: 500;">
+            MindSales
+        </a>
+    </li>
+
+    <li class="main-menu__item">
+        <a class="mm-item__link <%= page === 'calls' && 'mm-item__link-active'%>"
+           href="/calls">Звонки</a>
+    </li>
+    <li class="main-menu__item">
+        <a class="mm-item__link <%= page === 'contacts' && 'mm-item__link-active'%>"
+           href="/contacts">Клиентская база</a>
+    </li>
+
+    <% if (user.type !== 'admin') { %>
+    <li class="main-menu__item">
+        <a class="mm-item__link <%= page === 'stats' && 'mm-item__link-active'%>"
+           href="/stats/leads">Статистика</a>
+    </li>
+    <% } %>
+
+    <% if (user.type === 'admin') { %>
+    <li class="main-menu__item">
+        <a class="mm-item__link <%= page === 'new-account' && 'mm-item__link-active'%>"
+           href="/accounts/new">Создать аккаунт</a>
+    </li>
+    <% } %>
+
+    <li class="main-menu__item mm-item_link-system">
+        <a class="mm-item__link" href="/logout">Выйти</a>
+    </li>
+    <li class="main-menu__item mm-item_link-system">
+        <span class="mm-item__text"><%= user.name %></span>
+    </li>
+</ul>

@@ -1,0 +1,125 @@
+const Call = require("../../models/call");
+const Account = require("../../models/account");
+const Number = require("../../models/number");
+const User = require("../../models/user");
+const Contact = require("../../models/contact")();
+
+const formatNumber = require("../format-number");
+
+function saveCall({
+    calleePhoneNumber,
+    callerPhoneNumber,
+    endpointPhoneNumber = null,
+    direction,
+    startedAt,
+    createdAt,
+    answeredAt = null,
+    status,
+    waitingDuration = 0,
+    callDuration = 0,
+    conversationDuration = 0,
+    recordFile = null,
+    displayCallDuration = '--:--',
+    displayWatingDuration = '--:--',
+    displayConvDuration = '--:--'
+}, callback ) {
+
+    let newCall;
+    const caller = formatNumber( callerPhoneNumber );
+    const callee = formatNumber( calleePhoneNumber );
+    const endpointNumber = endpointPhoneNumber && formatNumber( endpointPhoneNumber );
+
+    Number.findOne({ phone: callee })
+        .populate( 'account' )
+        .then( findSourceNumber )
+        .then( findContact )
+        .then( newContact )
+        .then( checkUserForContact )
+        .then( saveContact )
+        .then( saveCallToSystem )
+        .catch(error => { throw error; });
+
+    function findSourceNumber( number ) {
+        if ( !number ) { callback( null ); return false; }
+
+        newCall = new Call({
+            "account": number.account._id,
+            "number": number._id,
+            "direction": direction,
+            "date": startedAt,
+            "answerDate": answeredAt,
+            "status": parseInt( status ),
+            "duration": {
+                "waiting": waitingDuration,
+                "call": callDuration,
+                "conversation": conversationDuration
+            },
+            "recordFile": recordFile,
+            "display": {
+                "call": displayCallDuration,
+                "waiting": displayWatingDuration,
+                "conversation": displayConvDuration
+            }
+        });
+        return newCall;
+    }
+
+    function findContact() {
+        return Contact.findOne({ phone: caller })
+            .then( contact => contact )
+            .catch(error => { throw error; });
+    }
+
+    function newContact( contact ) {
+        if ( contact ) return contact;
+
+        console.log(
+            'register new contact for ',
+            caller,
+            'at',
+            new Date(createdAt).toLocaleDateString(),
+            new Date(createdAt).toLocaleTimeString()
+        );
+        return new Contact({
+            account: newCall.account,
+            phone: caller,
+            number: newCall.number,
+            created: new Date(startedAt)
+        });
+    }
+
+    function checkUserForContact( contact ) {
+        if ( contact.user || newCall.status === 4 ) return contact;
+
+        return User.findOne({
+            $or: [
+                { phone: endpointNumber },
+                { phone: callee }
+            ]
+        })
+            .then( findUser )
+            .catch(error => { throw error; });
+
+        function findUser( user ) {
+            if ( user ) contact.user = user._id;
+            return contact;
+        }
+    }
+
+    function saveContact( contact ) {
+        return contact.save()
+            .then( contact => {
+                newCall.contact = contact._id;
+                return newCall;
+            })
+            .catch(error => { throw error });
+    }
+
+    function saveCallToSystem( call ) {
+        call.save()
+            .then( call => callback(call) )
+            .catch( error => { throw error; });
+    }
+}
+
+module.exports = saveCall;

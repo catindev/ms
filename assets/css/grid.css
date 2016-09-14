@@ -1,0 +1,4 @@
+@media (min-width: 30em) {
+    .unrow { width: 100%; display: table; table-layout: fixed; }
+    .uncol { display: table-cell; }
+}

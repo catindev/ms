@@ -1,0 +1,51 @@
+.main-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.logotype:hover {
+    background-color: #333;
+    color: #3c74d9;
+}
+
+.main-menu__item {
+    float: left;
+}
+
+.mm-item__link {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: 300;
+}
+
+.mm-item__text {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: 300;
+}
+
+.mm-item__link:hover {
+    background-color: #111;
+    color: #fff;
+}
+
+.mm-item__link-active {
+    color: #3c74d9;
+}
+
+.mm-item__link-active:hover {
+    color: #3c74d9;
+}
+
+.mm-item_link-system {
+    float: right;
+}

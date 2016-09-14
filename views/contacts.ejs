@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <%- include common/page-title.ejs %>
+    <style>
+        .title {
+            padding: .2rem 0;
+            margin: 0 auto;
+            width: 70%;
+            max-width: 660px;
+        }
+
+        .contact {
+            padding: 1rem;
+            margin: 0 auto;
+            margin-bottom: 3rem;
+            background: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,.1);
+            border: 1px solid rgba(0,0,0,.09);
+            border-radius: 3px;
+            width: 70%;
+            max-width: 660px;
+        }
+    </style>
+</head>
+<body>
+    <%- include common/main-menu.ejs %>
+
+    <div class="content">
+
+        <div class="title"><h1>Клиенты</h1></div>
+
+        <% if (contacts.length === 0) { %>
+        <div class="call">
+            <div style="padding: 2rem; font-size: 28px; font-weight:100; text-align: center; color: #ccc;">
+                У вас пока нет контактов клиентов
+            </div>
+        </div>
+        <% } %>
+
+        <% contacts.length > 0 && contacts.forEach( function(contact) { %>
+        <div class="contact">
+            <div class="unrow">
+                <div class="uncol" style="vertical-align: middle;">
+                    <div>
+                        <div style="font-size: 22px; line-height: 1.5; font-weight: 400;">
+                            <% if (contact.name) { %>
+                                <%= contact.name %>
+                            <% } else { %>
+                                Новый контакт
+                            <% } %>
+                        </div>
+                        <div style="font-size: 16px;line-height: 1.5;">
+                            <%= contact.phone %>
+                        </div>
+                    </div>
+                </div>
+                <div class="uncol" style="vertical-align: middle; text-align: right;">
+                    <% if (contact.name) { %>
+                    <a href="contacts/<%= contact._id %>?backURL=/contacts"
+                       class="button primary" role="button">Смотреть профиль</a>
+                    <% } else { %>
+                    <a href="contacts/edit/<%= contact._id %>?backURL=/contacts"
+                       class="button primary" role="button">Заполнить профиль</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+</body>
+<script>
+    // some defaults here
+</script>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/utils.js"></script>
+</html>

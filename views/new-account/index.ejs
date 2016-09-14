@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <%- include ../common/page-title.ejs %>
+    <link href="assets/css/jqui.css" rel="stylesheet">
+</head>
+<body>
+    <%- include ../common/main-menu.ejs %>
+    <div class="content">
+        <div class="title"><h1>Новый клиент</h1></div>
+
+        <%- include basic.ejs %>
+
+        <%- include fields.ejs %>
+
+        <%- include users.ejs %>
+
+        <%- include numbers.ejs %>
+
+        <%- include service.ejs %>
+
+        <div class="form-section">
+            <button type="button" class="button primary big" id="createAccount">
+                Добавить клиента
+            </button>
+        </div>
+    </div>
+</body>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/jqui.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/new-account/index.js"></script>
+<script src="assets/js/new-account/numbers.js"></script>
+<script src="assets/js/new-account/users.js"></script>
+<script src="assets/js/new-account/fields.js"></script>
+<script>
+    $( function() {
+        $( "#elementID" ).autocomplete({
+            source: [ /* 'val1', 'val2', etc.. */ ]
+        });
+    });
+</script>
+</html>

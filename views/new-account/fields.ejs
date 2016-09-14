@@ -1,0 +1,46 @@
+<div class="form-section">
+    <h3>Дополнительные параметры</h3>
+    <form class="form" id="fieldForm">
+        <div class="row">
+            <div class="col col-6">
+                <div class="form-item">
+                    <label>
+                        Название <span class="desc">параметра</span>
+                    </label>
+                    <input type="text" name="name"/>
+                </div>
+            </div>
+            <div class="col col-6">
+                <div class="form-item">
+                    <label>Тип</label>
+                    <select class="select" name="type" id="fieldItemType">
+                        <option value="string">Текстовое поле</option>
+                        <option value="list">Список</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-item hide" id="fieldList">
+            <label>Список значений</label>
+            <textarea cols="5" rows="5" name="list" id="fieldListItems"></textarea>
+        </div>
+        <div class="form-item">
+            <label>Подсказка</label>
+            <input type="text" name="description">
+            <div class="desc">Чтобы выводить вот такое дополнительное описание</div>
+        </div>
+    </form>
+
+    <div class="form-item">
+        <button type="button" class="button primary small width-100" id="addFieldItem">
+            Добавить параметр
+        </button>
+    </div>
+
+    <table id="fields" class="hide">
+        <thead>
+        <tr><th></th><th></th><th></th></tr>
+        </thead>
+        <tbody id="fieldItems"></tbody>
+    </table>
+</div>

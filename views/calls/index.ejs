@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <%- include ../common/page-title.ejs %>
+    <style>
+        .cbox {
+            width: 70%;
+            max-width: 660px;
+            margin: 0 auto;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        .call {
+            padding: 1rem;
+            margin-bottom: 3rem;
+            background: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,.1);
+            border: 1px solid rgba(0,0,0,.09);
+            border-radius: 3px;
+        }
+
+        .l-filter {
+            display: inline-block;
+            border-bottom: 1px solid dashed;
+            margin-left: 2px;
+            margin-right: 8px;
+        }
+
+        .f-active {
+            opacity: .5;
+            text-decoration: none;
+        }
+
+        .f-delimeter {
+            display: inline-block;
+            color: #ccc;
+            margin: 0 4px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <%- include ../common/main-menu.ejs %>
+
+    <div class="content">
+
+        <div class="title cbox">
+            <h1>Звонки</h1>
+        </div>
+
+        <% if ( user.access && user.access === 'manager' ) { %>
+        <div class="cbox">
+            <a href="/calls"
+               class="l-filter <%= filter === 'all' && 'f-active' %>">
+                Все
+            </a>
+            <a href="/calls?filter=my"
+               class="l-filter <%= filter === 'my' && 'f-active' %>">
+                Моих клиентов
+            </a>
+            <span class="f-delimeter">|</span>
+
+            <a href="/calls?filter=missed"
+               class="l-filter <%= filter === 'missed' && 'f-active' %>">
+                Никто не ответил( <%= meta.missed %> )
+            </a>
+            <a href="/calls?filter=new"
+               class="l-filter <%= filter === 'new' && 'f-active' %>">
+                Заполнить профили( <%= meta.newContacts %> )
+            </a>
+        </div>
+        <% } %>
+
+        <% if ( calls.length === 0 ) { %>
+        <div class="call cbox">
+            <div style="padding: 2rem; font-size: 28px; font-weight:100; text-align: center; color: #ccc;">
+                Звонков нет
+            </div>
+        </div>
+        <% } else { %>
+            <% ( calls.length > 0 ) && calls.forEach( function (call, index) { %>
+                <%- include call.ejs %>
+            <% }); %>
+        <% } %>
+    </div>
+</body>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/utils.js"></script>
+</html>

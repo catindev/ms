@@ -1,0 +1,49 @@
+<div class="form-section">
+    <h3>Учётные записи пользователей</h3>
+    <form class="form" id="userForm">
+        <div class="form-item">
+            <label>Имя и фамилия</label>
+            <input type="text" name="name">
+        </div>
+
+        <div class="form-item">
+            <label>Должность</label>
+            <select class="select" name="access">
+                <option value="manager">Менеджер</option>
+                <option value="boss">Руководитель</option>
+            </select>
+        </div>
+
+        <div class="form-item">
+            <label>Номер телефона</label>
+            <div class="controls width-50">
+                <span>+7</span>
+                <input type="text" placeholder="7XX XX XX" name="phone">
+            </div>
+        </div>
+
+        <div class="form-item">
+            <label>Эл. почта</label>
+            <input type="text" name="email" class="width-50" placeholder="best_employer@company.com">
+        </div>
+
+        <div class="form-item">
+            <label>Пароль</label>
+            <input type="text" name="password" class="width-50">
+            <div class="desc">Для доступа в ЦРМ</div>
+        </div>
+
+        <div class="form-item">
+            <button type="button" class="button primary small width-100" id="createUser">
+                Добавить учётную запись
+            </button>
+        </div>
+    </form>
+
+    <table id="users" class="hide">
+        <thead>
+        <tr><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+        </thead>
+        <tbody id="usersList"></tbody>
+    </table>
+</div>
