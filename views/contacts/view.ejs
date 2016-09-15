@@ -1,7 +1,7 @@
 <%
 
  function canEdit() {
-     return user.type !== 'admin' && ( !contact.user ||
+     return user.access === 'manager' && ( !contact.user ||
             contact.user._id.toString() === user._id.toString() );
  }
 
@@ -9,7 +9,7 @@
 <!doctype html>
 <html>
 <head>
-    <%- include common/page-title.ejs %>
+    <%- include ../common/page-title.ejs %>
     <style>
         .title {
             padding: .5rem 0;
@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-    <%- include common/main-menu.ejs %>
+    <%- include ../common/main-menu.ejs %>
 
     <div class="content">
         <div class="title">
@@ -40,22 +40,33 @@
                 <span><%= contact.phone %></span>
             </div>
 
-            <% if (contact.email) { %>
+            <% if ( contact.email ) { %>
                 <div class="contact-item">
                     <span class="item-label">Эл. почта:</span>
                     <span><%= contact.email %></span>
                 </div>
             <% } %>
 
-            <% if (contact.user) { %>
+            <% if ( contact.user ) { %>
                 <div class="contact-item">
                     <span class="item-label">Ответственный:</span>
                     <span><%= contact.user.name %></span>
                 </div>
             <% } %>
 
-            <% if (contact.notes) { %>
-                <div style="margin-top: .4rem;">
+            <% if ( fields.length > 0 ) { %>
+            <hr style="margin-top: 1rem;margin-bottom: 1rem;"/>
+            <% fields.forEach( function (field, index) { %>
+            <div class="contact-item">
+                <span class="item-label"><%= field.name %>:</span>
+                <span><%= contact && contact[ field.id ] %></span>
+            </div>
+            <% }); %>
+            <hr style="margin-top: 1rem;margin-bottom: 1.5rem;"/>
+            <% } %>
+
+            <% if ( contact.notes ) { %>
+                <div style="margin-top: 1rem;">
                     <div class="item-label">Заметки:</div>
                     <div style="font-size: .95rem;">
                         <%- contact.notes.replace(/\n/g,'<br>') %>

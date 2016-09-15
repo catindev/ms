@@ -9,7 +9,6 @@ const populateQuery = require("./populate-query");
 
 module.exports = function fetchAllCalls({ limit = 0, skip = 0, user }, callback ) {
 
-    console.log(':D fetch calls #1');
     let pipeline = [];
 
     // условия
@@ -27,7 +26,6 @@ module.exports = function fetchAllCalls({ limit = 0, skip = 0, user }, callback 
     Call.aggregate( pipeline, aggregateCalls);
 
     function aggregateCalls(error, calls) {
-        console.log(':D fetch calls #2');
         if ( error ) throw error;
         if ( !calls || calls.length === 0 ) return callback([]);
 
@@ -35,7 +33,6 @@ module.exports = function fetchAllCalls({ limit = 0, skip = 0, user }, callback 
     }
 
     function populateAndRemapCalls( error, calls ) {
-        console.log(':D fetch calls #3');
         if ( error ) throw error;
         if ( !calls ) return callback([]);
 

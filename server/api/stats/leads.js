@@ -33,7 +33,6 @@ function findContactsForNumber( number, start, end ) {
                 const length = contacts && contacts.length > 0
                     ? contacts.length : 0;
 
-                console.log(':D stats contacts',contacts )
                 resolve([ number.name, length ]);
             }
 

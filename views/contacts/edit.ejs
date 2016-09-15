@@ -1,16 +1,19 @@
 <!doctype html>
 <html>
 <head>
-    <%- include common/page-title.ejs %>
+    <%- include ../common/page-title.ejs %>
+    <link href="assets/css/jqui.css" rel="stylesheet">
+    <script src="assets/js/jq.js"></script>
+    <script src="assets/js/jqui.js"></script>
 </head>
 <body>
-    <%- include common/main-menu.ejs %>
+    <%- include ../common/main-menu.ejs %>
     <div class="content">
         <div class="title">
             <% if (contact) { %>
-            <h1><%= contact.name || 'Заполнить профиль' %></h1>
+                <h1><%= contact.name || 'Заполнить профиль клиента' %></h1>
             <% } else { %>
-            <h1>Новый контакт</h1>
+                <h1>Новый контакт</h1>
             <% } %>
         </div>
 
@@ -18,7 +21,7 @@
 
         <div class="form-section">
             <h3>Контактная информация</h3>
-            <form class="form" id="contact-details">
+            <form class="form" id="contactDetails">
                 <div class="form-item">
                     <label>Имя и фамилия</label>
                     <input type="text" name="name" class="big"
@@ -46,9 +49,11 @@
             </form>
         </div>
 
+        <%- include edit-custom-fields.ejs %>
+
         <div class="form-section">
             <h3>Служебная информация</h3>
-            <form class="form" id="contact-additionals">
+            <form class="form" id="contactAdditionals">
                 <div class="form-item">
                     <% if (contact && contact.user) { %>
                     <label>Менеджер <span class="desc">ответственный</span></label>
@@ -79,7 +84,6 @@
         </div>
     </div>
 </body>
-<script src="assets/js/jq.js"></script>
 <script src="assets/js/utils.js"></script>
 <script src="assets/js/contact-update.js"></script>
 </html>

@@ -15,7 +15,7 @@ function saveCall({
     createdAt,
     answeredAt = null,
     status,
-    waitingDuration = 0,
+    watingDuration = 0,
     callDuration = 0,
     conversationDuration = 0,
     recordFile = null,
@@ -50,7 +50,7 @@ function saveCall({
             "answerDate": answeredAt,
             "status": parseInt( status ),
             "duration": {
-                "waiting": waitingDuration,
+                "waiting": watingDuration,
                 "call": callDuration,
                 "conversation": conversationDuration
             },
@@ -73,13 +73,6 @@ function saveCall({
     function newContact( contact ) {
         if ( contact ) return contact;
 
-        console.log(
-            'register new contact for ',
-            caller,
-            'at',
-            new Date(createdAt).toLocaleDateString(),
-            new Date(createdAt).toLocaleTimeString()
-        );
         return new Contact({
             account: newCall.account,
             phone: caller,

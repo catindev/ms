@@ -13,6 +13,18 @@ function dFS( date ) {
     return d.getDate() + '.' + m;
 }
 
+var subtitle = 'c ' + dFS(range.start) + ' по ' + dFS(range.end);
+
+function getTitle() {
+    switch ( interval ) {
+        case 'weeks':
+            return 'Недели';
+        case 'months':
+            return 'Месяцы';
+        default:
+            return 'Дни';
+    }
+}
 %>
 <!doctype html>
 <html>
@@ -53,13 +65,15 @@ function dFS( date ) {
 
         <%- include ./submenu.ejs %>
 
-        <div class="title"><h1>Эффективность рекламных источников</h1></div>
+        <div class="title">
+            <h1>Скорость ответов на звонки</h1>
+        </div>
 
         <div class="form-section">
-            <h3>Период</h3>
+            <h3>Период и интервал</h3>
             <form class="form" id="periodForm">
                 <div class="row">
-                    <div class="col col-5">
+                    <div class="col col-4">
                         <div class="form-item">
                             <label>
                                 Дата начала
@@ -68,13 +82,23 @@ function dFS( date ) {
                             <input type="text" class="datepicker-here" id="periodStart" name="start" value="<%= dF(range.start) %>"/>
                         </div>
                     </div>
-                    <div class="col col-5">
+                    <div class="col col-4">
                         <div class="form-item">
                             <label>Дата конца</label>
                             <input type="text" class="datepicker-here" id="periodEnd" name="end" value="<%= dF(range.end) %>">
                         </div>
                     </div>
                     <div class="col col-2">
+                        <div class="form-item">
+                            <label>Интервал</label>
+                            <select class="select" name="interval">
+                                <option value="days" <%= interval === 'days' && 'selected' %> >Дни</option>
+                                <option value="weeks" <%= interval === 'weeks' && 'selected' %> >Недели</option>
+                                <option value="months" <%= interval === 'months' && 'selected' %> >Месяцы</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col col-1">
                         <div class="form-item">
                             <label style="visibility: hidden">Action</label>
                             <button type="button" id="setPeriod" class="button primary">
@@ -87,7 +111,7 @@ function dFS( date ) {
         </div>
 
         <div class="form-section">
-            <div id="piechart" style="height: 500px;text-align: left;"></div>
+            <div id="barchart" style="height: 500px;"></div>
         </div>
     </div>
 </body>
@@ -96,27 +120,31 @@ function dFS( date ) {
 <script src="assets/js/datepicker.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<% if ( data && data.length > 0 ) { %>
 <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawTitleSubtitle);
 
-    google.charts.load('current', { packages: [ 'corechart' ] });
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
+    function drawTitleSubtitle() {
         var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
-        var options = {
-            <% if ( currentWeek ) { %>
-                title: 'Количество лидов со всех источников за текущую неделю'
-            <% } else { %>
-                title: 'Количество лидов со всех источников c <%= dFS(range.start) %> по <%= dFS(range.end) %>'
-            <% } %>
-        };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
+        var options = {
+            chart: {
+                title: 'Скорость ответов на звонки',
+                subtitle: '<%= subtitle %>'
+            },
+            hAxis: {
+                title: 'Количество звонков',
+                minValue: 0,
+            },
+            vAxis: {
+                title: '<%= getTitle() %>'
+            },
+            bars: 'vertical'
+        };
+        var material = new google.charts.Bar( document.getElementById('barchart') );
+        material.draw(data, options);
     }
 </script>
-<% } %>
 
 <script>
 (function($) {
@@ -124,7 +152,7 @@ function dFS( date ) {
     function setPeriod() {
         const period = readForm('periodForm');
         if ( period && period.start && period.end ) {
-            location.href = `${ location.pathname }?start=${ period.start }&end=${ period.end }`;
+            location.href = `${ location.pathname }?start=${ period.start }&end=${ period.end }&interval=${ period.interval }`;
         }
     }
 })(jQuery);

@@ -18,8 +18,6 @@ function Login({ login, password }, callback) {
         user.comparePassword(password, (err, session) => {
             if (err) throw err;
 
-            console.log(typeof session, session)
-
             if ( !session ) return callback({
                 status: 400,
                 message: "Неверный логин или пароль"

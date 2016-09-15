@@ -28,11 +28,16 @@ App.use( (error, request, response, next) => response.status(500).json({
 
 App.post('/login', (request, response) => {
     const Login = require('./api/login');
-    Login(request.body, result => response
-        .cookie('session', result.session)
-        .status(result.status)
-        .json(result)
-    );
+    Login(request.body, result => {
+        result.session && response
+            .cookie('session', result.session)
+            .status(result.status)
+            .json(result);
+
+        !result.session && response
+            .status(result.status)
+            .json(result)
+    });
 });
 App.get('/logout', (request, response) => response.cookie('session', '').redirect('/'));
 
@@ -51,6 +56,7 @@ App.get('/stats/leads', isAuthenticated, require('./api/stats/leads-route'));
 App.get('/stats/leads-by', isAuthenticated, require('./api/stats/leads-by-route'));
 App.get('/stats/missing', isAuthenticated, require('./api/stats/missing-route'));
 App.get('/stats/missing-vs-all', isAuthenticated, require('./api/stats/missing-vs-all-route'));
+App.get('/stats/waiting', isAuthenticated, require('./api/stats/waiting-route'));
 
 /* Admin features */
 App.get('/accounts/new', isAuthenticated, (request, response) => {

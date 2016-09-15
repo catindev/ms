@@ -2,13 +2,15 @@
     $("#save").on('click', update);
 
     function update(event) {
+
         const params = Object.assign(
             {},
-            readForm('contact-details'),
-            readForm('contact-additionals')
+            readForm('contactDetails'),
+            readForm('customFields'),
+            readForm('contactAdditionals')
         );
 
-        if (!params.phone) return alert('Запишите телефон для контакта');
+        if ( !params.phone ) return alert('Запишите телефон для контакта');
 
         let { _id, backURL } = JSON.parse(
             $.trim( $('#service-info').text() )

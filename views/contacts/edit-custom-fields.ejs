@@ -1,0 +1,17 @@
+<% if ( fields.length > 0 ) { %>
+<div class="form-section">
+    <h3>Дополнительная информация</h3>
+    <form class="form" id="customFields">
+        <% fields.forEach( function (field, index) { %>
+        <div class="form-item">
+                <label><%= field.name %></label>
+                <% if ( field.type === "string" ) { %>
+                    <input type="text" name="<%= field.id %>" value="<%= contact && contact[ field.id ] %>">
+                <% } else { %>
+                    <%- include ./list-field.ejs %>
+                <% } %>
+        </div>
+        <% }); %>
+    </form>
+</div>
+<% } %>

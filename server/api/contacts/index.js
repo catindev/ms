@@ -1,7 +1,4 @@
 const mongoose = require("mongoose");
-
-const ContactModel = require("../../models/contact");
-const Contact = require("../../models/contact")();
 const User = require("../../models/user");
 const Account = require("../../models/account");
 const Field = require("../../models/field");
@@ -28,17 +25,30 @@ function getSearchQuery({ _id, user }) {
 function fetchContact( { _id, user }, callback ) {
     const query = getSearchQuery({ _id, user });
 
-    Contact
-        .findOne( query )
-        .populate( 'account user' )
-        .exec(( error, contact ) => {
-            if ( error ) throw error;
-            callback( contact ? contact.toObject() : null );
-        });
+    Field
+        .find({ account: user.account._id })
+        .then( findFields )
+        .catch( error => { throw error; });
+
+    function findFields( fields ) {
+        const Contact = fields && fields.length > 0
+            ?  require("../../models/contact")(fields)
+            :  require("../../models/contact")();
+
+        Contact
+            .findOne( query )
+            .populate( 'account user' )
+            .exec(( error, contact ) => {
+                if ( error ) throw error;
+                callback( contact ? contact.toObject() : null, fields);
+            });
+    }
 }
 
 function fetchList( { user }, callback ) {
     const query = getSearchQuery({ user });
+    const Contact = require("../../models/contact")();
+
     Contact
         .find( query )
         // .limit( 100 )
@@ -50,20 +60,24 @@ function fetchList( { user }, callback ) {
 }
 
 function saveContact( { _id, user, data }, callback ) {
+    console.log(':D data', data);
+
     const query = getSearchQuery({ _id, user });
-    Contact.findOne(query, updateContactData );
 
-    function updateContactData(error, contact) {
-        if ( error ) throw error;
+    Field
+        .find({ account: user.account._id })
+        .then( findFields )
+        .catch( error => { throw error; });
 
-        if ( !contact ) throw new Error("contact not found");
+    function findFields( fields ) {
+        const eContact = fields && fields.length > 0
+            ?  require("../../models/contact")(fields)
+            :  require("../../models/contact")();
 
-        for(let key in data) contact[ key ] = data[ key ]
+        console.log(':D fields.length', fields.length);
 
-        if ( !contact.user ) contact.user = user._id;
-        contact.phone = formatNumber( contact.phone );
-
-        contact.save()
+        eContact
+            .update(query, { $set: data })
             .then( newcontact => callback(true) )
             .catch( error => { throw error; });
     }

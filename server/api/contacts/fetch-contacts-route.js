@@ -3,6 +3,7 @@ module.exports = (request, response) => {
     contacts.list( { user: request.user }, contacts => {
         response.render('contacts', {
             contacts,
+            fields: [],
             page:"contacts",
             title: "контакты",
             user: request.user,

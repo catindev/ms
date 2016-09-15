@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const type = mongoose.Schema.Types.ObjectId;
 
-const contactSchema = new Schema({
+let schema = {
     "account": { type, ref: 'Account' },
     "user": { type, ref: 'User' },
     "number": {  type, ref: 'Number' },
@@ -11,15 +11,22 @@ const contactSchema = new Schema({
     "phone": String,
     "email": String,
     "notes": String
-});
+};
+const contactSchema = new Schema(schema);
 
-module.exports =  function createContactModel( customFields = false ) {
+module.exports = function ( customFields = false ) {
     if ( customFields ) {
         for (let i in customFields) {
             const field = customFields[ i ];
-            let _field = { type: String };
-            field.type === 'list' && ( _field.enum = field.list );
-            contactSchema[ field.id ] = _field;
+            if ( field.type === 'list' ) {
+                let f = {};
+                f[ field.id ] = { type: String, enum: field.list };
+                contactSchema.add(f);
+            } else {
+                let f = {};
+                f[ field.id ] = { type: String };
+                contactSchema.add(f);
+            }
         }
     }
     return mongoose.model( 'Contact', contactSchema );

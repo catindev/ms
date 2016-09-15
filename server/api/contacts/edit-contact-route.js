@@ -1,6 +1,6 @@
 module.exports = (request, response) => {
     const contacts = require('./index');
-    contacts.fetch( { _id: request.params.id, user: request.user }, contact => {
+    contacts.fetch( { _id: request.params.id, user: request.user }, (contact, fields = []) => {
 
         if ( !contact ) return response.status(400).send(`
             <div style="font-family:'Arial','Helvetica', sans-serif; font-size:14px; padding: 3% 5%;">
@@ -10,9 +10,10 @@ module.exports = (request, response) => {
             </div>
         `);
 
-        response.render('edit-contact', {
+        response.render('contacts/edit', {
             contact,
-            page:"edit-contact",
+            fields,
+            page:"contacts/edit",
             title: 'изменить контакт',
             user: request.user,
             backURL: request.query.backURL || '/'

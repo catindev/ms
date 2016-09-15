@@ -1,0 +1,23 @@
+<% if (field.list <= 10) { %>
+
+    <select class="select" name="<%= field.id %>">
+        <% field.list.forEach( function (item, index) { %>
+            <option value="<%= item %>"><%= item %></option>
+        <% }); %>
+    </select>
+
+<% } else { %>
+
+    <input type="text"
+           id="field_<%= field.id %>"
+           name="<%= field.id %>"
+           value="<%= contact && contact[field.id] %>"/>
+    <script>
+        $( function() {
+            $( "#field_<%= field.id %>" ).autocomplete({
+                source: <%- JSON.stringify(field.list) %>
+            });
+        });
+    </script>
+
+<% } %>

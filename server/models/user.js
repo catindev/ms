@@ -31,7 +31,6 @@ const userSchema = new Schema({
 
 
 userSchema.pre('save', function( next ) {
-    console.log(':D user pre save password hashing');
     if ( !this.isModified('password') ) return next();
     this.password = md5(this.password + 'wow! much salt!');
 
@@ -44,7 +43,6 @@ userSchema.methods.comparePassword = function (candidatePassword, cb) {
     this.session = '';
 
     const isMatch = this.password === md5(candidatePassword + 'wow! much salt!');
-    console.log(':D compare password for ', this.name, 'is', isMatch);
 
     isMatch && (
         this.session = md5( `${ new Date().getTime() }@${ this.password }@${ Math.random() }` )
