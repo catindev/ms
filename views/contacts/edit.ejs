@@ -10,7 +10,7 @@
     <%- include ../common/main-menu.ejs %>
     <div class="content">
         <div class="title">
-            <% if (contact) { %>
+            <% if ( contact ) { %>
                 <h1><%= contact.name || 'Заполнить профиль клиента' %></h1>
             <% } else { %>
                 <h1>Новый контакт</h1>
@@ -40,6 +40,7 @@
                     <div class="controls width-50">
                         <span>+7</span>
                         <input type="text" disabled
+                               style="font-style: normal;"
                                value="<%= contact && contact.phone.replace('+7', '') %>"/>
                         <input type="hidden" name="phone"
                                value="<%= contact && contact.phone.replace('+7', '') %>"/>

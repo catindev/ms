@@ -5,7 +5,7 @@ const Field = require("../../models/field");
 
 const formatNumber = require("../format-number");
 
-function getSearchQuery({ _id, user, search}) {
+function buildSearchQuery({ _id, user, search}) {
     let query = _id ? { _id } : {};
 
     const account = user.account
@@ -45,7 +45,7 @@ function getSearchQuery({ _id, user, search}) {
 
 
 function fetchContact( { _id, user }, callback ) {
-    const query = getSearchQuery({ _id, user });
+    const query = buildSearchQuery({ _id, user });
 
     Field
         .find({ account: user.account._id })
@@ -68,12 +68,12 @@ function fetchContact( { _id, user }, callback ) {
 }
 
 function fetchList( { user, search }, callback ) {
-    const query = getSearchQuery({ user, search });
+    const query = buildSearchQuery({ user, search });
     const Contact = require("../../models/contact")();
 
     Contact
         .find( query )
-        // .limit( 100 )
+        .sort('-created')
         .populate( 'account user' )
         .exec(( error, contacts ) => {
             if ( error ) throw error;
@@ -82,7 +82,7 @@ function fetchList( { user, search }, callback ) {
 }
 
 function saveContact( { _id, user, data }, callback ) {
-    const query = getSearchQuery({ _id, user });
+    const query = buildSearchQuery({ _id, user });
 
     Field
         .find({ account: user.account._id })
