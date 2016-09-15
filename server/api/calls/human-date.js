@@ -6,7 +6,7 @@ function formatDateForHumans( originalDate ) {
     const today = moment( new Date() );
     return today.diff( callDate, 'days' ) <= 1
         ? callDate.fromNow()
-        : callDate.format( 'DD MMMM h:mm' );
+        : callDate.format( 'DD MMMM HH:mm' );
 }
 
 module.exports = function formatCallDateForHumans( call ) {
