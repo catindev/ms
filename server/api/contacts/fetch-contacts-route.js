@@ -8,7 +8,7 @@ module.exports = (request, response) => {
             search,
             fields: [],
             page:"contacts",
-            title: "контакты",
+            title: "контакты клиентов",
             user: request.user,
             backURL: '/contacts'
         });
