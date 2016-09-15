@@ -5,7 +5,7 @@ const Field = require("../../models/field");
 
 const formatNumber = require("../format-number");
 
-function getSearchQuery({ _id, user }) {
+function getSearchQuery({ _id, user, search}) {
     let query = _id ? { _id } : {};
 
     const account = user.account
@@ -17,6 +17,28 @@ function getSearchQuery({ _id, user }) {
             ? account.toString()
             : account
     );
+
+    search && (query.$or = [{
+        'name': {
+            '$regex': search,
+            '$options': 'i'
+        }
+    }, {
+        'phone': {
+            '$regex': search,
+            '$options': 'i'
+        }
+    }, {
+        'email': {
+            '$regex': search,
+            '$options': 'i'
+        }
+    },{
+        'notes': {
+            '$regex': search,
+            '$options': 'i'
+        }
+    }]);
 
     return query;
 }
@@ -45,8 +67,8 @@ function fetchContact( { _id, user }, callback ) {
     }
 }
 
-function fetchList( { user }, callback ) {
-    const query = getSearchQuery({ user });
+function fetchList( { user, search }, callback ) {
+    const query = getSearchQuery({ user, search });
     const Contact = require("../../models/contact")();
 
     Contact

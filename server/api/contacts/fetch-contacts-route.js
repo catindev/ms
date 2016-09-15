@@ -1,8 +1,11 @@
 module.exports = (request, response) => {
     const contacts = require('./index');
-    contacts.list( { user: request.user }, contacts => {
-        response.render('contacts', {
+    let { search = false } = request.query;
+
+    contacts.list( { user: request.user, search }, contacts => {
+        response.render('contacts/list', {
             contacts,
+            search,
             fields: [],
             page:"contacts",
             title: "контакты",

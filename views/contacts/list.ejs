@@ -1,7 +1,15 @@
+<%
+
+function canEdit() {
+    return user.access === 'manager' && ( !contact.user ||
+            contact.user._id.toString() === user._id.toString() );
+}
+
+%>
 <!doctype html>
 <html>
 <head>
-    <%- include common/page-title.ejs %>
+    <%- include ../common/page-title.ejs %>
     <style>
         .title {
             padding: .2rem 0;
@@ -11,7 +19,7 @@
         }
 
         .contact {
-            padding: 1rem;
+            padding: 2rem;
             margin: 0 auto;
             margin-bottom: 3rem;
             background: #fff;
@@ -24,16 +32,35 @@
     </style>
 </head>
 <body>
-    <%- include common/main-menu.ejs %>
+    <%- include ../common/main-menu.ejs %>
 
     <div class="content">
 
         <div class="title"><h1>Клиенты</h1></div>
 
+        <div class="contact" style="padding: 1rem 2rem;">
+            <form method="get" action="/contacts" class="form">
+                <div class="form-item">
+                    <label>Поиск</label>
+                    <div class="controls">
+                        <input type="text" name="search"
+                               placeholder="Введите имя, телефон, эл.почту или текст заметки"
+                               value="<%= search || '' %>"
+                        />
+                        <button class="button primary">Найти</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <% if (contacts.length === 0) { %>
         <div class="call">
             <div style="padding: 2rem; font-size: 28px; font-weight:100; text-align: center; color: #ccc;">
-                У вас пока нет контактов клиентов
+                <%=
+                    search
+                        ? 'Ничего не нашлось :('
+                        : 'У вас пока нет контактов клиентов';
+                %>
             </div>
         </div>
         <% } %>
@@ -56,12 +83,17 @@
                     </div>
                 </div>
                 <div class="uncol" style="vertical-align: middle; text-align: right;">
+                    <% if ( user.type === 'admin' ) { %>
+                    <a href="contacts/<%= contact._id %>?backURL=/contacts"
+                       class="button primary" role="button">Смотреть профиль</a>
+                    <% } else { %>
                     <% if (contact.name) { %>
                     <a href="contacts/<%= contact._id %>?backURL=/contacts"
                        class="button primary" role="button">Смотреть профиль</a>
                     <% } else { %>
                     <a href="contacts/edit/<%= contact._id %>?backURL=/contacts"
                        class="button primary" role="button">Заполнить профиль</a>
+                    <% } %>
                     <% } %>
                 </div>
             </div>
