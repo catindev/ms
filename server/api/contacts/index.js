@@ -4,44 +4,7 @@ const Account = require("../../models/account");
 const Field = require("../../models/field");
 
 const formatNumber = require("../format-number");
-
-function buildSearchQuery({ _id, user, search}) {
-    let query = _id ? { _id } : {};
-
-    const account = user.account
-        ? user.account._id
-        : user.type;
-
-    account !== 'admin' && (
-        query.account = typeof account === 'object'
-            ? account.toString()
-            : account
-    );
-
-    search && (query.$or = [{
-        'name': {
-            '$regex': search,
-            '$options': 'i'
-        }
-    }, {
-        'phone': {
-            '$regex': search,
-            '$options': 'i'
-        }
-    }, {
-        'email': {
-            '$regex': search,
-            '$options': 'i'
-        }
-    },{
-        'notes': {
-            '$regex': search,
-            '$options': 'i'
-        }
-    }]);
-
-    return query;
-}
+const buildSearchQuery = require("./search-query-builder");
 
 
 function fetchContact( { _id, user }, callback ) {
@@ -94,7 +57,7 @@ function saveContact( { _id, user, data }, callback ) {
             ?  require("../../models/contact")(fields)
             :  require("../../models/contact")();
 
-        delete data.phone;
+        data.phone = formatNumber( data.phone );
         eContact
             .update(query, { $set: data })
             .then( newcontact => callback(true) )
