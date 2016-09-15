@@ -28,7 +28,7 @@ module.exports = (request, response) => {
             currentWeek,
             page:"stats",
             subPage: "missing-vs-all",
-            title: 'Эффективность ответов на звонки',
+            title: 'статистика, эффективность ответов на звонки',
             user: request.user,
             backURL: '/'
         });

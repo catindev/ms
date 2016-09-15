@@ -28,7 +28,7 @@ module.exports = (request, response) => {
             currentWeek,
             page:"stats",
             subPage: "waiting",
-            title: 'Скорость ответов',
+            title: 'статистика, скорость ответов на звонки',
             user: request.user,
             backURL: '/'
         });

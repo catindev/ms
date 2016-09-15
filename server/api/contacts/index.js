@@ -82,8 +82,6 @@ function fetchList( { user, search }, callback ) {
 }
 
 function saveContact( { _id, user, data }, callback ) {
-    console.log(':D data', data);
-
     const query = getSearchQuery({ _id, user });
 
     Field

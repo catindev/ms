@@ -27,7 +27,7 @@ module.exports = (request, response) => {
             currentWeek,
             page:"stats",
             subPage: "leads",
-            title: 'Рекламные источники',
+            title: 'статистика, рекламные источники',
             user: request.user,
             backURL: '/'
         });

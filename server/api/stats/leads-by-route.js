@@ -28,7 +28,7 @@ module.exports = (request, response) => {
             currentWeek,
             page:"stats",
             subPage: "leads-by",
-            title: 'Источники по интервалам',
+            title: 'статистика, источники по интервалам',
             user: request.user,
             backURL: '/'
         });
