@@ -6,7 +6,7 @@
                 <% if (contact && contact[field.id] && contact[field.id] === item) { %>
                     selected
                 <% } %>
-            ><%= item %> | <%= contact[field.id] %></option>
+            ><%= item %> | <%= contact[field.id] === item %></option>
         <% }); %>
     </select>
 
