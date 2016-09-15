@@ -2,7 +2,11 @@
 
     <select class="select" name="<%= field.id %>">
         <% field.list.forEach( function (item, index) { %>
-            <option value="<%= item %>"><%= item %></option>
+            <option value="<%= item %>"
+                <% if (contact && contact[field.id] && contact[field.id] === item) { %>
+                    selected
+                <% } %>
+            ><%= item %></option>
         <% }); %>
     </select>
 
