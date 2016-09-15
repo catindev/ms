@@ -42,12 +42,16 @@ var __form = __form || {};
         if ( !field || field.type === 'list' && !field.list)
             return alert('Заполни всю форму, пожалуйста');
 
+        const list = field.list
+            ? (field.list.split('\n')).map( e => e.replace('\r\n', ''))
+            : [];
+
         __form.fields.push({
             id: transliterate(field.name),
             name: field.name,
             type: field.type,
-            list: field.list ? field.list.split('\n') : [],
-            description: field.description || ''
+            description: field.description || '',
+            list
         });
 
         $('#fields').show();
