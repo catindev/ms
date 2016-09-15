@@ -1,4 +1,4 @@
-<% if (field.list <= 10) { %>
+<% if (field.list.length <= 10) { %>
 
     <select class="select" name="<%= field.id %>">
         <% field.list.forEach( function (item, index) { %>
