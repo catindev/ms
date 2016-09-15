@@ -96,8 +96,7 @@ function saveContact( { _id, user, data }, callback ) {
             ?  require("../../models/contact")(fields)
             :  require("../../models/contact")();
 
-        console.log(':D fields.length', fields.length);
-
+        delete data.phone;
         eContact
             .update(query, { $set: data })
             .then( newcontact => callback(true) )

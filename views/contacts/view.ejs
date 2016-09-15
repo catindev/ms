@@ -5,6 +5,14 @@
             contact.user._id.toString() === user._id.toString() );
  }
 
+
+ function isCustomFields() {
+     if (fields.length > 0) {
+         const checked = fields.filter( field => field in contact );
+         return checked.length > 0;
+     }
+     return false;
+ }
 %>
 <!doctype html>
 <html>
@@ -54,13 +62,15 @@
                 </div>
             <% } %>
 
-            <% if ( fields.length > 0 ) { %>
+            <% if ( isCustomFields() ) { %>
             <hr style="margin-top: 1rem;margin-bottom: 1rem;"/>
             <% fields.forEach( function (field, index) { %>
-            <div class="contact-item">
-                <span class="item-label"><%= field.name %>:</span>
-                <span><%= contact && contact[ field.id ] %></span>
-            </div>
+                <% if(contact && field.id in contact){ %>
+                    <div class="contact-item">
+                        <span class="item-label"><%= field.name %>:</span>
+                        <span><%= contact[ field.id ] %></span>
+                    </div>
+                <% } %>
             <% }); %>
             <hr style="margin-top: 1rem;margin-bottom: 1.5rem;"/>
             <% } %>

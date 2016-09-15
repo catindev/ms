@@ -17,7 +17,7 @@
         );
 
         $.post('/contacts/' + _id, params)
-            .done( () => location.href = backURL )
+            .done( () => location.href = '/contacts/' + _id )
             .fail( error => alert(error.responseJSON.message) );
     }
 })(jQuery);
