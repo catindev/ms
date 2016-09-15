@@ -66,7 +66,7 @@ function getTitle() {
         <%- include ./submenu.ejs %>
 
         <div class="title">
-            <h1>Эффективность ответов на звонки</h1>
+            <h1>Входящие и пропущенные</h1>
         </div>
 
         <div class="form-section">
@@ -122,14 +122,14 @@ function getTitle() {
 
 <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback(drawTitleSubtitle);
+    google.charts.setOnLoadCallback( drawTitleSubtitle );
 
     function drawTitleSubtitle() {
         var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
 
         var options = {
             chart: {
-                title: 'Эффективность ответов на звонки',
+                title: 'Соотношение входящих звонков к пропущенным',
                 subtitle: '<%= subtitle %>'
             },
             hAxis: {
@@ -139,8 +139,10 @@ function getTitle() {
             vAxis: {
                 title: '<%= getTitle() %>'
             },
-            bars: 'vertical'
+            bars: 'vertical',
+            colors: ['green', 'red']
         };
+
         var material = new google.charts.Bar( document.getElementById('barchart') );
         material.draw(data, options);
     }
