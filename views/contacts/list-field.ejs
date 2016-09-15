@@ -3,10 +3,10 @@
     <select class="select" name="<%= field.id %>">
         <% field.list.forEach( function (item, index) { %>
             <option value="<%= item %>"
-                <% if (contact && contact[field.id] && contact[field.id] === item) { %>
+                <% if (contact && contact[field.id] && contact[field.id].replace('\r\n', '') === item.replace('\r\n', '')) { %>
                     selected
                 <% } %>
-            ><%= typeof item %> | <%= typeof contact[field.id] %></option>
+            ><%= item %></option>
         <% }); %>
     </select>
 
