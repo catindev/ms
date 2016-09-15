@@ -4,9 +4,9 @@ moment.locale('ru');
 function formatDateForHumans( originalDate ) {
     const callDate = moment( originalDate );
     const today = moment( new Date() );
-    return today.diff(callDate, 'days') <= 1
+    return today.diff( callDate, 'days' ) <= 1
         ? callDate.fromNow()
-        : callDate.format('LL');
+        : callDate.format( 'DD MMMM h:mm' );
 }
 
 module.exports = function formatCallDateForHumans( call ) {
