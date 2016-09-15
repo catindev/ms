@@ -67,7 +67,6 @@ function getTitle() {
 
         <div class="title">
             <h1>Эффективность рекламных источников</h1>
-            <h2>по заданным интервалам</h2>
         </div>
 
         <div class="form-section">
@@ -109,6 +108,15 @@ function getTitle() {
                     </div>
                 </div>
             </form>
+        </div>
+
+        <div class="submenu">
+            <a href="/stats/leads" class="l-filter <%= subPage === 'leads' && 'f-active' %>">
+                За весь период
+            </a>
+            <a href="/stats/leads-by" class="l-filter <%= subPage === 'leads-by' && 'f-active' %>">
+                По интервалам
+            </a>
         </div>
 
         <div class="form-section">

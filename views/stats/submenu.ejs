@@ -1,9 +1,7 @@
 <div class="submenu">
-    <a href="/stats/leads" class="l-filter <%= subPage === 'leads' && 'f-active' %>">
-       Источники
-    </a>
-    <a href="/stats/leads-by" class="l-filter <%= subPage === 'leads-by' && 'f-active' %>">
-        Источники по интервалам
+    <a href="/stats/leads" class="l-filter
+        <% if (subPage === 'leads' || subPage === 'leads-by'){ %> f-active <% } %>">
+       Рекламные источники
     </a>
     <a href="/stats/missing-vs-all" class="l-filter <%= subPage === 'missing-vs-all' && 'f-active' %>">
         Входящие и пропущенные
