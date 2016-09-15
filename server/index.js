@@ -54,6 +54,7 @@ App.post('/contacts/:id', isAuthenticated, require('./api/contacts/update-contac
 /* Stats */
 App.get('/stats/leads', isAuthenticated, require('./api/stats/leads-route'));
 App.get('/stats/leads-by', isAuthenticated, require('./api/stats/leads-by-route'));
+App.get('/stats/incoming', isAuthenticated, require('./api/stats/incoming-route'));
 App.get('/stats/missing', isAuthenticated, require('./api/stats/missing-route'));
 App.get('/stats/missing-vs-all', isAuthenticated, require('./api/stats/missing-vs-all-route'));
 App.get('/stats/waiting', isAuthenticated, require('./api/stats/waiting-route'));

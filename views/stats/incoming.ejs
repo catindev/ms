@@ -53,7 +53,7 @@ function dFS( date ) {
 
         <%- include ./submenu.ejs %>
 
-        <div class="title"><h1>Пропущенные звонки</h1></div>
+        <div class="title"><h1>Входящие звонки</h1></div>
 
         <div class="form-section">
             <h3>Период</h3>
@@ -108,11 +108,11 @@ function dFS( date ) {
         var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
         <% if ( currentWeek ) { %>
         var options = {
-            title: 'Пропущенные звонки за текущую неделю'
+            title: 'Входящие звонки за текущую неделю'
         };
         <% } else { %>
         var options = {
-            title: 'Пропущенные звонки c <%= dFS(range.start) %> по <%= dFS(range.end) %>'
+            title: 'Входящие звонки c <%= dFS(range.start) %> по <%= dFS(range.end) %>'
         };
         <% } %>
 

@@ -3,11 +3,9 @@
         <% if (subPage === 'leads' || subPage === 'leads-by'){ %> f-active <% } %>">
        Рекламные источники
     </a>
-    <a href="/stats/missing-vs-all" class="l-filter <%= subPage === 'missing-vs-all' && 'f-active' %>">
+    <a href="/stats/missing-vs-all" class="l-filter
+        <% if (subPage === 'missing-vs-all' || subPage === 'missing' || subPage === 'incoming'){ %> f-active <% } %>">
         Входящие и пропущенные
-    </a>
-    <a href="/stats/missing" class="l-filter <%= subPage === 'missing' && 'f-active' %>">
-        Пропущенные
     </a>
     <a href="/stats/waiting" class="l-filter <%= subPage === 'waiting' && 'f-active' %>">
         Cкорость ответов
