@@ -1,12 +1,14 @@
 <% if (field.list.length <= 10) { %>
-
     <select class="select" name="<%= field.id %>">
+        <option value=""></option>
         <% field.list.forEach( function (item, index) { %>
             <option value="<%= item %>"
-                <% if (contact && contact[field.id] && contact[field.id].replace('\r\n', '') === item.replace('\r\n', '')) { %>
+                    <% if (contact && contact[field.id] && contact[field.id] === item) { %>
                     selected
-                <% } %>
-            ><%= item %></option>
+                    <% } %>
+            >
+                <%= item %>
+            </option>
         <% }); %>
     </select>
 
