@@ -41,26 +41,26 @@ App.post('/login', (request, response) => {
 });
 App.get('/logout', (request, response) => response.cookie('session', '').redirect('/'));
 
-App.get('/', isAuthenticated, require('./api/calls/fetch-calls-route'));
-App.get('/calls', isAuthenticated, require('./api/calls/fetch-calls-route'));
+App.get('/', isAuthenticated.forView, require('./api/calls/fetch-calls-route'));
+App.get('/calls', isAuthenticated.forView, require('./api/calls/fetch-calls-route'));
 App.post('/v1/calls', require('./api/calls/new-call-route'));
 
 /* Contacts */
-App.get('/contacts', isAuthenticated, require('./api/contacts/fetch-contacts-route'));
-App.get('/contacts/:id', isAuthenticated, require('./api/contacts/fetch-contact-by-id-route'));
-App.get('/contacts/edit/:id', isAuthenticated, require('./api/contacts/edit-contact-route'));
-App.post('/contacts/:id', isAuthenticated, require('./api/contacts/update-contact-route'));
+App.get('/contacts', isAuthenticated.forView, require('./api/contacts/fetch-contacts-route'));
+App.get('/contacts/:id', isAuthenticated.forView, require('./api/contacts/fetch-contact-by-id-route'));
+App.get('/contacts/edit/:id', isAuthenticated.forView, require('./api/contacts/edit-contact-route'));
+App.post('/contacts/:id', isAuthenticated.forAPI, require('./api/contacts/update-contact-route'));
 
 /* Stats */
-App.get('/stats/leads', isAuthenticated, require('./api/stats/leads-route'));
-App.get('/stats/leads-by', isAuthenticated, require('./api/stats/leads-by-route'));
-App.get('/stats/incoming', isAuthenticated, require('./api/stats/incoming-route'));
-App.get('/stats/missing', isAuthenticated, require('./api/stats/missing-route'));
-App.get('/stats/missing-vs-all', isAuthenticated, require('./api/stats/missing-vs-all-route'));
-App.get('/stats/waiting', isAuthenticated, require('./api/stats/waiting-route'));
+App.get('/stats/leads', isAuthenticated.forView, require('./api/stats/leads-route'));
+App.get('/stats/leads-by', isAuthenticated.forView, require('./api/stats/leads-by-route'));
+App.get('/stats/incoming', isAuthenticated.forView, require('./api/stats/incoming-route'));
+App.get('/stats/missing', isAuthenticated.forView, require('./api/stats/missing-route'));
+App.get('/stats/missing-vs-all', isAuthenticated.forView, require('./api/stats/missing-vs-all-route'));
+App.get('/stats/waiting', isAuthenticated.forView, require('./api/stats/waiting-route'));
 
 /* Admin features */
-App.get('/accounts/new', isAuthenticated, (request, response) => {
+App.get('/accounts/new', isAuthenticated.forView, (request, response) => {
     request.user.type === 'admin'
         ? response.render('new-account/index', {
         title: 'Новый аккаунт',
@@ -69,8 +69,8 @@ App.get('/accounts/new', isAuthenticated, (request, response) => {
     })
         : response.redirect('/');
 });
-App.post('/accounts', (request, response) => {
-    const createAccount = require('./api/create-account');
+App.post('/accounts', isAuthenticated.forAPI, (request, response) => {
+    const createAccount = require('./api/new-account');
     createAccount(request.body, result => response
         .status(result.status)
         .json(result)
@@ -79,11 +79,16 @@ App.post('/accounts', (request, response) => {
 
 App.get('/journal', (request, response) => {
     fs.readdir(__dirname + '/journal', function(error, files){
-        let list = '';
-        files.forEach(file => {
-            const name = file.replace('.json', '');
-            list += `<p><a href="/journal/${ name }">${ name }</a></p>`;
-        });
+        let list = '<p>Пусто</p>';
+
+        if ( files && files.length > 0 ) {
+            list = '';
+            files.forEach(file => {
+                const name = file.replace('.json', '');
+                list += `<p><a href="/journal/${ name }">${ name }</a></p>`;
+            });
+
+        }
         response.send(`
             <div style="font-family:'Arial','Helvetica',sans-serif;font-size:14px;padding:3% 5%;">
                 <h1>Журнал</h1>

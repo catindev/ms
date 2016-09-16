@@ -5,7 +5,7 @@ function checkIn(session, callback) {
     if ( !session ) return callback({
         status: 403,
         message: "session invalid"
-    });
+    }, null);
 
     User.findOne({ session }).populate( 'account' ).exec( findUserBySession );
 
@@ -15,9 +15,9 @@ function checkIn(session, callback) {
         if ( !user ) return callback({
             status: 403,
             message: "session invalid"
-        });
+        }, null);
 
-        callback(user);
+        callback(null, user);
     }
 }
 
