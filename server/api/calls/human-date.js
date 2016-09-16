@@ -17,8 +17,8 @@ function isToday( mDate ) {
 function formatDate(originalDate) {
     const callDate = moment( originalDate );
     return isToday( callDate )
-        ? 'Сегодня, ' + callDate.format( 'DD MMMM HH:mm' )
-        : callDate.format( 'DD MMMM HH:mm' );
+        ? 'Сегодня, ' + callDate.format( 'D MMMM HH:mm' )
+        : callDate.format( 'D MMMM HH:mm' );
 }
 
 module.exports = function formatCallDateForHumans( call ) {

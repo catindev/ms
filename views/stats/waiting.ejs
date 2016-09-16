@@ -1,12 +1,5 @@
 <%
-function dFS( date ) {
-    var d = new Date(date);
-    var m = "" + (d.getMonth() + 1);
-    m.length === 1 && ( m = '0' + m );
-    return d.getDate() + '.' + m;
-}
-
-var subtitle = 'c ' + dFS(range.start) + ' по ' + dFS(range.end);
+var subtitle = `c ${ moment(range.start).format('D MMM') } по ${ moment(range.end).format('D MMM') }`;
 
 function getTitle() {
     switch ( interval ) {
@@ -23,7 +16,6 @@ function getTitle() {
 <html>
 <head>
     <%- include ../common/page-title.ejs %>
-    <link href="assets/css/datepicker.css" rel="stylesheet">
     <style>
         .submenu {
             padding: .5rem 0;
@@ -69,11 +61,7 @@ function getTitle() {
         </div>
     </div>
 </body>
-<script src="assets/js/jq.js"></script>
-<script src="assets/js/utils.js"></script>
-<script src="assets/js/datepicker.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
 <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawTitleSubtitle);

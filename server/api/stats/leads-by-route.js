@@ -9,8 +9,8 @@ module.exports = (request, response) => {
     };
 
     if ( start && end ) {
-        start = new Date( (start.split('.')).reverse() );
-        end = new Date( (end.split('.')).reverse() );
+        start = new Date( parseInt(start) );
+        end = new Date( parseInt(end) );
         range = { start, end };
         currentWeek = false;
     }
@@ -30,7 +30,8 @@ module.exports = (request, response) => {
             subPage: "leads-by",
             title: 'статистика, источники по интервалам',
             user: request.user,
-            backURL: '/'
+            backURL: '/',
+            moment
         });
     }).catch( error => { throw error });
 };

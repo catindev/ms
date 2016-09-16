@@ -1,32 +1,24 @@
-var numbers = [
-    "+77172505350",
-    "+71234567890",
-    "1234567890",
-    "234567890",
-    "34567890",
-    "4567890",
-    "567890",
-    "67890",
-    "7890",
-    "890",
-    "90",
-    "0"
-]
 
-var re = /(?:([\d]{1,}?))??(?:([\d]{1,3}?))??(?:([\d]{1,3}?))??(?:([\d]{2}))??([\d]{2})$/;
-
-for( var i = 0; i < numbers.length; i++ ) {
-    var formatted = numbers[ i ].replace( re, function( all, a, b, c, d, e ){
-        return ( a ? a + " " : "" ) + ( b ? b + " " : "" ) + ( c ? c + "-" : "" ) + ( d ? d + "-" : "" ) + e;
-    });
-
-    console.log( formatted  );
-}
-
-
-function humanNumber( number ) {
+function formatNumberForHumans( number, notAlmaty ) {
     const re = /(?:([\d]{1,}?))??(?:([\d]{1,3}?))??(?:([\d]{1,3}?))??(?:([\d]{2}))??([\d]{2})$/;
-    number.replace( re,
+    let formatted = (number.replace( re,
         ( all, a, b, c, d, e ) => ( a ? a + " " : "" ) + ( b ? b + " " : "" ) + ( c ? c + "-" : "" ) + ( d ? d + "-" : "" ) + e
-    );
+    )).split(' ');
+
+    console.log(':D before', formatted);
+    if ( notAlmaty && formatted[1] === '727' ) {
+        let onlyNumber = (formatted[2].replace(/-/g, '')).split('');
+        console.log(':D onlyNumber', onlyNumber);
+        formatted[1] += onlyNumber[0];
+        onlyNumber.shift();
+        formatted[2] = onlyNumber.join('');
+    }
+    console.log(':D after', formatted);
+    return `${ formatted[0] } (${ formatted[1] }) ${ formatted[2] }`
 }
+
+module.exports = function formatCallNumberForHumans( call, notAlmaty ) {
+    let copy = Object.assign({}, call);
+    copy.display.phone = formatNumberForHumans( copy.contact.phone, notAlmaty );
+    return copy;
+};

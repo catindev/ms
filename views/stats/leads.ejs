@@ -1,24 +1,7 @@
-<%
-function dF( date ) {
-    var d = new Date(date);
-    var m = "" + (d.getMonth() + 1);
-    m.length === 1 && ( m = '0' + m );
-    return d.getDate() + '.' + m + '.' + d.getFullYear();
-}
-
-function dFS( date ) {
-    var d = new Date(date);
-    var m = "" + (d.getMonth() + 1);
-    m.length === 1 && ( m = '0' + m );
-    return d.getDate() + '.' + m;
-}
-
-%>
 <!doctype html>
 <html>
 <head>
     <%- include ../common/page-title.ejs %>
-    <link href="assets/css/datepicker.css" rel="stylesheet">
     <style>
         .submenu {
             padding: .5rem 0;
@@ -55,36 +38,7 @@ function dFS( date ) {
 
         <div class="title"><h1>Эффективность рекламных источников</h1></div>
 
-        <div class="form-section">
-            <h3>Период</h3>
-            <form class="form" id="periodForm">
-                <div class="row">
-                    <div class="col col-5">
-                        <div class="form-item">
-                            <label>
-                                Дата начала
-                                <span class="desc">периода</span>
-                            </label>
-                            <input type="text" class="datepicker-here" id="periodStart" name="start" value="<%= dF(range.start) %>"/>
-                        </div>
-                    </div>
-                    <div class="col col-5">
-                        <div class="form-item">
-                            <label>Дата конца</label>
-                            <input type="text" class="datepicker-here" id="periodEnd" name="end" value="<%= dF(range.end) %>">
-                        </div>
-                    </div>
-                    <div class="col col-2">
-                        <div class="form-item">
-                            <label style="visibility: hidden">Action</label>
-                            <button type="button" id="setPeriod" class="button primary">
-                                Показать
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <%- include set-period.ejs %>
 
         <div class="submenu">
             <a href="/stats/leads" class="l-filter <%= subPage === 'leads' && 'f-active' %>">
@@ -100,12 +54,7 @@ function dFS( date ) {
         </div>
     </div>
 </body>
-<script src="assets/js/jq.js"></script>
-<script src="assets/js/utils.js"></script>
-<script src="assets/js/datepicker.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<% if ( data && data.length > 0 ) { %>
 <script type="text/javascript">
 
     google.charts.load('current', { packages: [ 'corechart' ] });
@@ -117,25 +66,12 @@ function dFS( date ) {
             <% if ( currentWeek ) { %>
                 title: 'Количество лидов со всех источников за текущую неделю'
             <% } else { %>
-                title: 'Количество лидов со всех источников c <%= dFS(range.start) %> по <%= dFS(range.end) %>'
+                title: 'Количество лидов со всех источников c <%= moment(range.start).format('D MMM') %> по <%= moment(range.end).format('D MMM') %>'
             <% } %>
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
     }
-</script>
-<% } %>
-
-<script>
-(function($) {
-    $("#setPeriod").on('click', setPeriod);
-    function setPeriod() {
-        const period = readForm('periodForm');
-        if ( period && period.start && period.end ) {
-            location.href = `${ location.pathname }?start=${ period.start }&end=${ period.end }`;
-        }
-    }
-})(jQuery);
 </script>
 </html>

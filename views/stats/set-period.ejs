@@ -1,10 +1,10 @@
 <link href="assets/css/datepicker.css" rel="stylesheet">
 <script src="assets/js/datepicker.js"></script>
 <div class="form-section">
-    <h3>Период и интервал</h3>
+    <h3>Период</h3>
     <form class="form" id="periodForm">
         <div class="row">
-            <div class="col col-4">
+            <div class="col col-5">
                 <div class="form-item">
                     <label>
                         Дата начала
@@ -14,21 +14,11 @@
                            value="<%= moment(range.start).format('D MMM YYYY') %>"/>
                 </div>
             </div>
-            <div class="col col-4">
+            <div class="col col-5">
                 <div class="form-item">
                     <label>Дата окончания</label>
                     <input type="text" id="periodEnd" data-date-format="d M yyyy" name="end"
                            value="<%= moment(range.end).format('D MMM YYYY') %>"/>
-                </div>
-            </div>
-            <div class="col col-2">
-                <div class="form-item">
-                    <label>Интервал</label>
-                    <select class="select" name="interval" id="interval">
-                        <option value="days" <%= interval === 'days' && 'selected' %> >Дни</option>
-                        <option value="weeks" <%= interval === 'weeks' && 'selected' %> >Недели</option>
-                        <option value="months" <%= interval === 'months' && 'selected' %> >Месяцы</option>
-                    </select>
                 </div>
             </div>
             <div class="col col-1">
@@ -46,14 +36,13 @@
     (function($) {
         var form = {
             start: <%- new Date(range.start).getTime() %>,
-            end: <%- new Date(range.end).getTime() %>,
-            interval: '<%= interval %>'
+            end: <%- new Date(range.end).getTime() %>
         };
 
 
         $.fn.datepicker.language['ru'].monthsShort = [
-                "янв.","февр.","мар.","апр.","мая","июня",
-                "июля","авг.","сент.","окт.","нояб.","дек."
+            "янв.","февр.","мар.","апр.","мая","июня",
+            "июля","авг.","сент.","окт.","нояб.","дек."
         ];
         $('#periodEnd').datepicker({
             autoClose: true,
@@ -70,13 +59,11 @@
             }
         });
 
-        $('#interval').change( () => form.interval = $('#interval').val() );
-
         $("#setPeriod").on('click', setPeriod);
 
         function setPeriod() {
             if ( form && form.start && form.end ) {
-                location.href = `${ location.pathname }?start=${ form.start }&end=${ form.end }&interval=${ form.interval }`;
+                location.href = `${ location.pathname }?start=${ form.start }&end=${ form.end }`;
             }
         }
     })(jQuery);
