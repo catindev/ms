@@ -5,6 +5,8 @@ const Contact = require("../../models/contact")();
 const Account = require("../../models/account");
 
 const formatDatesForHumans = require("./human-date");
+const formatNumbersForHumans = require("./human-number");
+
 const populateQuery = require("./populate-query");
 
 const filterCallsWithoutUser = call => !call.contact.user;
@@ -40,7 +42,7 @@ module.exports = function fetchMissedCalls({ limit = 0, skip = 0, user }, callba
         if ( error ) throw error;
         if ( !calls || calls.length === 0 ) return callback([]);
 
-        let resultCalls = calls.map( formatDatesForHumans );
+        let resultCalls = ( calls.map( formatDatesForHumans ) ).map( formatNumbersForHumans );
         resultCalls = resultCalls.filter( filterCallsWithoutUser );
 
         callback( resultCalls );

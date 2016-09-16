@@ -38,7 +38,7 @@ module.exports = function fetchAllCalls({ limit = 0, skip = 0, user }, callback 
         if ( error ) throw error;
         if ( !calls ) return callback([]);
 
-        let resultCalls = ( calls.map( formatDatesForHumans ) ).map( formatNumbersForHumans );
+        const resultCalls = ( calls.map( formatDatesForHumans ) ).map( formatNumbersForHumans );
 
         callback( resultCalls );
     }

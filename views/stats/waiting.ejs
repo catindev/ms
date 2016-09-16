@@ -1,11 +1,4 @@
 <%
-function dF( date ) {
-    var d = new Date(date);
-    var m = "" + (d.getMonth() + 1);
-    m.length === 1 && ( m = '0' + m );
-    return d.getDate() + '.' + m + '.' + d.getFullYear();
-}
-
 function dFS( date ) {
     var d = new Date(date);
     var m = "" + (d.getMonth() + 1);
@@ -69,46 +62,7 @@ function getTitle() {
             <h1>Скорость ответов на звонки</h1>
         </div>
 
-        <div class="form-section">
-            <h3>Период и интервал</h3>
-            <form class="form" id="periodForm">
-                <div class="row">
-                    <div class="col col-4">
-                        <div class="form-item">
-                            <label>
-                                Дата начала
-                                <span class="desc">периода</span>
-                            </label>
-                            <input type="text" class="datepicker-here" id="periodStart" name="start" value="<%= dF(range.start) %>"/>
-                        </div>
-                    </div>
-                    <div class="col col-4">
-                        <div class="form-item">
-                            <label>Дата конца</label>
-                            <input type="text" class="datepicker-here" id="periodEnd" name="end" value="<%= dF(range.end) %>">
-                        </div>
-                    </div>
-                    <div class="col col-2">
-                        <div class="form-item">
-                            <label>Интервал</label>
-                            <select class="select" name="interval">
-                                <option value="days" <%= interval === 'days' && 'selected' %> >Дни</option>
-                                <option value="weeks" <%= interval === 'weeks' && 'selected' %> >Недели</option>
-                                <option value="months" <%= interval === 'months' && 'selected' %> >Месяцы</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col col-1">
-                        <div class="form-item">
-                            <label style="visibility: hidden">Action</label>
-                            <button type="button" id="setPeriod" class="button primary">
-                                Показать
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <%- include set-interval.ejs %>
 
         <div class="form-section">
             <div id="barchart" style="height: 500px;"></div>
@@ -144,17 +98,5 @@ function getTitle() {
         var material = new google.charts.Bar( document.getElementById('barchart') );
         material.draw(data, options);
     }
-</script>
-
-<script>
-(function($) {
-    $("#setPeriod").on('click', setPeriod);
-    function setPeriod() {
-        const period = readForm('periodForm');
-        if ( period && period.start && period.end ) {
-            location.href = `${ location.pathname }?start=${ period.start }&end=${ period.end }&interval=${ period.interval }`;
-        }
-    }
-})(jQuery);
 </script>
 </html>

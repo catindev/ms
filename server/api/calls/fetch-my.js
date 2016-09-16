@@ -5,6 +5,8 @@ const Contact = require("../../models/contact")();
 const Account = require("../../models/account");
 
 const formatDatesForHumans = require("./human-date");
+const formatNumbersForHumans = require("./human-number");
+
 const populateQuery = require("./populate-query");
 
 module.exports = function fetchCallsForUserContacts({ limit = 0, skip = 0, user }, callback ) {
@@ -53,7 +55,7 @@ module.exports = function fetchCallsForUserContacts({ limit = 0, skip = 0, user 
             if ( error ) throw error;
             if ( !calls || calls.length === 0 ) return callback([]);
 
-            const resultCalls = calls.map( formatDatesForHumans );
+            const resultCalls = ( calls.map( formatDatesForHumans ) ).map( formatNumbersForHumans );
 
             callback( resultCalls );
         }

@@ -68,7 +68,7 @@ function setIntervalName(dateItem, interval, index) {
             name = dateItem.format('MMMM');
             break;
         default:
-            name = dateItem.format('DD MMM[,] dd');
+            name = dateItem.format('DD MMM[\r\n]dd');
     }
     return name;
 }
