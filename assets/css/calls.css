@@ -1,0 +1,40 @@
+.cbox {
+    width: 70%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+
+.title {
+    padding: 0;
+    margin: 0 auto;
+}
+
+.call {
+    padding: 1rem;
+    margin-bottom: 2rem;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.16), 0 1px 4px rgba(0,0,0,0.13);
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 3px;
+}
+
+.call__title {
+    font-size: 22px;
+    line-height: 1.5;
+    font-weight: 400;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.missed-call {
+    color: #fff;
+    padding: 5px 0;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 400;
+    background: #d9534f;
+    text-align: center;
+    margin: 1rem 0;
+}

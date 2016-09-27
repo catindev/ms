@@ -17,32 +17,12 @@ function getTitle() {
 <html>
 <head>
     <%- include ../common/page-title.ejs %>
-    <link href="assets/css/datepicker.css" rel="stylesheet">
     <style>
         .submenu {
             padding: .5rem 0;
             margin: 0 auto;
             width: 70%;
             max-width: 960px;
-        }
-
-        .l-filter {
-            display: inline-block;
-            border-bottom: 1px solid dashed;
-            margin-left: 2px;
-            margin-right: 8px;
-        }
-
-        .f-active {
-            opacity: .5;
-            text-decoration: none;
-        }
-
-        .f-delimeter {
-            display: inline-block;
-            color: #ccc;
-            margin: 0 4px;
-            margin-right: 8px;
         }
     </style>
 </head>
@@ -61,25 +41,20 @@ function getTitle() {
         <%- include calls-submenu.ejs %>
 
         <div class="form-section">
-            <div id="barchart" style="height: 500px;"></div>
+            <div id="chart" style="height: 500px;"></div>
         </div>
     </div>
 </body>
-<script src="assets/js/utils.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
 <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback( drawTitleSubtitle );
+    google.charts.setOnLoadCallback( drawChart );
 
-    function drawTitleSubtitle() {
+    function drawChart() {
         var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
 
         var options = {
-            chart: {
-                title: 'Соотношение входящих звонков к пропущенным',
-                subtitle: '<%= subtitle %>'
-            },
+            title: 'Соотношение входящих звонков к пропущенным <%= subtitle %>',
             hAxis: {
                 title: 'Количество звонков',
                 minValue: 0,
@@ -91,8 +66,9 @@ function getTitle() {
             colors: ["#5cb85c", "#d9534f"]
         };
 
-        var material = new google.charts.Bar( document.getElementById('barchart') );
+        var material = new google.visualization.ColumnChart( document.getElementById('chart') );
         material.draw(data, options);
     }
 </script>
+
 </html>

@@ -1,7 +1,10 @@
 const checkIn = require('./checkin');
 
 function forView(request, response, next) {
-    if ( !request.cookies.session ) return response.render('login');
+    if ( !request.cookies.session ) return response.render('login', {
+        title: 'вход',
+        page: 'login'
+    });
 
     checkIn(request.cookies.session, (error, user) => {
         if ( error ) return response.render('login');

@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <%- include ../common/page-title.ejs %>
+    <style>
+        .submenu {
+            padding: .5rem 0;
+            margin: 0 auto;
+            width: 70%;
+            max-width: 960px;
+        }
+    </style>
+</head>
+<body>
+    <%- include ../common/main-menu.ejs %>
+    <div class="content">
+
+        <%- include ./submenu.ejs %>
+
+        <div class="title"><h1>Эффективность рекламных источников</h1></div>
+
+        <%- include set-period.ejs %>
+
+        <div class="submenu">
+            <a href="/stats/leads" class="subItem <%= subPage === 'leads' && 'subItem-active' %>">
+                За весь период
+            </a>
+            <a href="/stats/leads-by" class="subItem <%= subPage === 'leads-by' && 'subItem-active' %>">
+                По интервалам
+            </a>
+        </div>
+
+        <div class="form-section">
+            <div id="piechart" style="height: 500px;text-align: left;"></div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    google.charts.load('current', { packages: [ 'corechart' ] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
+        var options = {
+            <% if ( currentWeek ) { %>
+                title: 'Количество лидов со всех источников за текущую неделю'
+            <% } else { %>
+                title: 'Количество лидов со всех источников c <%= moment(range.start).format('D MMM') %> по <%= moment(range.end).format('D MMM') %>'
+            <% } %>
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+</html>

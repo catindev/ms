@@ -6,15 +6,11 @@
                );
     }
 %>
-
 <div class="call cbox">
     <div class="unrow">
-        <div class="uncol" style="vertical-align: middle;">
+        <div class="uncol">
             <div>
-                <div style="font-size: 13px;line-height: 1.5;opacity: .4;">
-                    <%= call.display.date %>
-                </div>
-                <div style="font-size: 22px; line-height: 1.5; font-weight: 400;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                <div class="call__title">
                     <% if ( !call.contact.name) { %>
                         Новый контакт
                     <% } else { %>
@@ -24,32 +20,34 @@
             </div>
         </div>
         <div class="uncol" style="vertical-align: middle; text-align: right;">
-
             <% if ( user.type === 'admin' ) { %>
                 <a href="contacts/<%= call.contact._id %>?backURL=/"
-                   class="button primary" role="button">Смотреть профиль</a>
+                   class="button primary small" role="button">Смотреть профиль</a>
             <% } else { %>
                 <% if ( isMyNewContactCall(call) ) { %>
                     <a href="contacts/edit/<%= call.contact._id %>?backURL=/"
-                       class="button primary" role="button">Заполнить профиль</a>
+                       class="button primary small" role="button">Заполнить профиль</a>
                 <% } else { %>
                     <a href="contacts/<%= call.contact._id %>?backURL=/"
-                       class="button primary" role="button">Смотреть профиль</a>
+                       class="button primary small" role="button">Смотреть профиль</a>
                 <% } %>
             <% } %>
         </div>
     </div>
 
     <% if ( call.recordFile ) { %>
-    <div class="unrow" style="padding: .5rem 0;">
-        <audio controls="" style="width: 100%">
-            <source src="http://185.22.67.22<%= call.recordFile %>" type="audio/mpeg">
-        </audio>
+    <div class="unrow" style="margin: 1rem 0;">
+        <!--<audio controls="" style="width: 100%">-->
+            <!--<source src="http://185.22.67.22<%= call.recordFile %>" type="audio/mpeg">-->
+        <!--</audio>-->
+        <a href="http://185.22.67.22<%= call.recordFile %>" class="jouele" data-hide-timeline-on-pause="true">
+           Звонок от <%= call.display.phone %>. Ответил(а) <%= call.contact.user && call.contact.user.name %>
+        </a>
     </div>
     <% } %>
 
     <% if (!call.recordFile) { %>
-        <div class="unrow" style="padding: .5rem .7rem; border-radius: 4px; font-size: .85rem; background: #fcf8e3; text-align: center;margin: .5rem 0;">
+        <div class="unrow missed-call">
             Без ответа. Клиент ждал(а) <%= call.display.waiting %>
         </div>
     <% } %>
@@ -60,15 +58,12 @@
     </div>
     <% } %>
 
-    <div class="row between" style="text-align: center;font-size: .92rem">
-        <div class="col col-3" style="padding-left: 0;">
-            <%= call.display.phone %>
+    <div class="row between" style="text-align: center;font-size: 13px;">
+        <div class="col col-3" style="text-align: left;opacity: .7;">
+            <%= call.display.date %>
         </div>
-        <div class="col col-3">
+        <div class="col col-3" style="text-align: right;">
             <%= call.number.name %>
-        </div>
-        <div class="col col-3">
-            <%= call.contact.user && call.contact.user.name %>
         </div>
     </div>
 </div>

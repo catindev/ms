@@ -1,8 +1,8 @@
 module.exports = (request, response) => {
-    const leadsPieChart = require('./leads');
+    const leadsChart = require('./leads-by');
     const moment = require("moment");
 
-    let { start, end } = request.query;
+    let { start, end, interval = 'days' } = request.query;
     let currentWeek = true, range = {
         start: moment().startOf('isoWeek').toDate(),
         end: moment().endOf('isoWeek').toDate()
@@ -15,15 +15,16 @@ module.exports = (request, response) => {
         currentWeek = false;
     }
 
-    leadsPieChart({
+    leadsChart({
         start: range.start,
         end: range.end,
+        interval,
         account: request.user.account
     }).then(data => {
-        data.unshift(['Источник', 'Эффективность']);
         response.render('stats/leads', {
             data,
             range,
+            interval,
             currentWeek,
             page:"stats",
             subPage: "leads",

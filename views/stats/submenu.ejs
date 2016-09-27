@@ -1,13 +1,13 @@
 <div class="submenu">
-    <a href="/stats/leads" class="l-filter
-        <% if (subPage === 'leads' || subPage === 'leads-by'){ %> f-active <% } %>">
-       Рекламные источники
-    </a>
-    <a href="/stats/missing-vs-all" class="l-filter
-        <% if (subPage === 'missing-vs-all' || subPage === 'missing' || subPage === 'incoming'){ %> f-active <% } %>">
+    <a href="/stats/missing-vs-all" class="subItem
+        <% if (subPage === 'missing-vs-all' || subPage === 'missing' || subPage === 'incoming'){ %> subItem-active <% } %>">
         Входящие и пропущенные
     </a>
-    <a href="/stats/waiting" class="l-filter <%= subPage === 'waiting' && 'f-active' %>">
+    <a href="/stats/waiting" class="subItem <%= subPage === 'waiting' && 'subItem-active' %>">
         Cкорость ответов
+    </a>
+    <a href="/stats/leads" class="subItem
+        <% if (subPage === 'leads' || subPage === 'leads-by'){ %> subItem-active <% } %>">
+        Рекламные источники
     </a>
 </div>

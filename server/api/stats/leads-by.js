@@ -3,7 +3,6 @@ const Number = require("../../models/number");
 const Contact = require("../../models/contact")();
 const Account = require("../../models/account");
 const Call = require("../../models/call");
-const _ = require("lodash");
 
 const moment = require("moment");
 moment.locale('ru');
@@ -11,52 +10,39 @@ require("moment-range");
 
 const errorHandler = error => { throw error };
 
-const populateQuery = [
-    { path: 'contact', model: 'Contact' },
-    { path: 'number', model: 'Number' }
-];
+function leadsByItervals({ start, end, interval, account }) {
+    const period  = moment.range( start.getTime(), calcLt( end ) );
+    const range = period.toArray( interval );
 
-const calcLt = date => date.getTime() + 86400000;
+    let categories = [], intervals = [];
+    for (let index = 0; index < range.length; index++) {
+        intervals.push( setIntervalDate( range, index, interval ) );
+        categories.push( setIntervalName( range[ index ], interval, index ) );
+    }
 
-function filterContactsByNumbers( contacts, numbers ) {
-    return numbers.map( number => {
-        const filtered = contacts.filter( contact => contact.number.name === number.name);
-        return filtered.length
-    });
+    return Number
+        .find({ account: account._id })
+        .then( calculateContacts )
+        .catch( errorHandler );
+
+    function calculateContacts( numbers ) {
+        if ( !numbers || numbers.length === 0 ) throw new Error("Рекламные источники не найдены");
+
+        const pipeline = numbers.map(
+            number => findContactsForNumber( number, intervals, account )
+        );
+
+        return Promise.all( pipeline )
+            .then( columns => {
+                return { columns, categories }
+            })
+            .catch( errorHandler );
+    }
 }
 
-function findContactsForInterval( interval, account, numbers ) {
-
-    const query = {
-        account: account._id,
-        created: interval.date
-    };
-
-    return new Promise((resolve, reject) => {
-        try {
-            Contact
-                .find( query )
-                .sort( '_id' )
-                .populate( populateQuery )
-                .exec( findContacts );
-
-            function findContacts(error, contacts) {
-                if ( error ) throw error;
-
-                let results = [];
-                const contactsByNumbers = filterContactsByNumbers(contacts, numbers);
-
-                results.push( interval.name );
-                contactsByNumbers.forEach( contacts => results.push( contacts ) );
-
-                resolve(results);
-            }
-        } catch( error ) {
-            reject( error );
-        }
-    });
+function calcLt( date ) {
+    return date.getTime() + 86400000;
 }
-
 
 function setIntervalName(dateItem, interval, index) {
     let name;
@@ -81,55 +67,32 @@ function setIntervalDate( arr, index, interval ) {
     };
 }
 
-function getTitle( interval ) {
-    switch ( interval ) {
-        case 'weeks':
-            return 'Недели';
-        case 'months':
-            return 'Месяцы';
-        default:
-            return 'Дни';
-    }
-}
+function findContactsForNumber( number, intervals, account ) {
+    const pipeline = intervals.map(
+        interval => findContactsForNumberAndInterval( number, interval, account )
+    );
 
-function barChart({ start, end, interval, account }) {
-    const period  = moment.range( start.getTime(), calcLt( end ) );
-    const range = period.toArray( interval );
-    let intervals = [];
-
-    for (let index = 0; index < range.length; index++) {
-        intervals.push({
-            date: setIntervalDate( range, index, interval ),
-            name: setIntervalName( range[ index ], interval, index ),
-            length: 0
-        });
-    }
-
-    return Number
-        .find({ account: account._id })
-        .then( findCalls )
-        .catch( errorHandler )
-
-
-    function findCalls( numbers ) {
-        if ( !numbers || numbers.length === 0 ) throw new Error("Рекламные источники не найдены");
-
-        const numbersQuery = numbers.map( number => ({ number: number._id }) );
-
-        const pipeline = intervals.map(
-            interval => findContactsForInterval( interval, account, numbers )
-        );
-
-        return Promise.all( pipeline )
-            .then( results => {
-                let titles = [ getTitle(interval) ];
-                numbers.forEach( number => titles.push( number.name ) );
-                results.unshift(titles);
-                return results;
-            })
-            .catch( errorHandler );
-    }
+    return Promise.all( pipeline )
+        .then( results => {
+            results.unshift( number.name );
+            return results;
+        })
+        .catch( errorHandler );
 
 }
 
-module.exports = barChart;
+function findContactsForNumberAndInterval( number, interval, account ) {
+    const query = {
+        number: number._id,
+        account: account._id,
+        created: interval
+    };
+
+    return Contact
+        .find(query)
+        .then( contacts => contacts ? contacts.length : 0 )
+        .catch( errorHandler );
+
+}
+
+module.exports = leadsByItervals;

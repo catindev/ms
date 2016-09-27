@@ -1,11 +1,14 @@
 <div class="submenu">
-    <a href="/stats/missing-vs-all" class="l-filter <%= subPage === 'missing-vs-all' && 'f-active' %>">
-        Соотношение входящих и пропущенным
+    <a href="/stats/missing-vs-all"
+       class="subItem <%= subPage === 'missing-vs-all' && 'subItem-active' %>">
+        Соотношение входящих и пропущенных
     </a>
-    <a href="/stats/incoming" class="l-filter <%= subPage === 'incoming' && 'f-active' %>">
+    <a href="/stats/incoming"
+       class="subItem <%= subPage === 'incoming' && 'subItem-active' %>">
         Время входящих
     </a>
-    <a href="/stats/missing" class="l-filter <%= subPage === 'missing' && 'f-active' %>">
+    <a href="/stats/missing"
+       class="subItem <%= subPage === 'missing' && 'subItem-active' %>">
         Время пропущенных
     </a>
 </div>

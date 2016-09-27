@@ -23,25 +23,6 @@ function getTitle() {
             width: 70%;
             max-width: 960px;
         }
-
-        .l-filter {
-            display: inline-block;
-            border-bottom: 1px solid dashed;
-            margin-left: 2px;
-            margin-right: 8px;
-        }
-
-        .f-active {
-            opacity: .5;
-            text-decoration: none;
-        }
-
-        .f-delimeter {
-            display: inline-block;
-            color: #ccc;
-            margin: 0 4px;
-            margin-right: 8px;
-        }
     </style>
 </head>
 <body>
@@ -76,15 +57,15 @@ function getTitle() {
             },
             hAxis: {
                 title: 'Количество звонков',
-                minValue: 0,
+                textPosition: 'none'
             },
             vAxis: {
-                title: '<%= getTitle() %>'
-            },
-            bars: 'vertical'
+                title: '<%= getTitle() %>',
+                gridlines: { count: 1 }
+            }
         };
-        var material = new google.charts.Bar( document.getElementById('barchart') );
-        material.draw(data, options);
+        var chart = new google.charts.Bar( document.getElementById('barchart') );
+        chart.draw(data, options);
     }
 </script>
 </html>

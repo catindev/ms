@@ -3,13 +3,26 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #262223;
+    font-size: 18px;
 }
 
-.logotype:hover {
-    background-color: #333;
-    color: #3c74d9;
+.mm-logotype {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px 18px;
+    text-decoration: none;
+    font-weight: 300;
 }
+
+.mm-logotype:hover {
+    color: #fff;
+    background: transparent;
+}
+
+.mm-logotype__boldy { font-weight: 500; }
+.mm-logotype:hover .mm-logotype__boldy { color: #B82DA2; }
 
 .main-menu__item {
     float: left;
@@ -19,7 +32,7 @@
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 16px 18px;
     text-decoration: none;
     font-weight: 300;
 }
@@ -28,22 +41,24 @@
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 16px 18px;
     text-decoration: none;
     font-weight: 300;
 }
 
 .mm-item__link:hover {
-    background-color: #111;
     color: #fff;
+    background: #333;
 }
 
 .mm-item__link-active {
-    color: #3c74d9;
+    color: #FFAD01;
+    background: transparent;
 }
 
 .mm-item__link-active:hover {
-    color: #3c74d9;
+    color: #FFAD01;
+    background: transparent;
 }
 
 .mm-item_link-system {

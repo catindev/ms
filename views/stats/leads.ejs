@@ -1,3 +1,17 @@
+<%
+var subtitle = `c ${ moment(range.start).format('D MMM') } по ${ moment(range.end).format('D MMM') }`;
+
+function getTitle() {
+    switch ( interval ) {
+        case 'weeks':
+            return 'Недели';
+        case 'months':
+            return 'Месяцы';
+        default:
+            return 'Дни';
+    }
+}
+%>
 <!doctype html>
 <html>
 <head>
@@ -10,23 +24,11 @@
             max-width: 960px;
         }
 
-        .l-filter {
-            display: inline-block;
-            border-bottom: 1px solid dashed;
-            margin-left: 2px;
-            margin-right: 8px;
-        }
-
-        .f-active {
-            opacity: .5;
-            text-decoration: none;
-        }
-
-        .f-delimeter {
-            display: inline-block;
-            color: #ccc;
-            margin: 0 4px;
-            margin-right: 8px;
+        .chartHeader {
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            padding-bottom: 1rem;
         }
     </style>
 </head>
@@ -36,42 +38,79 @@
 
         <%- include ./submenu.ejs %>
 
-        <div class="title"><h1>Эффективность рекламных источников</h1></div>
+        <div class="title">
+            <h1>Эффективность рекламных источников</h1>
+        </div>
 
-        <%- include set-period.ejs %>
+        <%- include set-interval.ejs %>
 
         <div class="submenu">
-            <a href="/stats/leads" class="l-filter <%= subPage === 'leads' && 'f-active' %>">
+            <a class="subItem subItem-active LeadsChartType" chart-type="pie">
                 За весь период
             </a>
-            <a href="/stats/leads-by" class="l-filter <%= subPage === 'leads-by' && 'f-active' %>">
+            <a class="subItem LeadsChartType" chart-type="bar">
                 По интервалам
             </a>
         </div>
 
+        <div class="form-section hide">
+            <div id="chart" style="height: 500px;"></div>
+        </div>
+
         <div class="form-section">
-            <div id="piechart" style="height: 500px;text-align: left;"></div>
+            <h4 class="chartHeader">Эффективность рекламных источников <%= subtitle %></h4>
+            <div id="tchart" style="height: 500px;"></div>
         </div>
     </div>
 </body>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
+<link href="assets/charts/c3.css" rel="stylesheet">
+<script type="text/javascript" src="assets/charts/d3.js"></script>
+<script type="text/javascript" src="assets/charts/c3.js"></script>
+<script>
+(function($) {
 
-    google.charts.load('current', { packages: [ 'corechart' ] });
-    google.charts.setOnLoadCallback(drawChart);
+    var chart = c3.generate({
+        bindto: '#tchart',
+        data: {
+            columns: <%- JSON.stringify(data.columns) %>,
+            type: 'pie'
+        },
+        bar: { width: { ratio: 0.4 } },
+        axis: {
+            x: {
+                label: '<%= getTitle() %>',
+                type: 'category',
+                categories: <%- JSON.stringify(data.categories) %>
+            },
+            y: {
+                label: {
+                    text: 'Количество звонков',
+                    position: 'outer-middle',
+                },
+                tick: {
+                    centered: true,
+                    format: function (d) {
+                        return (parseInt(d) == d) ? d : null;
+                    }
+                }
+            }
+        }
+    });
 
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
-        var options = {
-            <% if ( currentWeek ) { %>
-                title: 'Количество лидов со всех источников за текущую неделю'
-            <% } else { %>
-                title: 'Количество лидов со всех источников c <%= moment(range.start).format('D MMM') %> по <%= moment(range.end).format('D MMM') %>'
-            <% } %>
-        };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
+    function onChartTypeChange() {
+        if ( $(this).hasClass('subItem-active') ) return;
+        const chartType = $(this).attr('chart-type');
+        chart.transform(chartType);
+        $(".LeadsChartType").removeClass('subItem-active');
+        $(this).addClass('subItem-active');
     }
+
+    $(".LeadsChartType").click( onChartTypeChange );
+
+})(jQuery);
 </script>
+<style>
+    .tick { font-size: 12px; }
+</style>
 </html>

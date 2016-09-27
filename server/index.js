@@ -53,7 +53,6 @@ App.post('/contacts/:id', isAuthenticated.forAPI, require('./api/contacts/update
 
 /* Stats */
 App.get('/stats/leads', isAuthenticated.forView, require('./api/stats/leads-route'));
-App.get('/stats/leads-by', isAuthenticated.forView, require('./api/stats/leads-by-route'));
 App.get('/stats/incoming', isAuthenticated.forView, require('./api/stats/incoming-route'));
 App.get('/stats/missing', isAuthenticated.forView, require('./api/stats/missing-route'));
 App.get('/stats/missing-vs-all', isAuthenticated.forView, require('./api/stats/missing-vs-all-route'));
