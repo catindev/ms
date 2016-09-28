@@ -70,6 +70,11 @@ a.jouele { visibility: hidden }
 .remove-button { background: #F9543F; color: #fff; }
 .remove-button:hover { color: #fff; }
 
+.form-item input.search {
+    background: url(../images/search.png) no-repeat right 10px center;
+}
+
+
 .tds { width: 10%; }
 
 h1, h2, h3 { font-weight: 500; }

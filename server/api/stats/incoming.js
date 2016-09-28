@@ -1,8 +1,6 @@
 const Call = require("../../models/call");
-
+const calcLt = require("./f-calt-lt");
 const errorHandler = error => { throw error };
-
-const calcLt = date => date.getTime() + 86400000;
 
 const filterFrom9To13 = call => {
     const hours = new Date( call.date ).getHours();
@@ -27,6 +25,8 @@ const filterFrom18To8 = call => {
 function sortCalls( calls ) {
     if ( !calls || calls.length === 0 ) return false;
 
+    console.log(':D all calls', calls.length);
+
     const from9To13 = calls.filter( filterFrom9To13 );
     const from13To14 = calls.filter( filterFrom13To14 );
     const from14To18 = calls.filter( filterFrom14To18 );
@@ -49,6 +49,8 @@ function incomingCalls({ start, end, account }) {
             $lt: calcLt( end )
         }
     };
+
+    console.log(query)
 
     return Call.find( query ).then( sortCalls ).catch( errorHandler );
 }

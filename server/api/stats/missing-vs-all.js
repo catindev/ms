@@ -8,11 +8,9 @@ const moment = require("moment");
 moment.locale('ru');
 require("moment-range");
 
+const calcLt = require("./f-calt-lt");
 const errorHandler = error => { throw error };
-
-const populateQuery = [ { path: 'contact', model: 'Contact' } ];
-
-const calcLt = date => date.getTime() + 86400000;
+const populateQuery = [{ path: 'contact', model: 'Contact' }];
 
 function filterMissedCalls( calls ) {
     const filtered = calls.filter( call => call.status === 4 );
@@ -47,7 +45,7 @@ function findCallsForInterval( interval, account ) {
     });
 }
 
-function setIntervalName(dateItem, interval, index) {
+function setIntervalName( dateItem, interval, index ) {
     let name;
     switch ( interval ) {
         case 'weeks':
