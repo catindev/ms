@@ -90,7 +90,6 @@ function saveCall({
 
     function checkUserForContact( contact ) {
         if ( contact.user || newCall.status === 4 ) {
-            contact.user && console.log(':D call successfully saved');
             return contact;
         }
 
