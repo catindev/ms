@@ -29,6 +29,13 @@ function saveCall({
     const callee = formatNumber( calleePhoneNumber );
     const endpointNumber = endpointPhoneNumber && formatNumber( endpointPhoneNumber );
 
+    console.log(
+        ':D saving new call from', caller, 'to', callee,
+        endpointNumber
+            ? 'redirected to ' + endpointNumber
+            : 'without redirect'
+    );
+
     Number.findOne({ phone: callee })
         .populate( 'account' )
         .then( findSourceNumber )
@@ -110,7 +117,10 @@ function saveCall({
 
     function saveCallToSystem( call ) {
         call.save()
-            .then( call => callback(call) )
+            .then( call => {
+                console.log(':D call successfully saved');
+                callback(call)
+            })
             .catch( error => { throw error; });
     }
 }
