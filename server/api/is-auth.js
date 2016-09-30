@@ -7,7 +7,10 @@ function forView(request, response, next) {
     });
 
     checkIn(request.cookies.session, (error, user) => {
-        if ( error ) return response.render('login');
+        if ( error ) return response.render('login', {
+            title: 'вход',
+            page: 'login'
+        });
         request.user = user;
         next();
     });
