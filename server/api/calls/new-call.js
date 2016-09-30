@@ -89,7 +89,10 @@ function saveCall({
     }
 
     function checkUserForContact( contact ) {
-        if ( contact.user || newCall.status === 4 ) return contact;
+        if ( contact.user || newCall.status === 4 ) {
+            contact.user && console.log(':D call successfully saved');
+            return contact;
+        }
 
         return User.findOne({
             $or: [
@@ -117,10 +120,7 @@ function saveCall({
 
     function saveCallToSystem( call ) {
         call.save()
-            .then( call => {
-                console.log(':D call successfully saved');
-                callback(call)
-            })
+            .then( call => callback(call) )
             .catch( error => { throw error; });
     }
 }

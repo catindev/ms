@@ -5,13 +5,15 @@ module.exports = function newCallRoute(request, response) {
     let { status, callerPhoneNumber } = request.body;
     status = parseInt(status);
 
-    console.log('New call from', callerPhoneNumber, 'with', status);
-
     if ( status === 3 || status === 4 ) {
+        console.log('New call from', callerPhoneNumber, 'with', status);
 
         saveNewCall(request.body, call => {
-            call && response.json({ status: 'saved' });
-            !call && response.json({ status: 'ignored', reason: 'number not registered' });
+            const resp = call
+                ? { status: 'saved' }
+                : { status: 'ignored', reason: 'number not registered' };
+            console.log(':D saving status', resp);
+            response.json(resp);
             saveJournal({
                 name: new Date().getTime() + '_' + request.body.callerPhoneNumber,
                 data: JSON.stringify(request.body)
