@@ -31,7 +31,6 @@ function callsRatio({ start, end, interval, account }) {
 
     return Promise.all( pipeline )
         .then( results => {
-            console.log(':D ratio results', results)
 
             let incoming = [], missed = [];
             results.forEach( result => {

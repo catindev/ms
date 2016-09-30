@@ -52,8 +52,6 @@ function incomingCalls({ start, end, account }) {
         }
     };
 
-    console.log(query)
-
     return Call.find( query ).then( sortCalls ).catch( errorHandler );
 }
 
