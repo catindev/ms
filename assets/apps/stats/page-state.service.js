@@ -101,6 +101,18 @@
                     this.chartState.colorMap = colorMap;
                 }
 
+                // colors for calls ratio
+                if (this.active.name === 'calls' && this.subActive.type === 'ratio' ) {
+                    this.chartState.colorMap = null;
+                    let colorMap = {};
+                    if ( response.data.columns ) {
+                        const columns = response.data.columns;
+                        colorMap[ columns[0][0] ] = '#00C564';
+                        colorMap[ columns[1][0] ] = '#F80016';
+                        this.chartState.colorMap = colorMap;
+                    }
+                }
+
                 this.fetching = false;
                 return null;
             };

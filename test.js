@@ -1,18 +1,5 @@
-"_id" : ObjectId("57d9fff08ca2296e2639ca93")
+db.users.insert({ "name" : "Данияр", "access" : "boss", "phone" : "+77017112869", "email" : "daniyar@almavillage.kz", "password" : "80b13b88fdd37e73610d95b8a9ee51ef", "account" : ObjectId("57d9fff08ca2296e2639ca93"), "created" : ISODate("2016-09-29T21:50:59.410Z") })
 
-"39,68", "58,41", "64,66", "65,32", "84,69", "100", "103", "125,48", "128,34", "152,85", "174,06", "195,07"
-
-db.customfields.insert({ "id" : "area", "name" : "Квадратура", "type" : "list", "list" : [ "39,68", "58,41", "64,66", "65,32", "84,69", "100", "103", "125,48", "128,34", "152,85", "174,06", "195,07" ], "description" : "", "account" : ObjectId("57d9fff08ca2296e2639ca93") })
-
-
-Екатерина
-Логин: +77775550504 либо ekaterina@almavillage.kz
-Пароль: ek147A
-
-Нуркен
-Логин: +77089717149 либо nurken@almavillage.kz
-Пароль: nur159
-
-Султан
-Логин: +77089717150 либо sultan@almavillage.kz
-Пароль: sul357
+Данияр
+Логин: +77017112869 или daniyar@almavillage.kz
+Пароль: Daniyar2869
