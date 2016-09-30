@@ -14,6 +14,9 @@ module.exports = (request, response) => {
         currentWeek = false;
     }
 
+    let querystring = `?start=${ new Date(range.start).getTime() }`;
+    querystring += `&end=${ new Date(range.end).getTime() }`;
+
     incoming({
         start: range.start,
         end: range.end,
@@ -24,6 +27,7 @@ module.exports = (request, response) => {
             data,
             range,
             currentWeek,
+            querystring,
             page:"stats",
             subPage: "incoming",
             title: 'статистика, время входящих звонков',

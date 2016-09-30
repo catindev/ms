@@ -51,6 +51,10 @@ App.get('/contacts/:id', isAuthenticated.forView, require('./api/contacts/fetch-
 App.get('/contacts/edit/:id', isAuthenticated.forView, require('./api/contacts/edit-contact-route'));
 App.post('/contacts/:id', isAuthenticated.forAPI, require('./api/contacts/update-contact-route'));
 
+/* Stats2 */
+App.get('/stats', isAuthenticated.forView, require('./api/stats2/route'));
+App.get('/api/stats/:state', isAuthenticated.forAPI, require('./api/stats2/api-route'));
+
 /* Stats */
 App.get('/stats/leads', isAuthenticated.forView, require('./api/stats/leads-route'));
 App.get('/stats/incoming', isAuthenticated.forView, require('./api/stats/incoming-route'));

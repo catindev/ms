@@ -8,10 +8,13 @@ const moment = require("moment");
 moment.locale('ru');
 require("moment-range");
 
+const calcLt = require("./f-calt-lt");
 const errorHandler = error => { throw error };
 
-function leadsByItervals({ start, end, interval, account }) {
-    const period  = moment.range( start.getTime(), calcLt( end ) );
+module.exports = leadsByIntervals;
+
+function leadsByIntervals({ start, end, interval, account }) {
+    const period  = moment.range( new Date(start).getTime(), calcLt( end ) );
     const range = period.toArray( interval );
 
     let categories = [], intervals = [];
@@ -38,10 +41,6 @@ function leadsByItervals({ start, end, interval, account }) {
             })
             .catch( errorHandler );
     }
-}
-
-function calcLt( date ) {
-    return date.getTime() + 86400000;
 }
 
 function setIntervalName(dateItem, interval, index) {
@@ -72,12 +71,13 @@ function findContactsForNumber( number, intervals, account ) {
         interval => findContactsForNumberAndInterval( number, interval, account )
     );
 
-    return Promise.all( pipeline )
-        .then( results => {
-            results.unshift( number.name );
-            return results;
-        })
-        .catch( errorHandler );
+    const allResults = results => {
+        const sum = results.reduce((a, b) => a + b, 0);
+        results.unshift( `${ number.name } (${ sum })` );
+        return results;
+    };
+
+    return Promise.all( pipeline ).then( allResults ).catch( errorHandler );
 
 }
 
@@ -92,7 +92,4 @@ function findContactsForNumberAndInterval( number, interval, account ) {
         .find(query)
         .then( contacts => contacts ? contacts.length : 0 )
         .catch( errorHandler );
-
 }
-
-module.exports = leadsByItervals;

@@ -15,6 +15,10 @@ module.exports = (request, response) => {
         currentWeek = false;
     }
 
+    let querystring = `?start=${ new Date(range.start).getTime() }`;
+    querystring += `&end=${ new Date(range.end).getTime() }`;
+    querystring += `&interval=${ interval }`;
+
     waitingBarChart({
         start: range.start,
         end: range.end,
@@ -26,6 +30,7 @@ module.exports = (request, response) => {
             interval,
             range,
             currentWeek,
+            querystring,
             page:"stats",
             subPage: "waiting",
             title: 'статистика, скорость ответов на звонки',

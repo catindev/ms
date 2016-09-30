@@ -45,21 +45,17 @@ function getTitle() {
         <%- include set-interval.ejs %>
 
         <div class="submenu">
-            <a class="subItem subItem-active LeadsChartType" chart-type="pie">
+            <a class="subItem subItem-active chartType" chart-type="pie" legend-position="right">
                 За весь период
             </a>
-            <a class="subItem LeadsChartType" chart-type="bar">
+            <a class="subItem chartType" chart-type="bar" legend-position="bottom">
                 По интервалам
             </a>
         </div>
 
-        <div class="form-section hide">
-            <div id="chart" style="height: 500px;"></div>
-        </div>
-
         <div class="form-section">
             <h4 class="chartHeader">Эффективность рекламных источников <%= subtitle %></h4>
-            <div id="tchart" style="height: 500px;"></div>
+            <div id="chart" style="height: 500px;"></div>
         </div>
     </div>
 </body>
@@ -69,12 +65,13 @@ function getTitle() {
 <script>
 (function($) {
 
-    var chart = c3.generate({
-        bindto: '#tchart',
+    const chartCfg = {
+        bindto: '#chart',
         data: {
             columns: <%- JSON.stringify(data.columns) %>,
             type: 'pie'
         },
+        legend: { position: "right" },
         bar: { width: { ratio: 0.4 } },
         axis: {
             x: {
@@ -95,18 +92,24 @@ function getTitle() {
                 }
             }
         }
-    });
+    };
 
+    var chart = c3.generate(chartCfg);
 
     function onChartTypeChange() {
         if ( $(this).hasClass('subItem-active') ) return;
-        const chartType = $(this).attr('chart-type');
-        chart.transform(chartType);
-        $(".LeadsChartType").removeClass('subItem-active');
+
+        let cfg = Object.assign({}, chartCfg);
+        cfg.data.type = $(this).attr('chart-type');
+        cfg.legend.position = $(this).attr('legend-position');
+        chart = c3.generate(cfg);
+        // chart.transform(chartType);
+
+        $(".chartType").removeClass('subItem-active');
         $(this).addClass('subItem-active');
     }
 
-    $(".LeadsChartType").click( onChartTypeChange );
+    $(".chartType").click( onChartTypeChange );
 
 })(jQuery);
 </script>

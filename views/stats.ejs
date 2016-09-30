@@ -1,0 +1,32 @@
+<!doctype html>
+<html ng-app="statsApp">
+<head>
+    <%- include common/page-title.ejs %>
+
+    <link href="assets/charts/c3.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/charts/d3.js"></script>
+    <script type="text/javascript" src="assets/charts/c3.js"></script>
+    <script type="text/javascript" src="assets/apps/stats/chart.js"></script>
+
+    <link href="assets/css/datepicker.css" rel="stylesheet">
+    <script src="assets/js/datepicker.js"></script>
+
+    <script src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script> moment.locale('ru'); </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="assets/apps/common/datepicker.directive.js"></script>
+    <script src="assets/apps/stats/app.js"></script>
+    <script src="assets/apps/stats/page-state.service.js"></script>
+    <script src="assets/apps/stats/state.constant.js"></script>
+    <script src="assets/apps/stats/menu.component.js"></script>
+    <script src="assets/apps/stats/date-filter.component.js"></script>
+    <script src="assets/apps/stats/sub-menu.component.js"></script>
+    <script src="assets/apps/stats/c3-chart.directive.js"></script>
+    <script src="assets/apps/stats/chart-state.service.js"></script>
+</head>
+<body>
+    <%- include common/main-menu.ejs %>
+    <stats-app></stats-app>
+</body>
+</html>

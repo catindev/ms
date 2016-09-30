@@ -82,12 +82,13 @@ function getTitle( interval ) {
 function barChart({ start, end, interval, account }) {
     const period  = moment.range( start.getTime(), calcLt( end ) );
     const range = period.toArray( interval );
+    let intervals = [];
 
-    let categories = [], intervals = [];
-    for (let index = 0; index < range.length; index++) {
-        intervals.push( setIntervalDate( range, index, interval ) );
-        categories.push( setIntervalName( range[ index ], interval, index ) );
-    }
+    for (let index = 0; index < range.length; index++) intervals.push({
+        date: setIntervalDate( range, index, interval ),
+        name: setIntervalName( range[ index ], interval, index ),
+        length: 0
+    });
 
     const pipeline = intervals.map(
         interval => findCallsForInterval( interval, account )

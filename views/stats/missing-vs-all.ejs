@@ -45,30 +45,46 @@ function getTitle() {
         </div>
     </div>
 </body>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback( drawChart );
+<link href="assets/charts/c3.css" rel="stylesheet">
+<script type="text/javascript" src="assets/charts/d3.js"></script>
+<script type="text/javascript" src="assets/charts/c3.js"></script>
+<script>
+    (function($) {
 
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable(<%- JSON.stringify(data) %>);
 
-        var options = {
-            title: 'Соотношение входящих звонков к пропущенным <%= subtitle %>',
-            hAxis: {
-                title: 'Количество звонков',
-                minValue: 0,
+        const chartCfg = {
+            bindto: '#chart',
+            data: {
+                columns: [ ["Все звонки (10)",5,5], ["Пропущенные (2)",1,1] ],
+                type: 'bar'
             },
-            vAxis: {
-                title: '<%= getTitle() %>'
-            },
-            bars: 'vertical',
-            colors: ["#5cb85c", "#d9534f"]
+            legend: { position: "bottom" },
+            bar: { width: { ratio: 0.4 } },
+            axis: {
+                x: {
+                    label: '<%= getTitle() %>',
+                    type: 'category',
+                    categories: ["01 сент.\r\nчт","02 сент.\r\nпт"]
+                },
+                y: {
+                    label: {
+                        text: 'Количество звонков',
+                        position: 'outer-middle',
+                    },
+                    tick: {
+                        centered: true,
+                        format: function (d) {
+                            return (parseInt(d) == d) ? d : null;
+                        }
+                    }
+                }
+            }
         };
 
-        var material = new google.visualization.ColumnChart( document.getElementById('chart') );
-        material.draw(data, options);
-    }
+        var chart = c3.generate(chartCfg);
+    })(jQuery);
 </script>
-
+<style>
+    .tick { font-size: 12px; }
+</style>
 </html>

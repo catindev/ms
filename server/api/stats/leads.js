@@ -4,64 +4,92 @@ const Contact = require("../../models/contact")();
 const Account = require("../../models/account");
 const Call = require("../../models/call");
 
+const moment = require("moment");
+moment.locale('ru');
+require("moment-range");
+
+const calcLt = require("./f-calt-lt");
 const errorHandler = error => { throw error };
 
-const populateQuery = [ { path: 'number', model: 'Number' } ];
+module.exports = leadsByItervals;
 
-const calcLt = date => date.getTime() + 86400000;
+function leadsByItervals({ start, end, interval, account }) {
+    const period  = moment.range( start.getTime(), calcLt( end ) );
+    const range = period.toArray( interval );
 
-function findContactsForNumber( number, start, end ) {
-    const query = {
-        number: number._id,
-        created: {
-            $gte: start.getTime(),
-            $lt: calcLt( end )
-        }
-    };
-
-    return new Promise((resolve, reject) => {
-        try {
-
-            Contact
-                .find( query )
-                .sort( '_id' )
-                .populate( populateQuery )
-                .exec( findContacts );
-
-            function findContacts( error, contacts ) {
-                if ( error ) throw error;
-                const length = contacts && contacts.length > 0
-                    ? contacts.length : 0;
-
-                resolve([ number.name, length ]);
-            }
-
-        } catch( error ) { reject( error ); }
-    });
-}
-
-
-function pieChart({ start, end, account }) {
+    let categories = [], intervals = [];
+    for (let index = 0; index < range.length; index++) {
+        intervals.push( setIntervalDate( range, index, interval ) );
+        categories.push( setIntervalName( range[ index ], interval, index ) );
+    }
 
     return Number
         .find({ account: account._id })
         .then( calculateContacts )
-        .catch( errorHandler )
-
+        .catch( errorHandler );
 
     function calculateContacts( numbers ) {
-        if ( !numbers || numbers.length === 0 )
-            throw new Error("Рекламные источники не найдены");
+        if ( !numbers || numbers.length === 0 ) throw new Error("Рекламные источники не найдены");
 
         const pipeline = numbers.map(
-            number => findContactsForNumber( number, start, end )
+            number => findContactsForNumber( number, intervals, account )
         );
 
         return Promise.all( pipeline )
-            .then( results => results )
+            .then( columns => {
+                return { columns, categories }
+            })
             .catch( errorHandler );
     }
+}
+
+function setIntervalName(dateItem, interval, index) {
+    let name;
+    switch ( interval ) {
+        case 'weeks':
+            name = (index + 1) + ' неделя';
+            break;
+        case 'months':
+            name = dateItem.format('MMMM');
+            break;
+        default:
+            name = dateItem.format('DD MMM[\r\n]dd');
+    }
+    return name;
+}
+
+function setIntervalDate( arr, index, interval ) {
+    const type = interval.replace('s', '');
+    return {
+        $gte: arr[ index ].startOf( type ).toDate(),
+        $lt: arr[ index ].endOf( type ).toDate()
+    };
+}
+
+function findContactsForNumber( number, intervals, account ) {
+    const pipeline = intervals.map(
+        interval => findContactsForNumberAndInterval( number, interval, account )
+    );
+
+    const allResults = results => {
+        const sum = results.reduce((a, b) => a + b, 0);
+        results.unshift( `${ number.name } (${ sum })` );
+        return results;
+    };
+
+    return Promise.all( pipeline ).then( allResults ).catch( errorHandler );
 
 }
 
-module.exports = pieChart;
+function findContactsForNumberAndInterval( number, interval, account ) {
+    const query = {
+        number: number._id,
+        account: account._id,
+        created: interval
+    };
+
+    return Contact
+        .find(query)
+        .then( contacts => contacts ? contacts.length : 0 )
+        .catch( errorHandler );
+}

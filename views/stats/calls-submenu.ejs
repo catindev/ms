@@ -1,13 +1,13 @@
 <div class="submenu">
-    <a href="/stats/missing-vs-all"
+    <a href="/stats/missing-vs-all<%= querystring %>"
        class="subItem <%= subPage === 'missing-vs-all' && 'subItem-active' %>">
         Соотношение входящих и пропущенных
     </a>
-    <a href="/stats/incoming"
+    <a href="/stats/incoming<%= querystring %>"
        class="subItem <%= subPage === 'incoming' && 'subItem-active' %>">
         Время входящих
     </a>
-    <a href="/stats/missing"
+    <a href="/stats/missing<%= querystring %>"
        class="subItem <%= subPage === 'missing' && 'subItem-active' %>">
         Время пропущенных
     </a>

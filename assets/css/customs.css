@@ -59,6 +59,11 @@ a.jouele { visibility: hidden }
     color: #fff;
 }
 
+.button.primary:hover:disabled {
+    background: #A9649E;
+    cursor: not-allowed;
+}
+
 .button.small {
     font-size: 13px;
     line-height: 31px;
@@ -74,6 +79,13 @@ a.jouele { visibility: hidden }
     background: url(../images/search.png) no-repeat right 10px center;
 }
 
+.preloader-small {
+    background: url(../images/loader30.gif) no-repeat center center;
+}
+
+.preloader-big {
+    background: url(../images/loader80.gif) no-repeat center center;
+}
 
 .tds { width: 10%; }
 

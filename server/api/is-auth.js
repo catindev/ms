@@ -14,7 +14,7 @@ function forView(request, response, next) {
 }
 
 function forAPI(request, response, next) {
-    if ( !request.cookies.session ) return response.render('login');
+    if ( !request.cookies.session ) return response.status(401).json({ error: 'not authorized' });
 
     checkIn(request.cookies.session, (error, user) => {
         if ( error ) return response.status(error.status).json(error);

@@ -1,12 +1,12 @@
 <div class="submenu">
-    <a href="/stats/missing-vs-all" class="subItem
+    <a href="/stats/missing-vs-all<%= querystring %>" class="subItem
         <% if (subPage === 'missing-vs-all' || subPage === 'missing' || subPage === 'incoming'){ %> subItem-active <% } %>">
         Входящие и пропущенные
     </a>
-    <a href="/stats/waiting" class="subItem <%= subPage === 'waiting' && 'subItem-active' %>">
+    <a href="/stats/waiting<%= querystring %>" class="subItem <%= subPage === 'waiting' && 'subItem-active' %>">
         Cкорость ответов
     </a>
-    <a href="/stats/leads" class="subItem
+    <a href="/stats/leads<%= querystring %>" class="subItem
         <% if (subPage === 'leads' || subPage === 'leads-by'){ %> subItem-active <% } %>">
         Рекламные источники
     </a>

@@ -1,5 +1,5 @@
 module.exports = (request, response) => {
-    const leadsChart = require('./leads-by');
+    const leadsChart = require('./leads');
     const moment = require("moment");
 
     let { start, end, interval = 'days' } = request.query;
@@ -15,6 +15,10 @@ module.exports = (request, response) => {
         currentWeek = false;
     }
 
+    let querystring = `?start=${ new Date(range.start).getTime() }`;
+    querystring += `&end=${ new Date(range.end).getTime() }`;
+    querystring += `&interval=${ interval }`;
+
     leadsChart({
         start: range.start,
         end: range.end,
@@ -26,6 +30,7 @@ module.exports = (request, response) => {
             range,
             interval,
             currentWeek,
+            querystring,
             page:"stats",
             subPage: "leads",
             title: 'статистика, рекламные источники',

@@ -1,55 +1,57 @@
 <%
-    function isMyNewContactCall( call ) {
-        return !call.contact.name &&
-               ( !call.contact.user ||
-                 call.contact.user._id.toString() === user._id.toString()
-               );
-    }
+function isMyNewContactCall( call ) {
+    return !call.contact.name &&
+            ( !call.contact.user ||
+                    call.contact.user._id.toString() === user._id.toString()
+            );
+}
 %>
+
 <div class="call cbox">
     <div class="unrow">
-        <div class="uncol">
+        <div class="uncol" style="vertical-align: middle;">
             <div>
-                <div class="call__title">
+                <div style="font-size: 13px;line-height: 1.5;opacity: .4;">
+                    <%= call.display.date %>
+                </div>
+                <div style="font-size: 22px; line-height: 1.5; font-weight: 400;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
                     <% if ( !call.contact.name) { %>
-                        Новый контакт
+                    Новый контакт
                     <% } else { %>
-                        <%= call.contact.name %>
+                    <%= call.contact.name %>
                     <% } %>
                 </div>
             </div>
         </div>
         <div class="uncol" style="vertical-align: middle; text-align: right;">
+
             <% if ( user.type === 'admin' ) { %>
-                <a href="contacts/<%= call.contact._id %>?backURL=/"
-                   class="button primary small" role="button">Смотреть профиль</a>
+            <a href="contacts/<%= call.contact._id %>?backURL=/"
+               class="button primary" role="button">Смотреть профиль</a>
             <% } else { %>
-                <% if ( isMyNewContactCall(call) ) { %>
-                    <a href="contacts/edit/<%= call.contact._id %>?backURL=/"
-                       class="button primary small" role="button">Заполнить профиль</a>
-                <% } else { %>
-                    <a href="contacts/<%= call.contact._id %>?backURL=/"
-                       class="button primary small" role="button">Смотреть профиль</a>
-                <% } %>
+            <% if ( isMyNewContactCall(call) ) { %>
+            <a href="contacts/edit/<%= call.contact._id %>?backURL=/"
+               class="button primary" role="button">Заполнить профиль</a>
+            <% } else { %>
+            <a href="contacts/<%= call.contact._id %>?backURL=/"
+               class="button primary" role="button">Смотреть профиль</a>
+            <% } %>
             <% } %>
         </div>
     </div>
 
     <% if ( call.recordFile ) { %>
-    <div class="unrow" style="margin: 1rem 0;">
-        <!--<audio controls="" style="width: 100%">-->
-            <!--<source src="http://185.22.67.22<%= call.recordFile %>" type="audio/mpeg">-->
-        <!--</audio>-->
-        <a href="http://185.22.67.22<%= call.recordFile %>" class="jouele" data-hide-timeline-on-pause="true">
-           Звонок от <%= call.display.phone %>. Ответил(а) <%= call.contact.user && call.contact.user.name %>
-        </a>
+    <div class="unrow" style="padding: .5rem 0;">
+        <audio controls="" style="width: 100%">
+            <source src="http://185.22.67.22<%= call.recordFile %>" type="audio/mpeg">
+        </audio>
     </div>
     <% } %>
 
     <% if (!call.recordFile) { %>
-        <div class="unrow missed-call">
-            Без ответа. Клиент ждал(а) <%= call.display.waiting %>
-        </div>
+    <div class="unrow" style="padding: .5rem .7rem; border-radius: 4px; font-size: .85rem; background: #fcf8e3; text-align: center;margin: .5rem 0;">
+        Без ответа. Клиент ждал(а) <%= call.display.waiting %>
+    </div>
     <% } %>
 
     <% if ( user.type === 'admin' ) { %>
@@ -58,15 +60,15 @@
     </div>
     <% } %>
 
-    <div class="row between" style="text-align: center;font-size: 13px;">
-        <div class="col col-3" style="text-align: left;opacity: .7;">
-            <%= call.display.date %>
+    <div class="row between" style="text-align: center;font-size: .92rem">
+        <div class="col col-3" style="padding-left: 0;">
+            <%= call.display.phone %>
         </div>
-        <div class="col col-3" style="text-align: right;">
+        <div class="col col-3">
             <%= call.number.name %>
         </div>
-        <div class="col col-3" style="text-align: left;opacity: .7;">
-            <%= call.display.date %>
+        <div class="col col-3">
+            <%= call.contact.user && call.contact.user.name %>
         </div>
     </div>
 </div>
