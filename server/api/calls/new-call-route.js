@@ -12,7 +12,8 @@ module.exports = function newCallRoute(request, response) {
             const resp = call
                 ? { status: 'saved' }
                 : { status: 'ignored', reason: 'number not registered' };
-            console.log(':D saving status', resp);
+
+            console.log(':D call status', resp);
             response.json(resp);
             saveJournal({
                 name: new Date().getTime() + '_' + request.body.callerPhoneNumber,
