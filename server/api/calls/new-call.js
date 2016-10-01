@@ -90,6 +90,11 @@ function saveCall({
 
     function checkUserForContact( contact ) {
         if ( contact.user || newCall.status === 4 ) {
+            console.log(
+                newCall.status === 4
+                    ? "call missed. don't need user"
+                    : "user exists. " + contact.user
+            );
             return contact;
         }
 
