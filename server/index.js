@@ -24,13 +24,13 @@ App.disable('view cache');
 
 App.use(bodyParser.urlencoded({
     extended: false,
-    parameterLimit: 10000000,
-    limit: 1024 * 1024 * 1000
+    parameterLimit: 100000000,
+    limit: 1024 * 1024 * 10000
 }));
 App.use(bodyParser.json({
     extended: false,
-    parameterLimit: 10000000,
-    limit: 1024 * 1024 * 1000
+    parameterLimit: 100000000,
+    limit: 1024 * 1024 * 10000
 }));
 
 App.use( (error, request, response, next) => response.status(500).json({
