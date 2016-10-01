@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const psize = 1024 * 1024 * 1000;
+
 const mongoose = require("mongoose");
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/MindSalesCRM');
@@ -19,6 +21,17 @@ App.use( '/assets', express.static('assets', { maxAge: 86400 }));
 App.use( bodyParser.urlencoded({ extended: true }) );
 App.use( bodyParser.json() );
 App.disable('view cache');
+
+app.use(bodyParser.urlencoded({
+    extended: false,
+    parameterLimit: 1000000,
+    limit: 1024 * 1024 * 100
+}));
+app.use(bodyParser.json({
+    extended: false,
+    parameterLimit: 1000000,
+    limit: 1024 * 1024 * 100
+}));
 
 App.use( (error, request, response, next) => response.status(500).json({
     status: 500,
