@@ -38,11 +38,8 @@ function callsRatio({ start, end, interval, account }) {
                 missed.push( result[1] );
             });
 
-            const isum = incoming.reduce((a, b) => a + b, 0);
-            const msum = missed.reduce((a, b) => a + b, 0);
-
-            incoming.unshift(`Входящие (${  isum })`);
-            missed.unshift(`Пропущенные (${  msum })`);
+            incoming.unshift(`Входящие`);
+            missed.unshift(`Пропущенные`);
             return {
                 columns: [ incoming, missed ],
                 categories

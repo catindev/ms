@@ -33,10 +33,10 @@ function sortCalls( calls ) {
     const from18To8 = calls.filter( filterFrom18To8 );
 
     const columns = [
-        [ `С 9:00 до 13:00 (${ from9To13.length })`, from9To13.length ],
-        [ `С 13:00 до 14:00 (${ from13To14.length })`, from13To14.length ],
-        [ `С 14:00 до 18:00 (${ from14To18.length })`, from14To18.length ],
-        [ `С 18:00 до 8:00 (${ from18To8.length })`, from18To8.length ]
+        [ `С 9:00 до 13:00`, from9To13.length ],
+        [ `С 13:00 до 14:00`, from13To14.length ],
+        [ `С 14:00 до 18:00`, from14To18.length ],
+        [ `С 18:00 до 8:00`, from18To8.length ]
     ];
 
     console.log(':D incoming', columns);

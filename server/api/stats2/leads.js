@@ -72,8 +72,7 @@ function findContactsForNumber( number, intervals, account ) {
     );
 
     const allResults = results => {
-        const sum = results.reduce((a, b) => a + b, 0);
-        results.unshift( `${ number.name } (${ sum })` );
+        results.unshift( number.name );
         return results;
     };
 

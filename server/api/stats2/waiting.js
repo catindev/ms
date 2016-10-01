@@ -32,15 +32,12 @@ function callsRatio({ start, end, interval, account }) {
 
             let success = [], wasted = [];
             results.forEach( result => {
-                success.push( result[0] );
-                wasted.push( result[1] );
+                success.push( result[ 0 ] );
+                wasted.push( result[ 1 ] );
             });
 
-            const ssum = success.reduce((a, b) => a + b, 0);
-            const wsum = wasted.reduce((a, b) => a + b, 0);
-
-            success.unshift(`Отвеченные вовремя (${  ssum })`);
-            wasted.unshift(`Ожидавшие (${  wsum })`);
+            success.unshift(`Отвеченные вовремя`);
+            wasted.unshift(`Ожидавшие`);
             return {
                 columns: [ success, wasted ],
                 categories
