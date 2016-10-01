@@ -22,12 +22,12 @@ App.use( bodyParser.urlencoded({ extended: true }) );
 App.use( bodyParser.json() );
 App.disable('view cache');
 
-app.use(bodyParser.urlencoded({
+App.use(bodyParser.urlencoded({
     extended: false,
     parameterLimit: 1000000,
     limit: 1024 * 1024 * 100
 }));
-app.use(bodyParser.json({
+App.use(bodyParser.json({
     extended: false,
     parameterLimit: 1000000,
     limit: 1024 * 1024 * 100
