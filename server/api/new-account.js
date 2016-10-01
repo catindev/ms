@@ -13,6 +13,11 @@ function md5(data) {
 
 const formatNumber = require("./format-number");
 
+const formatUserPhone = phone => {
+  const copy = ( phone.replace(/\r/g, '') ).replace(/\n/g, '');
+  return formatNumber( copy );
+};
+
 let $account;
 
 function CreateAccount({ account, users, numbers, fields }, callback) {
@@ -24,8 +29,8 @@ function CreateAccount({ account, users, numbers, fields }, callback) {
 
         users = users.map( user => {
             user.account = $account._id;
-            user.password = md5(user.password + 'wow! much salt!');
-            user.phone = formatNumber(user.phone);
+            user.password = md5( user.password + 'wow! much salt!' );
+            user.phones = ( user.phones.split('\n') ).map( formatUserPhone );
             return user;
         });
 

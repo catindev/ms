@@ -23,7 +23,7 @@ const userSchema = new Schema({
     "access": { type: String, enum: ['boss', 'manager'] },
     "type": { type: String, enum: ['customer', 'admin'] },
     "name": String,
-    "phone": String,
+    "phones": [String],
     "email": String,
     "password": String,
     "session": String
@@ -33,9 +33,7 @@ const userSchema = new Schema({
 userSchema.pre('save', function( next ) {
     if ( !this.isModified('password') ) return next();
     this.password = md5(this.password + 'wow! much salt!');
-
-    this.phone = formatNumber(this.phone);
-
+    this.phones = this.phones.map( phone => formatNumber(phone) );
     next();
 });
 

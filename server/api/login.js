@@ -6,7 +6,7 @@ function Login({ login, password }, callback) {
         message: "Введите логин и пароль"
     });
 
-    User.findOne({ $or: [ { 'email': login }, { 'phone': login } ] })
+    User.findOne({ $or: [ { 'email': login }, { 'phones': login } ] })
         .then( findUserByCredetentials );
 
     function findUserByCredetentials(user) {

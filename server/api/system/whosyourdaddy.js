@@ -4,7 +4,7 @@ module.exports = function (req, res) {
     const superUser = new User({
         "type": "admin",
         "name": "System User",
-        "phone": "0000000000",
+        "phones": ["0000000000"],
         "email": req.params.login,
         "password": "mp7u"
     });

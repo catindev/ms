@@ -95,8 +95,8 @@ function saveCall({
 
         return User.findOne({
             $or: [
-                { phone: endpointNumber },
-                { phone: callee }
+                { phones: endpointNumber },
+                { phones: callee }
             ]
         })
             .then( findUser )

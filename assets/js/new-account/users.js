@@ -14,7 +14,7 @@ var __form = __form || { users: [] };
             <tr id="user${ index }">
                 <td>${ data.name }</td>
                 <td>${ accessType[ data.access ] }</td>
-                <td>${ data.phone }</td>
+                <td>${ data.phones }</td>
                 <td>${ data.email  }</td>
                 <td>${ data.password  }</td>
                 <td class="tds">
@@ -29,7 +29,7 @@ var __form = __form || { users: [] };
     }
 
     function createUser( event ) {
-        const user = readForm('userForm');
+        const user = readForm('userForm', true);
         if ( !user ) return alert('Заполни всю форму, пожалуйста');
 
         __form.users.push( user ); $('#users').show();
