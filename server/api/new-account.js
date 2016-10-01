@@ -15,7 +15,7 @@ const formatNumber = require("./format-number");
 
 const formatUserPhone = phone => {
   const copy = ( phone.replace(/\r/g, '') ).replace(/\n/g, '');
-  return copy && formatNumber( copy );
+  return copy && formatNumber( ( phone.replace(/\r/g, '') ).replace(/\n/g, '') );
 };
 
 let $account;
@@ -30,8 +30,6 @@ function CreateAccount({ account, users, numbers, fields }, callback) {
         users = users.map( user => {
             user.account = $account._id;
             user.password = md5( user.password + 'wow! much salt!' );
-
-
             user.phones = (
                 ( user.phones.split('\n') ).map( formatUserPhone )
             ).filter( phone => phone);
