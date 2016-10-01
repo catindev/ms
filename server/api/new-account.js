@@ -33,6 +33,7 @@ function CreateAccount({ account, users, numbers, fields }, callback) {
             user.phones = (
                 ( user.phones.split('\n') ).map( formatUserPhone )
             ).filter( phone => phone);
+            console.log('>>>>', user.phones);
             return user;
         });
 
