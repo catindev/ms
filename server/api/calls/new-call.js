@@ -40,7 +40,7 @@ function saveCall({
         .populate( 'account' )
         .then( findSourceNumber )
         .then( findContact )
-        .then( newContact )
+        .then( isNewContact )
         .then( checkUserForContact )
         .then( saveContact )
         .then( saveCallToSystem )
@@ -72,12 +72,15 @@ function saveCall({
     }
 
     function findContact() {
-        return Contact.findOne({ phone: caller })
+        return Contact.findOne({
+            phone: caller,
+            account: newCall.account
+        })
             .then( contact => contact )
             .catch(error => { throw error; });
     }
 
-    function newContact( contact ) {
+    function isNewContact( contact ) {
         if ( contact ) return contact;
 
         return new Contact({
