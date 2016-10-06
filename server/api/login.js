@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const formatNumber = require("./format-number");
 
 function Login({ login, password }, callback) {
     if ( !login || !password ) return callback({
@@ -6,8 +7,14 @@ function Login({ login, password }, callback) {
         message: "Введите логин и пароль"
     });
 
-    User.findOne({ $or: [ { 'email': login }, { 'phones': login } ] })
-        .then( findUserByCredetentials );
+    const query = {
+        $or: [
+            { 'email': login },
+            { 'phones': formatNumber( login, false ) }
+        ]
+    };
+
+    User.findOne( query ).then( findUserByCredetentials );
 
     function findUserByCredetentials(user) {
         if ( !user ) return callback({
