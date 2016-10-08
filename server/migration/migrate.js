@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/MindSalesCRM');
 
-const contactsAPI = require("../api/contacts");
+const contactsAPI = require("../contacts");
 
 const account = mongoose.Types.ObjectId('57d9fff08ca2296e2639ca93');
 const managers = {
