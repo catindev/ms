@@ -29,15 +29,15 @@ function saveContact( contactSource ) {
         gender, payment_term, realty, quadrature
     } =  contactSource;
 
-    let name = first_name ? first_name : '';
-    middle_name && (name += ' ' + middle_name);
-    last_name && (name += ' ' + last_name);
+    let name = first_name.value ? first_name : '';
+    middle_name.value && (name += ' ' + middle_name.value);
+    last_name.value && (name += ' ' + last_name.value);
 
     let data = { name, user: user._id };
-    gender && ( data.gender = gender );
-    realty && ( data.estate_type = realty );
-    payment_term && ( data.payment_method = payment_term );
-    quadrature && ( data.area = quadrature );
+    gender.value && ( data.gender = gender.value );
+    realty.value && ( data.estate_type = realty.value );
+    payment_term.value && ( data.payment_method = payment_term.value );
+    quadrature.value && ( data.area = quadrature.value );
 
     console.log(':D try migrate contact', data);
 
