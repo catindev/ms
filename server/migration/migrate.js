@@ -19,6 +19,7 @@ let saved = [];
 
 function saveContact( contactSource ) {
     const phone = formatNumber( contactSource.phone_numbers.value[ 0 ] );
+    console.log(':D try migrate contact', phone);
     const user = {
         _id: managers[ contactSource.manager.value ],
         account
