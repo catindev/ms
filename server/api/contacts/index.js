@@ -60,7 +60,10 @@ function saveContact({ _id, user, data, phone }, callback ) {
         data.phone = formatNumber( data.phone );
         eContact
             .update(query, { $set: data })
-            .then( newcontact => callback(true) )
+            .then( newcontact => {
+                console.log(':D contact', eContact._id, 'updated');
+                callback(true);
+            } )
             .catch( error => { throw error; });
     }
 }
