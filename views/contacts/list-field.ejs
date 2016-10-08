@@ -1,15 +1,23 @@
+<%
+
+ function trim(val) {
+     return (val.replace('\r', '')).replace('\n', '')
+ }
+
+%>
 <% if (field.list.length <= 10) { %>
     <select class="select" name="<%= field.id %>">
         <option value=""></option>
         <% field.list.forEach( function (item, index) { %>
             <option
-                value="<%= item %>"
-                <% if (contact && contact[field.id] && contact[field.id] === item) { %>
+                value="<%= trim(item) %>"
+                <% if (contact && contact[field.id] && trim(contact[field.id]) === trim(item)) { %>
                 selected
                 <% } %>
             >
                 <%= item %>
             </option>
+            <span><%= contact[field.id] && trim(contact[field.id]) %></span>
         <% }); %>
     </select>
 
