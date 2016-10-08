@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/MindSalesCRM');
 
-const contactsAPI = require("../api/contacts/index");
+const contactsAPI = require("../api/contacts/index.js");
 const formatNumber = require("../api/format-number");
 
 const account = mongoose.Types.ObjectId('57d9fff08ca2296e2639ca93');
@@ -39,7 +39,7 @@ function saveContact( contactSource ) {
     payment_term && ( data.payment_method = payment_term );
     quadrature && ( data.area = quadrature );
 
-    contactsAPI.saveContact({ phone, user,  data })
+    contactsAPI.save({ phone, user,  data })
         .then( result => console.log(':D contact', phone, result ? 'saved' : 'not saved'))
         .catch( error => { console.log(':D contact', phone, 'error', error.stack); })
 }
