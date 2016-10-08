@@ -1,6 +1,16 @@
-const cars = require("./stuff/cars/db");
+const contacts = require('./server/migration/contacts.json');
 
-cars.forEach( car => car.models.forEach( model => {
-    const m = model.title.replace(' - ','');
-    m.indexOf('(') === -1 && console.log(model.title.replace(' - ',''));
-} ) );
+let counter = 0;
+
+contacts.forEach( contact => {
+    if ( contact.first_name.value && contact.phone_numbers.value.length ) {
+        let {
+            first_name, last_name, middle_name,
+            gender, payment_term, realty, quadrature,
+            manager,
+        } =  contact;
+        counter++;
+    }
+});
+
+console.log(counter);

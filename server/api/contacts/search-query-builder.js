@@ -1,5 +1,7 @@
-module.exports = function buildSearchQuery({ _id, user, search}) {
+module.exports = function buildSearchQuery({ _id, phone, user, search}) {
     let query = _id ? { _id } : {};
+
+    phone && query.phone = phone;
 
     const account = user.account
         ? user.account._id

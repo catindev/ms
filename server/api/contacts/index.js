@@ -7,7 +7,7 @@ const formatNumber = require("../format-number");
 const buildSearchQuery = require("./search-query-builder");
 
 
-function fetchContact( { _id, user }, callback ) {
+function fetchContact({ _id, user }, callback ) {
     const query = buildSearchQuery({ _id, user });
 
     Field
@@ -44,8 +44,8 @@ function fetchList( { user, search }, callback ) {
         });
 }
 
-function saveContact( { _id, user, data }, callback ) {
-    const query = buildSearchQuery({ _id, user });
+function saveContact({ _id, user, data, phone }, callback ) {
+    const query = buildSearchQuery({ _id, user, phone });
 
     Field
         .find({ account: user.account._id })
