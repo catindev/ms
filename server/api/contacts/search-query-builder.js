@@ -3,7 +3,7 @@ module.exports = function buildSearchQuery({ _id, phone, user, search }) {
     phone && ( query.phone = phone );
 
     const account = user.account
-        ? user.account._id
+        ? user.account._id || user.account
         : user.type;
 
     account !== 'admin' && (

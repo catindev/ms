@@ -47,23 +47,26 @@ function fetchList( { user, search }, callback ) {
 function saveContact({ _id, user, data, phone }, callback ) {
     const query = buildSearchQuery({ _id, user, phone });
 
+    console.log( ':D try to update', query );
+
     Field
-        .find({ account: user.account._id })
+        .find({ account: user.account._id || user.account })
         .then( findFields )
         .catch( error => { throw error; });
 
     function findFields( fields ) {
+        console.log(':D fields finded');
         const eContact = fields && fields.length > 0
             ?  require("../../models/contact")(fields)
             :  require("../../models/contact")();
 
-        data.phone = formatNumber( data.phone );
+        data.phone && ( data.phone = formatNumber( data.phone ) );
         eContact
             .update(query, { $set: data })
             .then( newcontact => {
-                console.log(':D contact', eContact._id, 'updated');
+                console.log(':D contact', newcontact, 'updated');
                 callback(true);
-            } )
+            })
             .catch( error => { throw error; });
     }
 }
