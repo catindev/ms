@@ -24,6 +24,9 @@ function saveContact( contactSource ) {
         account
     };
 
+    console.log(':D user', user);
+
+
     let {
         first_name, last_name, middle_name,
         gender, payment_term, realty, quadrature
@@ -42,9 +45,19 @@ function saveContact( contactSource ) {
     console.log(':D try migrate contact', data);
 
     contactsAPI.save(
-        { phone, user,  data },
-        result => console.log(':D contact', phone, result ? 'saved' : 'not saved')
+        { phone, user, data },
+        result => {
+            console.log(':D contact', phone, result ? 'saved' : 'not saved');
+            if ( --total ) migrate();
+        }
     );
 }
 
-contacts.forEach( saveContact );
+function migrate() {
+    const contactSource = contacts.pop();
+    saveContact( contactSource );
+}
+
+migrate();
+
+
