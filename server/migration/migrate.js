@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/MindSalesCRM');
 
-const contactsAPI = require("../contacts");
+const contactsAPI = require("../api/contacts/index");
+const formatNumber = require("../api/format-number");
 
 const account = mongoose.Types.ObjectId('57d9fff08ca2296e2639ca93');
 const managers = {
@@ -17,7 +18,7 @@ let saved = [];
 
 
 function saveContact( contactSource ) {
-    const phone = contactSource.phone_numbers.value[ 0 ];
+    const phone = formatNumber( contactSource.phone_numbers.value[ 0 ] );
     const user = {
         _id: managers[ contactSource.manager.value ],
         account
@@ -38,9 +39,10 @@ function saveContact( contactSource ) {
     payment_term && ( data.payment_method = payment_term );
     quadrature && ( data.area = quadrature );
 
-    contactsAPI.saveContact({ phone, user,  data })
-        .then( result => console.log(':D contact', phone, result ? 'saved' : 'not saved'))
-        .catch( error => { console.log(':D contact', phone, 'error', error.stack); })
+    console.log(phone);
+    // contactsAPI.saveContact({ phone, user,  data })
+    //     .then( result => console.log(':D contact', phone, result ? 'saved' : 'not saved'))
+    //     .catch( error => { console.log(':D contact', phone, 'error', error.stack); })
 }
 
 contacts.forEach( saveContact );
