@@ -29,7 +29,7 @@ function saveContact( contactSource ) {
         gender, payment_term, realty, quadrature
     } =  contactSource;
 
-    let name = first_name.value ? first_name : '';
+    let name = first_name.value ? first_name.value : '';
     middle_name.value && (name += ' ' + middle_name.value);
     last_name.value && (name += ' ' + last_name.value);
 
