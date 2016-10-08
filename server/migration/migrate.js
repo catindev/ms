@@ -39,10 +39,9 @@ function saveContact( contactSource ) {
     payment_term && ( data.payment_method = payment_term );
     quadrature && ( data.area = quadrature );
 
-    console.log(phone);
-    // contactsAPI.saveContact({ phone, user,  data })
-    //     .then( result => console.log(':D contact', phone, result ? 'saved' : 'not saved'))
-    //     .catch( error => { console.log(':D contact', phone, 'error', error.stack); })
+    contactsAPI.saveContact({ phone, user,  data })
+        .then( result => console.log(':D contact', phone, result ? 'saved' : 'not saved'))
+        .catch( error => { console.log(':D contact', phone, 'error', error.stack); })
 }
 
 contacts.forEach( saveContact );
