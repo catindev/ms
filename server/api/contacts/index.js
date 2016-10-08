@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../../models/user");
+const Number = require("../../models/number");
 const Account = require("../../models/account");
 const Field = require("../../models/field");
 
@@ -22,7 +23,7 @@ function fetchContact({ _id, user }, callback ) {
 
         Contact
             .findOne( query )
-            .populate( 'account user' )
+            .populate( 'account user number' )
             .exec(( error, contact ) => {
                 if ( error ) throw error;
                 callback( contact ? contact.toObject() : null, fields);
@@ -47,26 +48,20 @@ function fetchList( { user, search }, callback ) {
 function saveContact({ _id, user, data, phone }, callback ) {
     const query = buildSearchQuery({ _id, user, phone });
 
-    console.log( ':D try to update', query );
-
     Field
         .find({ account: user.account._id || user.account })
         .then( findFields )
         .catch( error => { throw error; });
 
     function findFields( fields ) {
-        console.log(':D fields finded');
         const eContact = fields && fields.length > 0
-            ?  require("../../models/contact")(fields)
+            ?  require("../../models/contact")( fields )
             :  require("../../models/contact")();
 
         data.phone && ( data.phone = formatNumber( data.phone ) );
         eContact
-            .update(query, { $set: data })
-            .then( newcontact => {
-                console.log(':D contact', newcontact, 'updated');
-                callback(true);
-            })
+            .update( query, { $set: data })
+            .then( newcontact => callback(true) )
             .catch( error => { throw error; });
     }
 }

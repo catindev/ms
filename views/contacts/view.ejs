@@ -62,6 +62,13 @@
                 </div>
             <% } %>
 
+            <% if ( contact.number ) { %>
+            <div class="contact-item">
+                <span class="item-label">Источник:</span>
+                <span><%= contact.number.name %></span>
+            </div>
+            <% } %>
+
             <% if ( isCustomFields() ) { %>
             <hr style="margin-top: 1rem;margin-bottom: 1rem;"/>
             <% fields.forEach( function (field, index) { %>
