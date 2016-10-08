@@ -19,7 +19,6 @@ let saved = [];
 
 function saveContact( contactSource ) {
     const phone = formatNumber( contactSource.phone_numbers.value[ 0 ] );
-    console.log(':D try migrate contact', phone);
     const user = {
         _id: managers[ contactSource.manager.value ],
         account
@@ -30,15 +29,17 @@ function saveContact( contactSource ) {
         gender, payment_term, realty, quadrature
     } =  contactSource;
 
-    let name = `${ first_name }`;
-    last_name && (name += ' ' + last_name);
+    let name = first_name ? first_name : '';
     middle_name && (name += ' ' + middle_name);
+    last_name && (name += ' ' + last_name);
 
     let data = { name, user: user._id };
     gender && ( data.gender = gender );
     realty && ( data.estate_type = realty );
     payment_term && ( data.payment_method = payment_term );
     quadrature && ( data.area = quadrature );
+
+    console.log(':D try migrate contact', data);
 
     contactsAPI.save(
         { phone, user,  data },
