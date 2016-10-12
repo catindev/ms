@@ -1,0 +1,17 @@
+
+
+mongodump --archive=mon01.archive --db MindSalesCRM
+mongorestore --archive=mon01.archive --db MindSalesCRMtest
+
+server {
+    listen 80;
+    server_name test.mindsales-crm.com;
+    access_log /var/log/nginx/mindsales.log;
+    location / {
+        proxy_pass    http://127.0.0.1:6969/;
+    }
+}
+
+ln -s /etc/nginx/sites-available/stage /etc/nginx/sites-enabled/
+
+pm2 start server/stage.js --name="stage"
