@@ -60,7 +60,7 @@ App.post('/v1/calls', require('./api/calls/new-call-route'));
 
 /* Contacts */
 App.get('/contacts', isAuthenticated.forView, require('./api/contacts/fetch-contacts-route'));
-App.get('/contacts/is-target', isAuthenticated.forView, (request, response) => {
+App.get('/is-target', isAuthenticated.forView, (request, response) => {
     response.render('contacts/target-menu', {
         title: 'Какой клиент?',
         page: 'is-target',
