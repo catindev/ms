@@ -48,6 +48,9 @@ function trim(val) {
                     <textarea cols="5" rows="5" name="notes"><%= contact && contact.notes %></textarea>
                 </div>
 
+                <input type="hidden" name="phone"
+                       value="<%= contact && contact.phone %>"/>
+
             </form>
         </div>
 
