@@ -41,7 +41,7 @@ a.jouele { visibility: hidden }
     -moz-appearance: none;
 }
 
-.form-item input:focus, .form-item textarea {
+.form-item input:focus, .form-item textarea:focus {
     border-color: #A9649E;
     box-shadow: 0 0 6px #E7E6E1;
     transition: all 0.2s ease;
