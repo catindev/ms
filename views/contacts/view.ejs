@@ -101,12 +101,21 @@
         </div>
 
         <% if ( canEdit() ) { %>
-            <div class="form-section">
-                <a href="/contacts/edit/<%= contact._id %>?backURL=/contacts/<%= contact._id %>" role="button"
-                   class="button primary" style="margin-right: 1.5rem">
-                    Редактировать
-                </a>
-            </div>
+            <% if ( contact.noTargetReason ) { %>
+                <div class="form-section">
+                    <a href="/contacts/no-target/<%= contact._id %>?backURL=/contacts/<%= contact._id %>" role="button"
+                       class="button primary" style="margin-right: 1.5rem">
+                        Редактировать
+                    </a>
+                </div>
+            <% } else { %>
+                <div class="form-section">
+                    <a href="/contacts/edit/<%= contact._id %>?backURL=/contacts/<%= contact._id %>" role="button"
+                       class="button primary" style="margin-right: 1.5rem">
+                        Редактировать
+                    </a>
+                </div>
+            <% } %>
         <% } %>
     </div>
 </body>
