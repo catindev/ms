@@ -26,7 +26,7 @@ function trim(val) {
             <form class="form" id="contactDetails">
                 <div class="form-item">
                     <label>Имя и фамилия</label>
-                    <input type="text" name="name" class="big" value="">
+                    <input type="text" name="name" class="big" value="<%= contact && contact.name %>">
                     <div class="desc">Как зовут клиента?</div>
                 </div>
 
@@ -35,7 +35,12 @@ function trim(val) {
                     <select class="select" name="noTargetReason">
                         <option value=""></option>
                     <% contact.account.noTargetReasons.forEach( function (reason, index) { %>
-                        <option value="<%= trim(reason) %>">
+                        <option
+                            value="<%= trim(reason) %>"
+                           <% if ( trim(contact.noTargetReason) === trim(reason) ) { %>
+                            selected
+                           <% } %>
+                        >
                             <%= reason %>
                         </option>
                     <% }); %>
