@@ -6,6 +6,7 @@ const accountSchema = new Schema({
     "name": String,
     "maxWaitingTime": Number,
     "maxAnswerTime": Number,
+    "noTargetReasons": [String],
     "created": {
         type: Date,
         default: Date.now()

@@ -1,7 +1,7 @@
 
 /* field custom fields */
 
-var __form = __form || {};
+var __form = __form || { fields: [] };
 
 (function($) {
 

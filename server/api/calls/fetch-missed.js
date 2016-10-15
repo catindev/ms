@@ -33,7 +33,7 @@ module.exports = function fetchMissedCalls({ limit = 0, skip = 0, user }, callba
 
     function aggregateCalls(error, calls) {
         if ( error ) throw error;
-        if ( !calls ) return callback([]);
+        if ( !calls || calls.length === 0 ) return callback([]);
 
         Call.populate(calls, populateQuery, populateAndRemapCalls);
     }

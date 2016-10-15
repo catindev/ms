@@ -1,0 +1,56 @@
+<div class="form-section">
+    <h3>Причины для нецелевых</h3>
+    <form class="form" id="reasonsForm">
+        <div class="form-item">
+            <label>Список причин</label>
+            <textarea cols="5" rows="5" name="list" id="reasonsValues"></textarea>
+        </div>
+
+        <div class="form-item">
+            <button type="button" class="button primary small width-100" id="addReasons">
+                Добавить причины
+            </button>
+        </div>
+    </form>
+
+    <div id="reasonsBox" class="hide"
+         style="border-bottom: 1px solid #eee;border-top: 1px solid #eee;padding: 1rem 0;">
+
+        <div id="reasonsList" style="padding-bottom: 1rem;"></div>
+
+        <div class="form-item">
+            <button type="button" class="button remove-button small width-100" id="clearReasons">
+                Очистить список
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+var __form = __form || { reasons: [] };
+(function($) {
+
+    $("#addReasons").on('click', addReasons);
+    function addReasons() {
+        const reasonValues = $("#reasonsValues").val();
+        if ( !reasonValues ) return alert("Заполни список причин для нецелевых");
+        const reasons = (
+                ( reasonValues.split('\n') ).map( reason => reason.replace('\n', '') )
+        ).map( reason => reason.replace('\r', '') );
+        $("#reasonsList").text( reasons.join(', ') );
+        $("#reasonsBox").show();
+        $("#reasonsForm").hide();
+        __form.reasons = reasons;
+    }
+
+    $("#clearReasons").on('click', clearReasons);
+    function clearReasons() {
+        $("#reasonsValues").val( '' );
+        $("#reasonsList").text( '' );
+        $("#reasonsBox").hide();
+        $("#reasonsForm").show();
+        __form.reasons = [];
+    }
+
+})(jQuery);
+</script>

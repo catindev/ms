@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+    <%- include ../common/page-title.ejs %>
+    <link href="assets/css/jqui.css" rel="stylesheet">
+    <script src="assets/js/jq.js"></script>
+    <script src="assets/js/jqui.js"></script>
+</head>
+<body>
+    <%- include ../common/main-menu.ejs %>
+    <div class="content">
+        <div class="title">
+            <h1>Нецелевой клиент</h1>
+        </div>
+
+        <div id="service-info" class="hide">{"_id":"<%= (contact && contact._id) || 'new' %>","backURL":"<%= backURL %>"}</div>
+
+        <div class="form-section">
+            <h3>Контактная информация</h3>
+            <form class="form" id="contactDetails">
+                <div class="form-item">
+                    <label>Имя и фамилия</label>
+                    <input type="text" name="name" class="big"
+                           value="<%= contact && contact.name %>"
+                           placeholder="Например: Иван Петров или Аблай Кунганов">
+                    <div class="desc">Как зовут клиента?</div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-6">
+                        <div class="form-item">
+                            <label>Номер телефона</label>
+                            <div class="controls">
+                                <span>+7</span>
+                                <input type="text" disabled
+                                       style="font-style: normal;"
+                                       value="<%= contact && contact.phone.replace('+7', '') %>"/>
+                                <input type="hidden" name="phone"
+                                       value="<%= contact && contact.phone.replace('+7', '') %>"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-6">
+                        <div class="form-item">
+                            <label>Эл. почта</label>
+                            <input type="text" name="email"
+                                   value="<%= contact && contact.email %>"/>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <%- include edit-custom-fields.ejs %>
+
+        <div class="form-section">
+            <h3>Служебная информация</h3>
+            <form class="form" id="contactAdditionals">
+                <div class="form-item">
+                    <% if (contact && contact.user) { %>
+                    <label>Менеджер <span class="desc">ответственный</span></label>
+                    <input type="text" disabled value="<%= contact.user.name %>"/>
+                    <input type="hidden" name="updatedBy" value="<%= contact.user._id %>"/>
+                    <% } else { %>
+                    <label>Менеджер</label>
+                    <input type="text" disabled value="<%= user.name %>"/>
+                    <input type="hidden" name="updatedBy" value="<%= user._id %>"/>
+                    <% } %>
+                </div>
+
+                <div class="form-item">
+                    <label>Заметки</label>
+                    <textarea cols="5" rows="5" name="notes"><%= contact && contact.notes %></textarea>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <a href="<%= backURL %>" role="button" class="button" style="margin-right: 1.5rem">
+                Вернуться назад
+            </a>
+
+            <button type="button" class="button primary" id="save">
+                Сохранить изменения
+            </button>
+        </div>
+    </div>
+</body>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/contact-update.js"></script>
+</html>

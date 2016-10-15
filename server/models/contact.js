@@ -10,7 +10,8 @@ let schema = {
     "name": String,
     "phone": String,
     "email": String,
-    "notes": String
+    "notes": String,
+    "noTargetReason": String
 };
 const contactSchema = new Schema(schema);
 
