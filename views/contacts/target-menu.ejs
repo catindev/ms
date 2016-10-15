@@ -37,16 +37,16 @@
 <body>
     <%- include ../common/main-menu.ejs %>
 
-    <div style="width: 500px; margin: 0 auto;">
-        <div style="text-align: center; padding-top: 2rem;">
+    <div style="width: 300px; margin: 0 auto;">
+        <div style="text-align: center; padding-top: 25%;font-size: 22px;">
             Какой клиент?
         </div>
-        <div style="padding: 1rem 0;">
-            <a type="button" class="button primary" style="float: left;">
-                Целевой
-            </a>
-            <a type="button" class="button primary" style="float: right;">
+        <div style="padding: 2rem 0;">
+            <a href="contacts/no-target/<%= cid %>" type="button" class="button default" style="float: left;">
                 Нецелевой
+            </a>
+            <a href="contacts/edit/<%= cid %>" type="button" class="button primary" style="float: right;">
+                Целевой
             </a>
         </div>
     </div>

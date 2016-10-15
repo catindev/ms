@@ -30,7 +30,7 @@ function isMyNewContactCall( call ) {
                class="button primary" role="button">Смотреть профиль</a>
             <% } else { %>
             <% if ( isMyNewContactCall(call) ) { %>
-            <a href="contacts/edit/<%= call.contact._id %>?backURL=/"
+            <a href="is-target/<%= call.contact._id %>?backURL=/"
                class="button primary" role="button">Заполнить профиль</a>
             <% } else { %>
             <a href="contacts/<%= call.contact._id %>?backURL=/"
