@@ -62,6 +62,7 @@ App.post('/v1/calls', require('./api/calls/new-call-route'));
 App.get('/contacts', isAuthenticated.forView, require('./api/contacts/fetch-contacts-route'));
 App.get('/contacts/:id', isAuthenticated.forView, require('./api/contacts/fetch-contact-by-id-route'));
 App.get('/contacts/edit/:id', isAuthenticated.forView, require('./api/contacts/edit-contact-route'));
+App.get('/contacts/no-target/:id', isAuthenticated.forView, require('./api/contacts/edit-no-target-route'));
 App.post('/contacts/:id', isAuthenticated.forAPI, require('./api/contacts/update-contact-route'));
 
 /* Stats2 */

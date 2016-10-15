@@ -18,60 +18,23 @@
         <div class="form-section">
             <form class="form" id="contactDetails">
                 <div class="form-item">
-                    <label>Имя и фамилия</label>
-                    <input type="text" name="name" class="big"
-                           value="<%= contact && contact.name %>"
-                           placeholder="Например: Иван Петров или Аблай Кунганов">
+                    <label>Причина</label>
+                    <select class="select" name="noTargetReason">
+                        <option value=""></option>
+                    <% contact.account.noTargetReasons.forEach( function (reason, index) { %>
+                        <option value="<%= trim(reason) %>">
+                            <%= reason %>
+                        </option>
+                    <% }); %>
+                    </select>
                     <div class="desc">Как зовут клиента?</div>
-                </div>
-
-                <div class="row">
-                    <div class="col col-6">
-                        <div class="form-item">
-                            <label>Номер телефона</label>
-                            <div class="controls">
-                                <span>+7</span>
-                                <input type="text" disabled
-                                       style="font-style: normal;"
-                                       value="<%= contact && contact.phone.replace('+7', '') %>"/>
-                                <input type="hidden" name="phone"
-                                       value="<%= contact && contact.phone.replace('+7', '') %>"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-6">
-                        <div class="form-item">
-                            <label>Эл. почта</label>
-                            <input type="text" name="email"
-                                   value="<%= contact && contact.email %>"/>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-
-        <%- include edit-custom-fields.ejs %>
-
-        <div class="form-section">
-            <h3>Служебная информация</h3>
-            <form class="form" id="contactAdditionals">
-                <div class="form-item">
-                    <% if (contact && contact.user) { %>
-                    <label>Менеджер <span class="desc">ответственный</span></label>
-                    <input type="text" disabled value="<%= contact.user.name %>"/>
-                    <input type="hidden" name="updatedBy" value="<%= contact.user._id %>"/>
-                    <% } else { %>
-                    <label>Менеджер</label>
-                    <input type="text" disabled value="<%= user.name %>"/>
-                    <input type="hidden" name="updatedBy" value="<%= user._id %>"/>
-                    <% } %>
                 </div>
 
                 <div class="form-item">
                     <label>Заметки</label>
                     <textarea cols="5" rows="5" name="notes"><%= contact && contact.notes %></textarea>
                 </div>
+
             </form>
         </div>
 
