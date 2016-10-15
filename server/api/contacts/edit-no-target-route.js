@@ -10,7 +10,7 @@ module.exports = (request, response) => {
             </div>
         `);
 
-        response.render('contacts/edit', {
+        response.render('contacts/edit-no-target', {
             contact,
             fields,
             page:"contacts/edit",
