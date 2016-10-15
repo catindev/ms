@@ -1,0 +1,66 @@
+<%
+
+ function canEdit() {
+     return user.access === 'manager' && ( !contact.user ||
+            contact.user._id.toString() === user._id.toString() );
+ }
+
+
+ function isCustomFields() {
+     if (fields.length > 0) {
+         const checked = fields.filter( field => contact[field.id] );
+         return checked.length;
+     }
+     return 0;
+ }
+%>
+<!doctype html>
+<html>
+<head>
+    <%- include ../common/page-title.ejs %>
+    <style>
+        .title {
+            padding: .5rem 0;
+        }
+
+        .contact-item {
+            padding: .5rem 0;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        .item-label {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <%- include ../common/main-menu.ejs %>
+
+    <div class="content">
+        <div>Какой клиент?</div>
+
+        <div class="row">
+            <div class="col col-6">
+                <div class="form-item">
+                    <label style="visibility: hidden">Action</label>
+                    <button type="button" id="setPeriod" class="button primary">
+                        Целевой
+                    </button>
+                </div>
+            </div>
+            <div class="col col-6">
+                <div class="form-item">
+                    <label style="visibility: hidden">Action</label>
+                    <button type="button" id="setPeriod" class="button primary">
+                        Нецелевой
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="assets/js/jq.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/contact-update.js"></script>
+</html>
