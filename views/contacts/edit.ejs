@@ -11,7 +11,7 @@
     <div class="content">
         <div class="title">
             <% if ( contact ) { %>
-                <h1><%= contact.name || SON.stringify(contact.account) %></h1>
+                <h1><%= contact.name || JSON.stringify(contact.account) %></h1>
             <% } else { %>
                 <h1>Новый контакт</h1>
             <% } %>
