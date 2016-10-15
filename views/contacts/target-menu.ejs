@@ -38,27 +38,16 @@
     <%- include ../common/main-menu.ejs %>
 
     <div style="width: 500px; margin: 0 auto;">
-        <div class="col col-12" style="text-align: center; padding-top: 2rem;">
+        <div style="text-align: center; padding-top: 2rem;">
             Какой клиент?
         </div>
-
-        <div class="row">
-            <div class="col col-6">
-                <div class="form-item">
-                    <label style="visibility: hidden">Action</label>
-                    <button type="button" id="setPeriod" class="button primary">
-                        Целевой
-                    </button>
-                </div>
-            </div>
-            <div class="col col-6">
-                <div class="form-item">
-                    <label style="visibility: hidden">Action</label>
-                    <button type="button" id="setPeriod" class="button primary">
-                        Нецелевой
-                    </button>
-                </div>
-            </div>
+        <div style="padding: 1rem 0;">
+            <a type="button" class="button primary" style="float: left;">
+                Целевой
+            </a>
+            <a type="button" class="button primary" style="float: right;">
+                Нецелевой
+            </a>
         </div>
     </div>
 </body>
