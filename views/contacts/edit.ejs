@@ -13,7 +13,7 @@
             <% if ( contact ) { %>
                 <h1><%= contact.name || 'Заполнить профиль клиента' %></h1>
             <% } else { %>
-                <h1>Новый контакт</h1>
+                <h1>Новый контакт <%- JSON.stringify(contact.account) %></h1>
             <% } %>
         </div>
 
