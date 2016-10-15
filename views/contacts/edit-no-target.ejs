@@ -1,7 +1,7 @@
 <%
 
 function trim(val) {
-    return (val.replace('\r', '')).replace('\n', '')
+    return ( val.replace( '\r', '' ) ).replace( '\n', '' )
 }
 
 %>
@@ -24,6 +24,13 @@ function trim(val) {
 
         <div class="form-section">
             <form class="form" id="contactDetails">
+                <div class="form-item">
+                    <label>Имя и фамилия</label>
+                    <input type="text" name="name" class="big"
+                           value="<%= contact && contact.name %>">
+                    <div class="desc">Как зовут клиента?</div>
+                </div>
+
                 <div class="form-item">
                     <label>Причина</label>
                     <select class="select" name="noTargetReason">
