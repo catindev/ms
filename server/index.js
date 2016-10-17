@@ -61,7 +61,16 @@ App.post('/v1/calls', require('./api/calls/new-call-route'));
 /* Contacts */
 App.get('/contacts', isAuthenticated.forView, require('./api/contacts/fetch-contacts-route'));
 App.get('/contacts/:id', isAuthenticated.forView, require('./api/contacts/fetch-contact-by-id-route'));
+App.get('/is-target/:id', isAuthenticated.forView, (request, response) => {
+    response.render('contacts/target-menu', {
+        title: 'Какой клиент?',
+        page: 'is-target',
+        cid: request.params.id,
+        user: request.user
+    });
+});
 App.get('/contacts/edit/:id', isAuthenticated.forView, require('./api/contacts/edit-contact-route'));
+App.get('/contacts/no-target/:id', isAuthenticated.forView, require('./api/contacts/edit-no-target-route'));
 App.post('/contacts/:id', isAuthenticated.forAPI, require('./api/contacts/update-contact-route'));
 
 /* Stats2 */
