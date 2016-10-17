@@ -37,7 +37,7 @@ function trim(val) {
                     <% contact.account.noTargetReasons.forEach( function (reason, index) { %>
                         <option
                             value="<%= trim(reason) %>"
-                           <% if ( trim(contact.noTargetReason) === trim(reason) ) { %>
+                           <% if ( contact.noTargetReason && trim(contact.noTargetReason) === trim(reason) ) { %>
                             selected
                            <% } %>
                         >
