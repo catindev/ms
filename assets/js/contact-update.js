@@ -10,6 +10,8 @@
             readForm('contactAdditionals')
         );
 
+        console.log(params)
+
         if ( !params.phone ) return alert('Запишите телефон для контакта');
 
         let { _id, backURL } = JSON.parse(

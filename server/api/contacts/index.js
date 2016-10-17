@@ -59,6 +59,8 @@ function saveContact({ _id, user, data, phone }, callback ) {
             :  require("../../models/contact")();
 
         data.phone && ( data.phone = formatNumber( data.phone ) );
+        console.log(':D data', data)
+
         eContact
             .update( query, { $set: data })
             .then( newcontact => callback(true) )

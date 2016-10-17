@@ -63,6 +63,13 @@
                     <label>Заметки</label>
                     <textarea cols="5" rows="5" name="notes"><%= contact && contact.notes %></textarea>
                 </div>
+
+                <!--TODO: fix that shit!-->
+                <% if (contact && contact.user) { %>
+                <input type="hidden" name="user" value="<%= contact.user._id %>"/>
+                <% } else { %>
+                <input type="hidden" name="user" value="<%= user._id %>"/>
+                <% } %>
             </form>
         </div>
 
