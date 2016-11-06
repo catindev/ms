@@ -16,9 +16,6 @@ function isMyNewContactCall( call ) {
     }
 </style>
 
-
-
-
 <div class="call cbox" id="call_<%= call._id %>">
     <div class="call-content">
         <div class="unrow">
@@ -91,13 +88,17 @@ function isMyNewContactCall( call ) {
 
     <div class="newCustomer">
         <div class="newCustomerQuestion">
-            <h2 class="center">Какой клиент?</h2>
-            <div class="row">
+            <h2 class="newCustomerQuestion__title">Какой клиент?</h2>
+            <div class="row" style="text-align: center">
                 <div class="col">
-                    <button>Нецелевой</button>
+                    <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
+                        Нецелевой
+                    </a>
                 </div>
                 <div class="col">
-                    <button>Целевой</button>
+                    <a href="contacts/edit/<%= call.contact._id %>"class="button primary">
+                        Целевой
+                    </a>
                 </div>
             </div>
         </div>
@@ -121,16 +122,15 @@ function isMyNewContactCall( call ) {
         callCard = $("#call_" + $(this).attr("call"));
         callCard.addClass('call-window');
         $('.call-content', callCard).hide();
-        $('.newCustomer', callCard).css({ display: "table" });
+        $('.newCustomer', callCard).show();
     });
 
-    $(document).mouseup(function (e) {
-        const currentCall = $(".call");
-        if ( !callCard.is(e.target)
-                && callCard.has(e.target).length === 0 ) {
-            resetQuestions();
+    $(document).click(function(event) {
+        if (!callCard) return;
+        if(!$(event.target).closest(callCard).length) {
+            if(callCard.is(":visible")) resetQuestions();
         }
-    });
+    })
 
 })(jQuery);
 </script>

@@ -54,18 +54,16 @@
 }
 
 .newCustomer {
-    display: table;
     display: none;
 }
 
 .newCustomerQuestion {
-    display: table-cell;
-    vertical-align: middle;
-    height: 160px;
+    padding: 1.2rem;
     width: 100%;
 }
 
 .newCustomerQuestion__title{
-    font-size: 22px;
+    font-size: 32px;
     text-align: center;
+    padding-bottom: 1rem;
 }
