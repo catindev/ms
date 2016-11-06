@@ -24,7 +24,7 @@ function saveCall({
     displayConvDuration = '--:--'
 }, callback ) {
 
-    let newCall;
+    let newCall, newContact;
     const caller = formatNumber( callerPhoneNumber );
     const callee = formatNumber( calleePhoneNumber );
     const endpointNumber = endpointPhoneNumber && formatNumber( endpointPhoneNumber );
@@ -82,13 +82,13 @@ function saveCall({
 
     function isNewContact( contact ) {
         if ( contact ) return contact;
-
-        return new Contact({
+        newContact = new Contact({
             account: newCall.account,
             phone: caller,
             number: newCall.number,
             created: new Date(startedAt)
         });
+        return newContact;
     }
 
     function checkUserForContact( contact ) {
@@ -108,7 +108,7 @@ function saveCall({
             ]
         })
             .then( findUser )
-            .catch(error => { throw error; });
+            .catch( error => { throw error; });
 
         function findUser( user ) {
             if ( user ) contact.user = user._id;
@@ -117,12 +117,17 @@ function saveCall({
     }
 
     function saveContact( contact ) {
-        return contact.save()
+
+        if ( newContact ) return contact.save()
             .then( contact => {
                 newCall.contact = contact._id;
                 return newCall;
             })
             .catch(error => { throw error });
+
+        newCall.contact = contact._id;
+        return newCall;
+
     }
 
     function saveCallToSystem( call ) {
