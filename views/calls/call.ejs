@@ -128,7 +128,9 @@ function isMyNewContactCall( call ) {
     $(document).click(function(event) {
         if (!callCard) return;
         if(!$(event.target).closest(callCard).length) {
-            if(callCard.is(":visible")) resetQuestions();
+            if(callCard.is(":visible")) {
+
+            } else resetQuestions();
         }
     })
 
