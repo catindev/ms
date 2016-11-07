@@ -88,6 +88,7 @@ function isMyNewContactCall( call ) {
 
     <div class="newCustomer">
         <div class="newCustomerQuestion">
+            <div class="newCustomerClose"></div>
             <h2 class="newCustomerQuestion__title">
                 Выберите тип клиента
             </h2>
@@ -119,7 +120,7 @@ function isMyNewContactCall( call ) {
         $(".call .newCustomer").hide();
     }
 
-    $(".js-newCustomer").click( function() {
+    $(".js-newCustomer").click( function(e) {
         resetQuestions();
         callCard = $("#call_" + $(this).attr("call"));
         callCard.addClass('call-window');
@@ -127,14 +128,7 @@ function isMyNewContactCall( call ) {
         $('.newCustomer', callCard).show();
     });
 
-    $(document).click(function(event) {
-        if (!callCard) return;
-        if(!$(event.target).closest(callCard).length) {
-            if(callCard.is(":visible")) {
-
-            } else resetQuestions();
-        }
-    })
+    $(".newCustomerClose").click(resetQuestions);
 
 })(jQuery);
 </script>

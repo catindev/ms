@@ -57,13 +57,31 @@
     display: none;
 }
 
+.newCustomerClose {
+    position: absolute;
+    cursor:pointer;
+    color: #555;
+    height: 4px;
+    font-size: 31px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 0px;
+    padding: 13px 7px;
+    right: 10px;
+    top: 10px;
+}
+
+.newCustomerClose:before {
+    content: "×";
+}
+
 .newCustomerQuestion {
     padding: 1.2rem;
     width: 100%;
 }
 
 .newCustomerQuestion__title{
-    font-size: 32px;
+    font-size: 24px;
     text-align: center;
     padding-bottom: 1rem;
 }
