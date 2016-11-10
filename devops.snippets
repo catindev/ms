@@ -1,5 +1,7 @@
 
 
+db.copyDatabase("MindSalesCRM", "MindSalesCRMtest")
+
 mongodump --archive=mon01.archive --db MindSalesCRM
 mongorestore --archive=mon16okt.archive --db MindSalesCRMtest
 
