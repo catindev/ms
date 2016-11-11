@@ -14,15 +14,10 @@
                 categories: []
             },
             y: {
-                label: {
-                    text: 'Количество звонков',
-                    position: 'outer-middle',
-                },
+                type : 'categorized',
                 tick: {
                     centered: true,
-                    format: function(d) {
-                        return (parseInt(d) == d) ? d : null;
-                    }
+                    format: function (x) { return ''; }
                 }
             }
         },
