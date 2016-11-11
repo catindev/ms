@@ -49,6 +49,18 @@
                     type: 'intervals',
                     active: false,
                     interval: true
+                },
+                {
+                    title: 'Целевые/Нецелевые',
+                    type: 'target',
+                    active: false,
+                    interval: true
+                },
+                {
+                    title: 'Нецелевые(%)',
+                    type: 'nontarget',
+                    active: false,
+                    interval: true
                 }
             ],
             active: false

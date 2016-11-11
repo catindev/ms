@@ -14,7 +14,7 @@ const errorHandler = error => { throw error };
 module.exports = leadsByIntervals;
 
 function leadsByIntervals({ start, end, interval, account }) {
-    const period  = moment.range( new Date(start).getTime(), calcLt( end ) );
+    const period = moment.range( new Date(start).getTime(), calcLt( end ) );
     const range = period.toArray( interval );
 
     let categories = [], intervals = [];

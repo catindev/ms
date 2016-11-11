@@ -27,8 +27,6 @@ function callsRatio({ start, end, interval, account }) {
         interval => findCallsForInterval( interval, account )
     );
 
-    console.log()
-
     return Promise.all( pipeline )
         .then( results => {
 
