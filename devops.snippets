@@ -1,5 +1,6 @@
 
-
+use MindSalesCRMtest
+db.dropDatabase()
 db.copyDatabase("MindSalesCRM", "MindSalesCRMtest")
 
 mongodump --archive=mon01.archive --db MindSalesCRM
