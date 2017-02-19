@@ -9,7 +9,7 @@ const formatNumbersForHumans = require("./human-number");
 
 const populateQuery = require("./populate-query");
 
-module.exports = function fetchAllCalls({ limit = 0, skip = 0, user }, callback ) {
+module.exports = function fetchAllCalls({ limit = 50, skip = 0, user }, callback) {
 
     let pipeline = [];
 
@@ -25,22 +25,22 @@ module.exports = function fetchAllCalls({ limit = 0, skip = 0, user }, callback 
     limit > 0 && pipeline.push({ "$limit": limit });
     skip > 0 && pipeline.push({ "$skip": skip });
 
-    Call.aggregate( pipeline, aggregateCalls);
+    Call.aggregate(pipeline, aggregateCalls);
 
     function aggregateCalls(error, calls) {
-        if ( error ) throw error;
-        if ( !calls || calls.length === 0 ) return callback([]);
+        if (error) throw error;
+        if (!calls || calls.length === 0) return callback([]);
 
         Call.populate(calls, populateQuery, populateAndRemapCalls);
     }
 
-    function populateAndRemapCalls( error, calls ) {
-        if ( error ) throw error;
-        if ( !calls ) return callback([]);
+    function populateAndRemapCalls(error, calls) {
+        if (error) throw error;
+        if (!calls) return callback([]);
 
-        const resultCalls = ( calls.map( formatDatesForHumans ) ).map( call=> formatNumbersForHumans(call, true) );
+        const resultCalls = (calls.map(formatDatesForHumans)).map(call => formatNumbersForHumans(call, true));
 
-        callback( resultCalls );
+        callback(resultCalls);
     }
 
 };
