@@ -1,10 +1,13 @@
 
+/* Clone DB */
 use MindSalesCRMtest
 db.dropDatabase()
 db.copyDatabase("MindSalesCRM", "MindSalesCRMtest")
 
-mongodump --archive=mon01.archive --db MindSalesCRM
-mongorestore --archive=mon16okt.archive --db MindSalesCRMtest
+/* Dump && restore DB */
+cd /var/www/ms/stuff
+mongodump --archive=nameOfArchive.archive --db MindSalesCRM
+mongorestore --archive=nameOfArchive.archive --db MindSalesCRMtest
 
 server {
     listen 80;
