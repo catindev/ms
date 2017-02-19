@@ -1,3 +1,4 @@
+const Mixpanel = require('../system/mixpanel');
 const Call = require("../../models/call");
 const Account = require("../../models/account");
 const Number = require("../../models/number");
@@ -5,6 +6,13 @@ const User = require("../../models/user");
 const Contact = require("../../models/contact")();
 
 const formatNumber = require("../format-number");
+
+function incrementCalls(user, status) {
+    Mixpanel.increment({
+        user, attr: status === 3 ? 'successful calls' : 'missed calls'
+    });
+}
+
 
 function saveCall({
     calleePhoneNumber,
@@ -22,32 +30,27 @@ function saveCall({
     displayCallDuration = '--:--',
     displayWatingDuration = '--:--',
     displayConvDuration = '--:--'
-}, callback ) {
+}, callback) {
 
     let newCall, newContact;
-    const caller = formatNumber( callerPhoneNumber );
-    const callee = formatNumber( calleePhoneNumber );
-    const endpointNumber = endpointPhoneNumber && formatNumber( endpointPhoneNumber );
-
-    console.log(
-        ':D saving new call from', caller, 'to', callee,
-        endpointNumber
-            ? 'redirected to ' + endpointNumber
-            : 'without redirect'
-    );
+    const caller = formatNumber(callerPhoneNumber);
+    const callee = formatNumber(calleePhoneNumber);
+    const endpointNumber = endpointPhoneNumber && formatNumber(endpointPhoneNumber);
 
     Number.findOne({ phone: callee })
-        .populate( 'account' )
-        .then( findSourceNumber )
-        .then( findContact )
-        .then( isNewContact )
-        .then( checkUserForContact )
-        .then( saveContact )
-        .then( saveCallToSystem )
+        .populate('account')
+        .then(findSourceNumber)
+        .then(findContact)
+        .then(isNewContact)
+        .then(checkUserForContact)
+        .then(saveContact)
+        .then(saveCallToSystem)
         .catch(error => { throw error; });
 
-    function findSourceNumber( number ) {
-        if ( !number ) { callback( null ); return false; }
+    function findSourceNumber(number) {
+        if (!number) {
+            callback(null); return false;
+        }
 
         newCall = new Call({
             "account": number.account._id,
@@ -55,7 +58,7 @@ function saveCall({
             "direction": direction,
             "date": startedAt,
             "answerDate": answeredAt,
-            "status": parseInt( status ),
+            "status": parseInt(status),
             "duration": {
                 "waiting": watingDuration,
                 "call": callDuration,
@@ -76,12 +79,12 @@ function saveCall({
             phone: caller,
             account: newCall.account
         })
-            .then( contact => contact )
+            .then(contact => contact)
             .catch(error => { throw error; });
     }
 
-    function isNewContact( contact ) {
-        if ( contact ) return contact;
+    function isNewContact(contact) {
+        if (contact) return contact;
         newContact = new Contact({
             account: newCall.account,
             phone: caller,
@@ -91,15 +94,8 @@ function saveCall({
         return newContact;
     }
 
-    function checkUserForContact( contact ) {
-        if ( contact.user || newCall.status === 4 ) {
-            console.log(
-                newCall.status === 4
-                    ? "call missed. don't need user"
-                    : "user exists. " + contact.user
-            );
-            return contact;
-        }
+    function checkUserForContact(contact) {
+        if (contact.user || newCall.status === 4) return contact;
 
         return User.findOne({
             $or: [
@@ -107,33 +103,49 @@ function saveCall({
                 { phones: callee }
             ]
         })
-            .then( findUser )
-            .catch( error => { throw error; });
+            .then(findUser)
+            .catch(error => { throw error; });
 
-        function findUser( user ) {
-            if ( user ) contact.user = user._id;
+        function findUser(user) {
+            if (user) {
+                incrementCalls(user._id, status);
+                contact.user = user._id;
+            }
             return contact;
         }
     }
 
-    function saveContact( contact ) {
+    function saveContact(contact) {
 
-        if ( newContact ) return contact.save()
-            .then( contact => {
-                newCall.contact = contact._id;
-                return newCall;
-            })
-            .catch(error => { throw error });
+        if (newContact) {
+            Mixpanel.track({
+                name: 'New customer',
+                data: {
+                    distinct_id: contact.user,
+                    account_id: contact.account,
+                    manager: contact.user || undefined,
+                    phone: caller,
+                    date: new Date().toISOString()
+                }
+            });
+
+            return contact.save()
+                .then(contact => {
+                    newCall.contact = contact._id;
+                    return newCall;
+                })
+                .catch(error => { throw error });
+        }
 
         newCall.contact = contact._id;
         return newCall;
 
     }
 
-    function saveCallToSystem( call ) {
+    function saveCallToSystem(call) {
         call.save()
-            .then( call => callback(call) )
-            .catch( error => { throw error; });
+            .then(call => callback(call))
+            .catch(error => { throw error; });
     }
 }
 

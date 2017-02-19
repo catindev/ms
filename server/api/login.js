@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const formatNumber = require("./format-number");
+const Mixpanel = require('./system/mixpanel');
 
 function Login({ login, password }, callback) {
     if ( !login || !password ) return callback({
@@ -29,6 +30,11 @@ function Login({ login, password }, callback) {
                 status: 400,
                 message: "Неверный логин или пароль"
             });
+
+            Mixpanel.track({
+                name: 'Login',
+                data: { distinct_id: user._id, user: user._id, type: user.access, input: login }
+            });            
 
             callback({ status: 200, session });
         });
