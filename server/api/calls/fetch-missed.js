@@ -9,9 +9,9 @@ const formatNumbersForHumans = require("./human-number");
 
 const populateQuery = require("./populate-query");
 
-const filterCallsWithoutUser = call => !call.contact.user;
+const filterCallsWithoutUser = call => !call.contact.user && !call.contact.name;
 
-module.exports = function fetchMissedCalls({ limit = 0, skip = 0, user }, callback ) {
+module.exports = function fetchMissedCalls({ limit = 0, skip = 0, user }, callback) {
 
     let pipeline = [];
 
@@ -29,23 +29,23 @@ module.exports = function fetchMissedCalls({ limit = 0, skip = 0, user }, callba
     limit > 0 && pipeline.push({ "$limit": limit });
     skip > 0 && pipeline.push({ "$skip": skip });
 
-    Call.aggregate( pipeline, aggregateCalls);
+    Call.aggregate(pipeline, aggregateCalls);
 
     function aggregateCalls(error, calls) {
-        if ( error ) throw error;
-        if ( !calls || calls.length === 0 ) return callback([]);
+        if (error) throw error;
+        if (!calls || calls.length === 0) return callback([]);
 
         Call.populate(calls, populateQuery, populateAndRemapCalls);
     }
 
-    function populateAndRemapCalls( error, calls ) {
-        if ( error ) throw error;
-        if ( !calls || calls.length === 0 ) return callback([]);
+    function populateAndRemapCalls(error, calls) {
+        if (error) throw error;
+        if (!calls || calls.length === 0) return callback([]);
 
-        let resultCalls = ( calls.map( formatDatesForHumans ) ).map( formatNumbersForHumans );
-        resultCalls = resultCalls.filter( filterCallsWithoutUser );
+        let resultCalls = (calls.map(formatDatesForHumans)).map(formatNumbersForHumans);
+        resultCalls = resultCalls.filter(filterCallsWithoutUser);
 
-        callback( resultCalls );
+        callback(resultCalls);
     }
 
 };
