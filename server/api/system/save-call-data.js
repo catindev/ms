@@ -1,4 +1,4 @@
-var fs = require('fs');
+const fs = require('fs');
 
 module.exports = function ({ name, data }) {
     const path = `${__dirname}/../../journal/${ name.replace(/\+/, '') }.json`;

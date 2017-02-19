@@ -1,7 +1,9 @@
+const moment = require('moment');
 const saveNewCall = require('./new-call');
 const saveJournal = require('../system/save-call-data');
 
 module.exports = function newCallRoute(request, response) {
+    console.log(request.body)
     let { status, callerPhoneNumber } = request.body;
     status = parseInt(status);
 
@@ -16,7 +18,7 @@ module.exports = function newCallRoute(request, response) {
             console.log(':D call status', resp);
             response.json(resp);
             saveJournal({
-                name: new Date().getTime() + '_' + request.body.callerPhoneNumber,
+                name: request.body.callerPhoneNumber + ' ' + moment().format("DDMMM в hh:mm:ss"),
                 data: JSON.stringify(request.body)
             });
         });
