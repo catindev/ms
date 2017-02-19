@@ -3,11 +3,10 @@ const saveNewCall = require('./new-call');
 const saveJournal = require('../system/save-call-data');
 
 module.exports = function newCallRoute(request, response) {
-    console.log(request.body)
     let { status, callerPhoneNumber } = request.body;
     status = parseInt(status);
 
-    if ( status === 3 || status === 4 ) {
+    if (status === 3 || status === 4) {
         console.log('New call from', callerPhoneNumber, 'with', status);
 
         saveNewCall(request.body, call => {
