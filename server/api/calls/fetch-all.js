@@ -9,7 +9,7 @@ const formatNumbersForHumans = require("./human-number");
 
 const populateQuery = require("./populate-query");
 
-module.exports = function fetchAllCalls({ limit = 50, skip = 0, user }, callback) {
+module.exports = function fetchAllCalls({ limit = 20, skip = 0, user }, callback) {
 
     let pipeline = [];
 
