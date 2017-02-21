@@ -22,8 +22,12 @@ module.exports = function fetchAllCalls({ limit = 20, skip = 0, user }, callback
     pipeline.push({ "$sort": { "date": -1 } });
 
     // пагинация
-    limit > 0 && pipeline.push({ "$limit": limit });
+    limit > 0
+        ? pipeline.push({ "$limit": limit })
+        : pipeline.push({ "$limit": 50 });
     skip > 0 && pipeline.push({ "$skip": skip });
+
+    console.log(pipeline);
 
     Call.aggregate(pipeline, aggregateCalls);
 
