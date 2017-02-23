@@ -27,8 +27,6 @@ module.exports = function fetchAllCalls({ limit = 20, skip = 0, user }, callback
         : pipeline.push({ "$limit": 50 });
     skip > 0 && pipeline.push({ "$skip": skip });
 
-    console.log(pipeline);
-
     Call.aggregate(pipeline, aggregateCalls);
 
     function aggregateCalls(error, calls) {

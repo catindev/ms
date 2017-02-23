@@ -5,6 +5,13 @@ function isMyNewContactCall( call ) {
                     call.contact.user._id.toString() === user._id.toString()
             );
 }
+
+function recordUrl( original ) {
+    return original.indexOf('http://') !== -1
+            ? original
+            : 'http://185.22.67.22' + original
+            ;
+}
 %>
 
 <style>
@@ -56,7 +63,7 @@ function isMyNewContactCall( call ) {
         <% if ( call.recordFile ) { %>
         <div class="unrow" style="padding: .5rem 0;">
             <audio controls="" style="width: 100%">
-                <source src="http://185.22.67.22<%= call.recordFile %>" type="audio/mpeg">
+                <source src="<%= recordUrl(call.recordFile); %>" type="audio/mpeg">
             </audio>
         </div>
         <% } %>
