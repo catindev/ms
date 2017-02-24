@@ -138,10 +138,7 @@ App.get('/report/all', (request, response) => {
 
     const calculate = require('./reports/index');
 
-    const render = stats => {
-        console.log(':D all', stats['all customers'])
-        response.render('reports/index', { stats })
-    };
+    const render = stats => response.render('reports/index', { stats });
 
     calculate(accounts, date)
         .then( render )
