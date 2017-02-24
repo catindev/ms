@@ -8,18 +8,20 @@ const findCallback = (results, paramName) => dataLength => {
 
 const errorCallback = error => { throw error; };
 
-module.exports = function findByAccount( accountNameString, accountIDString, startDateString ) {
-
+module.exports = function findByAccount( accountObject, startDateString ) {
     const startDate = new Date( startDateString ).toISOString();
-    const account = mongoose.Types.ObjectId( accountIDString );
-    const findAllNewCustomers = allCount => ({
-        'account name': accountNameString,
+
+    const account = mongoose.Types.ObjectId( accountObject.id.toString() );
+
+    const findAllNewCustomers = accountName => allCount => ({
+        'account name': accountName,
         'all customers': allCount
     });
 
+
     return Contact.find({ account, created: { $gte: startDate } })
         .count()
-        .then( findAllNewCustomers )
+        .then( findAllNewCustomers( accountObject.name ) )
         .then( findCustomersWithoutProfile )
         .then( findValidCustomers )
         .then( findInvalidCustomers )
@@ -27,6 +29,7 @@ module.exports = function findByAccount( accountNameString, accountIDString, sta
         .catch( errorCallback );
 
     function findCustomersWithoutProfile( resultData ) {
+        // console.log('findCustomersWithoutProfile ok');
         return Contact.find({
             account, created: { $gte: startDate }, name: { $exists: false }
         })
@@ -36,6 +39,7 @@ module.exports = function findByAccount( accountNameString, accountIDString, sta
     }
 
     function findValidCustomers( resultData ) {
+        // console.log('findValidCustomers ok');
         return Contact.find({
             account, created: { $gte: startDate },
             noTargetReason: { $exists: false },
@@ -48,6 +52,7 @@ module.exports = function findByAccount( accountNameString, accountIDString, sta
 
 
     function findInvalidCustomers( resultData ) {
+        // console.log('findInvalidCustomers ok');
         return Contact.find({
             account, created: { $gte: startDate },
             noTargetReason: { $exists: true },
@@ -61,6 +66,7 @@ module.exports = function findByAccount( accountNameString, accountIDString, sta
     //////// Results ///////////////////////////////////
 
     function printData( data ) {
+        // console.log('printData ok');
         return data;
     }
 
@@ -69,9 +75,9 @@ module.exports = function findByAccount( accountNameString, accountIDString, sta
 
 // findByAccount( '57ef9d477d53c326f17b97b5', '2016-11-30T18:00:00.000Z' )
 //     .then( results => {
-//         console.log('Results:');
-//         console.log( '  All:', results['all customers'] );
-//         console.log( '  Without profile:', results['without profile'] );
-//         console.log( '  Valid customers:', results['valid customers'] );
-//         console.log( '  Invalid customers:', results['invalid customers'] );
+//         // console.log('Results:');
+//         // console.log( '  All:', results['all customers'] );
+//         // console.log( '  Without profile:', results['without profile'] );
+//         // console.log( '  Valid customers:', results['valid customers'] );
+//         // console.log( '  Invalid customers:', results['invalid customers'] );
 //     });

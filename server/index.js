@@ -133,7 +133,8 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 
 // Reports
 App.get('/report/all', (request, response) => {
-    const { account, date } = request.query;
+    const { accounts, date } = request.query;
+    // console.log('accounts', accounts);
 
     const calculate = require('./reports/index');
 
@@ -142,9 +143,12 @@ App.get('/report/all', (request, response) => {
         response.render('reports/index', { stats })
     };
 
-    calculate(account, date)
+    calculate(accounts, date)
         .then( render )
-        .catch( console.log );
+        .catch( error => {
+            console.log('router error', error.message)
+            response.end(error.message)
+        });
 });
 
 
