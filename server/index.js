@@ -133,19 +133,16 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 
 // Reports
 App.get('/report/all', (request, response) => {
-    const calculate = require('./reports/index');
+    const { account, date } = request.query;
 
-    const accounts = [
-        { name: 'Астана', id: '57ef9d477d53c326f17b97b5' },
-        { name: 'Алматы', id: '57efa0f67d53c326f17b97c1' }
-    ];
+    const calculate = require('./reports/index');
 
     const render = stats => {
         console.log(':D all', stats['all customers'])
         response.render('reports/index', { stats })
     };
 
-    calculate(accounts, '2016-12-01')
+    calculate(account, date)
         .then( render )
         .catch( console.log );
 });
