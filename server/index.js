@@ -132,12 +132,15 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 
 
 // Reports
-App.get('/report/all', (request, response) => {
+App.get('/report/:id',  require('./reports/general/route'));
+
+
+App.get('/report/managers', (request, response) => {
     const { accounts, date } = request.query;
 
     const calculate = require('./reports/general');
 
-    const render = stats => response.render('reports/index', { stats });
+    const render = general => response.render('reports/index', { general });
 
     calculate(accounts, date)
         .then( render )

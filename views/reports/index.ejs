@@ -2,7 +2,13 @@
 <html>
 <head>
     <title>Mindsales CRM</title>
-    <meta name="description" content="Статистика по лидам" />
+    <meta name="description" content="Статистика по лидам c 1 декабря 2016 по 23 февраля 2017" />
+
+    <meta property="og:title" content="Mindsales CRM: Almavillage"/>
+    <meta property="og:description" content="Статистика по лидам c 1 декабря 2016 по 23 февраля 2017"/>
+    <meta property="og:image" content="http://pr-cy.ru/news/upload/49127/images/1051f4d0d4dee5fe79e56c59aa71c063.jpg ">
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content= "http://pr-cy.ru/news/p/5396" />
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,15 +18,26 @@
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
 
+
+    <link href="assets/charts/c3.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/charts/d3.js"></script>
+    <script type="text/javascript" src="assets/charts/c3.js"></script>
+
+    <style>
+        a[title="JavaScript charts"] {
+            display: none !important;
+        }
+    </style>
+
     <script type="text/javascript">
         AmCharts.makeChart("chartdiv",
             {
                 "type": "pie",
-                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                "balloonText": "[[title]]",
                 "marginBottom": 5,
                 "titleField": "category",
                 "valueField": "column-1",
-                "fontSize": 16,
+                "fontSize": 14,
                 "theme": "default",
                 "allLabels": [],
                 "balloon": {},
@@ -36,15 +53,15 @@
                 "dataProvider": [
                     {
                         "category": "Целевые клиенты",
-                        "column-1": "<%= stats['valid customers'] %>"
+                        "column-1": "<%= general['valid customers'] %>"
                     },
                     {
                         "category": "Не целевые",
-                        "column-1": "<%= stats['invalid customers'] %>"
+                        "column-1": "<%= general['invalid customers'] %>"
                     },
                     {
                         "category": "Профиль не заполнен",
-                        "column-1": "<%= stats['without profile'] %>"
+                        "column-1": "<%= general['without profile'] %>"
                     }
                 ]
             }
@@ -53,15 +70,43 @@
 
 </head>
 <body>
+
+
 <div style="text-align: center;font-family: Verdana;">
-    <h1>Статистика по лидам</h1>
-    <h2>c 1 декабря 2016 по 23 февраля 2017</h2>
+    <h1>Общая статистика по лидам</h1>
+    <h2>c <%= range.start %> по <%= range.end %></h2>
     <p style="padding-top: 2rem; font-size: 1.5rem;">
-        Всего <strong><%= stats['all customers'] %></strong> клиента
+        Всего <strong><%= general['all customers'] %></strong> клиента
     </p>
 </div>
 
 
-<div id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+<div id="chartdiv" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
+
+<p></p>
+
+<div id="c3"></div>
 </body>
+<script>
+    var chart = c3.generate({
+        bindTo: '#c3',
+        data: {
+            x : 'x',
+            columns: [
+                ['x', 'AAAA', 'BBBB', 'CCCC', 'DDDD','EEEE'],
+                ['Successful', 980, 439, 274, 390, 3],
+                ['Failed', 289, 114, 36, 53, 386]
+            ],
+            groups: [
+                ['Successful', 'Failed']
+            ],
+            type: 'bar'
+        },
+        axis: {
+            x: {
+                type: 'category' // this needed to load string x value
+            }
+        }
+    });
+</script>
 </html>

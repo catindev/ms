@@ -50,18 +50,19 @@ ObjectId("57efa0f67d53c326f17b97c1") Alt
     Всего
     db.contacts.find({ account: ObjectId("57efa0f67d53c326f17b97c1"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") } }).count()
 
-    Менеджер, Профиль не заполнен
-    db.contacts.find({ user: ObjectId("57efa0f67d53c326f17b97c2"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, name: { $exists: false } }).count()
-
-    Менеджер, Всего
-    db.contacts.find({ user: ObjectId("57efa0f67d53c326f17b97c2"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") } }).count()
-
 Целевые и нецелевые
     Целевые
     db.contacts.find({ account: ObjectId("57efa0f67d53c326f17b97c1"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, noTargetReason: { $exists: false }, name: { $exists: true } }).count()
 
     Нецелевые
     db.contacts.find({ account: ObjectId("57efa0f67d53c326f17b97c1"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, noTargetReason: { $exists: true }, name: { $exists: true } }).count()
+
+Менеджеры
+    Профиль не заполнен
+    db.contacts.find({ user: ObjectId("57efa0f67d53c326f17b97c2"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, name: { $exists: false } }).count()
+
+    Всего
+    db.contacts.find({ user: ObjectId("57efa0f67d53c326f17b97c2"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") } }).count()
 
 По источникам
     Нецелевые

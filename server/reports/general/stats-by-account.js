@@ -38,7 +38,7 @@ function createQuery( config, model ) {
         .catch( errorCallback );
 }
 
-module.exports = function getStats( accountObject, startDateString ) {
+module.exports = function getGeneralStats( accountObject, startDateString ) {
     const startDate = new Date( startDateString ).toISOString();
     const account = mongoose.Types.ObjectId( accountObject.id.toString() );
 
@@ -55,10 +55,6 @@ module.exports = function getStats( accountObject, startDateString ) {
         let resultObject = {};
         results.forEach( result => Object.assign(resultObject, result) );
         Object.assign(resultObject, { name: accountObject.name });
-
-        console.log('results');
-        console.log(resultObject);
-
         return resultObject;
     }
 
