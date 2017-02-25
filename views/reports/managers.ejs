@@ -45,13 +45,18 @@
 
 <div style="text-align: center;">
     <h1>Cтатистика по менеджерам</h1>
+    <h2>c <%= range.start %> по <%= range.end %></h2>
 </div>
+
+<div style="height: 1.5rem;"></div>
+
 
 <% managers.forEach( function (manager, index) { %>
 <div style="text-align: center;font-family: Verdana;">
-    <h2><%= manager.name %></h2>
+    <h3><%= manager.name %></h3>
 </div>
 <div id="chartdiv<%= index %>" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
+<div style="height: 1.5rem;"></div>
 <script type="text/javascript">
     AmCharts.makeChart("chartdiv<%= index %>",
         {
