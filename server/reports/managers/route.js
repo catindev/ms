@@ -9,16 +9,7 @@ module.exports = (request, response) => {
     try {
         report = require( pathToReport );
     } catch (e) {
-        response.end(`
-            <style> * { padding: 0; margin: 0;font-family:"Helvetica Neue",Helvetica,sans-serif; }</style>
-            <div style="padding: 2rem;">
-                <h1 style="font-size: 24px;line-height: 1.7;">Ошибка</h1>
-                <p style="font-size: 18px;">
-                    Отчёт не найден или ссылка устарела.<br>
-                    Обратитесь в поддержку: <strong>+7 (701) 932-02-28, Максим</strong>
-                </p>            
-            </div>
-        `);
+        return response.render( 'reports/error' );
     }
 
     const range = {
@@ -26,11 +17,13 @@ module.exports = (request, response) => {
         end: moment().format('D MMMM YYYY')
     };
 
-    const render = general => response.render(
-        'reports/index', {
-            customer: report.customer, general, range, reportID: request.params.id
+    const render = managers => response.render(
+        'reports/managers', {
+            customer: report.customer, managers, range, reportID: request.params.id
         }
     );
+
+    // const render = data => response.json(data);
 
     calculate(report.managers, report.date)
         .then( render )

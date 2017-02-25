@@ -16,7 +16,19 @@ function buildQueries(user, startDate) {
 
         { title: 'without profile', query: {
             user, created: { $gte: startDate }, name: { $exists: false } }
-        }
+        },
+
+        { title: 'valid customers', query: {
+            user, created: { $gte: startDate },
+            noTargetReason: { $exists: false },
+            name: { $exists: true }
+        } },
+
+        { title: 'invalid customers', query: {
+            user, created: { $gte: startDate },
+            noTargetReason: { $exists: true },
+            name: { $exists: true }
+        } }
     ]
 }
 

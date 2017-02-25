@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>Mindsales CRM</title>
-    <meta name="description" content="Статистика по лидам <%= range.start %> по <%= range.end %>" />
+    <meta name="description" content="Статистика по лидам c <%= range.start %> по <%= range.end %>" />
 
-    <meta property="og:title" content="Mindsales CRM: <%= customer %>"/>
-    <meta property="og:description" content="Статистика по лидам c 1 декабря 2016 по 23 февраля 2017"/>
+    <meta property="og:title" content="<%= customer %>: cтатистика по лидам"/>
+    <meta property="og:description" content="c <%= range.start %> по <%= range.end %>"/>
     <meta property="og:image" content="http://mindsales-crm.com/assets/images/report-splash.png">
     <meta property="og:type" content="article"/>
     <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>" />
@@ -17,8 +17,20 @@
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
 
     <style>
+        body {
+            padding: 0; margin: 0;
+            font-family:"Helvetica Neue",Helvetica,Verdana,sans-serif;
+        }
         a[title="JavaScript charts"] {
             display: none !important;
+        }
+
+        .ml {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 1px;
+            font-size: 1.5rem;
+            color: #fff;
         }
     </style>
 
@@ -64,6 +76,10 @@
 </head>
 <body>
 
+<div style="text-align: center;background: #000;">
+    <a class="ml">Общий отчёт</a>
+    <a href="/report/<%= reportID %>/managers" class="ml">По менеджерам</a>
+</div>
 
 <div style="text-align: center;font-family: Verdana;">
     <h1>Общая статистика по лидам</h1>

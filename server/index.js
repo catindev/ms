@@ -133,22 +133,8 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 
 // Reports
 App.get('/report/:id',  require('./reports/general/route'));
+App.get('/report/:id/managers',  require('./reports/managers/route'));
 
-
-App.get('/report/managers', (request, response) => {
-    const { accounts, date } = request.query;
-
-    const calculate = require('./reports/general');
-
-    const render = general => response.render('reports/index', { general });
-
-    calculate(accounts, date)
-        .then( render )
-        .catch( error => {
-            console.log('router error', error.message)
-            response.end(error.message)
-        });
-});
 
 
 App.listen(8080);

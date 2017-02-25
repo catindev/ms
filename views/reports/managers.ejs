@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mindsales CRM</title>
+    <meta name="description" content="Статистика по менеджерам" />
+
+    <meta property="og:title" content="Mindsales CRM: <%= customer %>"/>
+    <meta property="og:description" content="Статистика по менеджерам"/>
+    <meta property="og:image" content="http://mindsales-crm.com/assets/images/report-splash.png">
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>/managers" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+
+    <!-- amCharts javascript sources -->
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
+
+    <style>
+        body {
+            padding: 0; margin: 0;
+            font-family:"Helvetica Neue",Helvetica,Verdana,sans-serif;
+        }
+        a[title="JavaScript charts"] {
+            display: none !important;
+        }
+
+        .ml {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 1px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div style="text-align: center;background: #000;">
+    <a href="/report/<%= reportID %>" class="ml">Общий отчёт</a>
+    <a class="ml">По менеджерам</a>
+</div>
+
+<div style="height: 1rem;"></div>
+
+<div style="text-align: center;">
+    <h1>Cтатистика по менеджерам</h1>
+</div>
+
+<% managers.forEach( function (manager, index) { %>
+<div style="text-align: center;font-family: Verdana;">
+    <h2><%= manager.name %></h2>
+</div>
+<div id="chartdiv<%= index %>" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
+<script type="text/javascript">
+    AmCharts.makeChart("chartdiv<%= index %>",
+        {
+            "type": "pie",
+            "balloonText": "[[title]]",
+            "marginBottom": 5,
+            "titleField": "category",
+            "valueField": "column-1",
+            "fontSize": 14,
+            "theme": "default",
+            "allLabels": [],
+            "balloon": {},
+            "legend": {
+                "enabled": true,
+                "align": "center",
+                "labelWidth": 0,
+                "markerType": "circle",
+                "maxColumns": -1,
+                "rollOverGraphAlpha": 0.13
+            },
+            "titles": [],
+            "dataProvider": [
+                {
+                    "category": "Целевые клиенты",
+                    "column-1": "<%= manager['valid customers'] %>"
+                },
+                {
+                    "category": "Не целевые",
+                    "column-1": "<%= manager['invalid customers'] %>"
+                },
+                {
+                    "category": "Профиль не заполнен",
+                    "column-1": "<%= manager['without profile'] %>"
+                }
+            ]
+        }
+    );
+</script>
+<% }); %>
+
+
+</body>
+</html>
