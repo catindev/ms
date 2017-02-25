@@ -22,7 +22,9 @@ module.exports = (request, response) => {
         end: moment().format('D MMMM YYYY')
     };
 
-    const render = general => response.render('reports/index', { general, range });
+    const render = general => response.render(
+        'reports/index', { customer: report.customer, general, range }
+    );
 
     calculate(report.general.accounts, report.general.date)
         .then( render )
