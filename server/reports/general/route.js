@@ -23,7 +23,9 @@ module.exports = (request, response) => {
     };
 
     const render = general => response.render(
-        'reports/index', { customer: report.customer, general, range }
+        'reports/index', {
+            customer: report.customer, general, range, reportID: request.params.id
+        }
     );
 
     calculate(report.general.accounts, report.general.date)
