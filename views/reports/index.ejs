@@ -20,6 +20,7 @@
         body {
             padding: 0; margin: 0;
             font-family:"Helvetica Neue",Helvetica,Verdana,sans-serif;
+            background: #E7E6E1;
         }
         a[title="JavaScript charts"] {
             display: none !important;
@@ -29,8 +30,12 @@
             display: inline-block;
             padding: 1rem 2rem;
             border: 1px;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #fff;
+        }
+
+        .ml-active {
+            color: #FFAD01;
         }
 
         /* Portrait and Landscape */
@@ -109,11 +114,14 @@
 <body>
 
 <div style="text-align: center;background: #000;">
-    <a class="ml">Общий отчёт</a>
+    <a class="ml ml-active">Общий отчёт</a>
     <a href="/report/<%= reportID %>/managers" class="ml">По менеджерам</a>
+    <a href="/report/<%= reportID %>/numbers" class="ml">По рекламным источникам</a>
 </div>
 
-<div style="text-align: center;font-family: Verdana;">
+<div style="height: 1rem;"></div>
+
+<div style="text-align: center;">
     <h1>Общая статистика по лидам</h1>
     <h2>c <%= range.start %> по <%= range.end %></h2>
     <p style="padding-top: 2rem; font-size: 1.5rem;">
@@ -121,8 +129,7 @@
     </p>
 </div>
 
-
 <div id="chartdiv" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
-
+<div style="height: 2rem;"></div>
 </body>
 </html>

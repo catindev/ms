@@ -10,22 +10,22 @@ const findCallback = paramName => dataLength => {
 
 const errorCallback = error => { throw error; };
 
-function buildQueries(user, startDate) {
+function buildQueries(number, startDate) {
     return [
-        { title: 'all customers', query: { user, created: { $gte: startDate } } },
+        { title: 'all customers', query: { number, created: { $gte: startDate } } },
 
         { title: 'without profile', query: {
-            user, created: { $gte: startDate }, name: { $exists: false } }
+            number, created: { $gte: startDate }, name: { $exists: false } }
         },
 
         { title: 'valid customers', query: {
-            user, created: { $gte: startDate },
+            number, created: { $gte: startDate },
             noTargetReason: { $exists: false },
             name: { $exists: true }
         } },
 
         { title: 'invalid customers', query: {
-            user, created: { $gte: startDate },
+            number, created: { $gte: startDate },
             noTargetReason: { $exists: true },
             name: { $exists: true }
         } }
@@ -39,11 +39,11 @@ function createQuery( config, model ) {
         .catch( errorCallback );
 }
 
-module.exports = function getManagerStats( managerObject, startDateString ) {
+module.exports = function getNumberStats( numberObject, startDateString ) {
     const startDate = new Date( startDateString ).toISOString();
-    const user = mongoose.Types.ObjectId( managerObject.id.toString() );
+    const number = mongoose.Types.ObjectId( numberObject.id.toString() );
 
-    const queries = buildQueries(user, startDate);
+    const queries = buildQueries(number, startDate);
 
     const pipeline = queries.map( query => createQuery( query, Contact ) );
 
@@ -55,7 +55,7 @@ module.exports = function getManagerStats( managerObject, startDateString ) {
     function mergeResults( results ) {
         let resultObject = {};
         results.forEach( result => Object.assign(resultObject, result) );
-        Object.assign(resultObject, { name: managerObject.name });
+        Object.assign(resultObject, { name: numberObject.name });
         return resultObject;
     }
 

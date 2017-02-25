@@ -10,8 +10,18 @@ module.exports = {
     ],
 
     managers: [
-        { name: 'Астана', id: '57ef9d477d53c326f17b97b6' },
-        { name: 'Aлмата', id: '57efa0f67d53c326f17b97c2' }
+        { name: 'Менеджер Астаны', id: '57ef9d477d53c326f17b97b6' },
+        { name: 'Менеджер Aлматы', id: '57efa0f67d53c326f17b97c2' }
     ],
 
+    numbers: [
+        { id : "57ef9d477d53c326f17b97b7", name : "Яндекс (Астана)" },
+        { id : "57ef9d477d53c326f17b97b8", name : "Google (Астана)" },
+        { id : "57ef9d477d53c326f17b97b9", name : "Instagram (Астана)" },
+        { id : "57ef9d477d53c326f17b97ba", name : "Facebook (Астана)" },
+        { id : "57efa0f67d53c326f17b97c3", name : "Яндекс (Алмата)" },
+        { id : "57efa0f67d53c326f17b97c4", name : "Google (Алмата)" },
+        { id : "57efa0f67d53c326f17b97c5", name : "Instagram (Алмата)" },
+        { id : "57efa0f67d53c326f17b97c6", name : "Facebook (Алмата)" }
+    ],
 };

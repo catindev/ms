@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Mindsales CRM</title>
-    <meta name="description" content="Статистика по менеджерам" />
+    <meta name="description" content="Статистика по рекламным источникам" />
 
     <meta property="og:title" content="Mindsales CRM: <%= customer %>"/>
-    <meta property="og:description" content="Статистика по менеджерам"/>
+    <meta property="og:description" content="Статистика по рекламным источникам"/>
     <meta property="og:image" content="http://mindsales-crm.com/assets/images/report-splash.png">
     <meta property="og:type" content="article"/>
-    <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>/managers" />
+    <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>/numbers" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
 
@@ -74,23 +74,23 @@
 
 <div style="text-align: center;background: #000;">
     <a href="/report/<%= reportID %>" class="ml">Общий отчёт</a>
-    <a class="ml ml-active">По менеджерам</a>
-    <a href="/report/<%= reportID %>/numbers" class="ml">По рекламным источникам</a>
+    <a href="/report/<%= reportID %>/managers" class="ml">По менеджерам</a>
+    <a class="ml ml-active">По рекламным источникам</a>
 </div>
 
 <div style="height: 1rem;"></div>
 
 <div style="text-align: center;">
-    <h1>Cтатистика по менеджерам</h1>
+    <h1>Cтатистика по рекламным источникам</h1>
     <h2>c <%= range.start %> по <%= range.end %></h2>
 </div>
 
 <div style="height: 1.5rem;"></div>
 
 
-<% managers.forEach( function (manager, index) { %>
+<% numbers.forEach( function (number, index) { %>
 <div style="text-align: center;font-family: Verdana;">
-    <h3><%= manager.name %></h3>
+    <h3><%= number.name %></h3>
 </div>
 <div id="chartdiv<%= index %>" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
 <div style="height: 1.5rem;"></div>
@@ -118,15 +118,15 @@
             "dataProvider": [
                 {
                     "category": "Целевые клиенты",
-                    "column-1": "<%= manager['valid customers'] %>"
+                    "column-1": "<%= number['valid customers'] %>"
                 },
                 {
                     "category": "Не целевые",
-                    "column-1": "<%= manager['invalid customers'] %>"
+                    "column-1": "<%= number['invalid customers'] %>"
                 },
                 {
                     "category": "Профиль не заполнен",
-                    "column-1": "<%= manager['without profile'] %>"
+                    "column-1": "<%= number['without profile'] %>"
                 }
             ]
         }
