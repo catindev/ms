@@ -134,9 +134,8 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 // Reports
 App.get('/report/all', (request, response) => {
     const { accounts, date } = request.query;
-    // console.log('accounts', accounts);
 
-    const calculate = require('./reports/index');
+    const calculate = require('./reports/general');
 
     const render = stats => response.render('reports/index', { stats });
 

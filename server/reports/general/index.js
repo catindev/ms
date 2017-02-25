@@ -1,6 +1,6 @@
 const mapKeys = require("lodash").mapKeys;
 
-const findByAccount = require("./find-by-account");
+const findByAccount = require("./stats-by-account");
 
 const errorCallback = error => { throw error; };
 
@@ -13,8 +13,7 @@ module.exports = function calculateAllStats( accounts, dateString ) {
         .catch( errorCallback );
 
     function printResults( results ) {
-
-
+        
         // TODO: посчитает только два аккаунта. переделать если больше
         if ( results.length > 1 ) {
             const joined = {};
