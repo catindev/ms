@@ -9,7 +9,16 @@ module.exports = (request, response) => {
     try {
         report = require( pathToReport );
     } catch (e) {
-        return response.render( 'reports/error' );
+        response.end(`
+            <style> * { padding: 0; margin: 0;font-family:"Helvetica Neue",Helvetica,sans-serif; }</style>
+            <div style="padding: 2rem;">
+                <h1 style="font-size: 24px;line-height: 1.7;">Ошибка</h1>
+                <p style="font-size: 18px;">
+                    Отчёт не найден или ссылка устарела.<br>
+                    Обратитесь в поддержку: <strong>+7 (701) 932-02-28, Максим</strong>
+                </p>            
+            </div>
+        `);
     }
 
     const range = {
@@ -23,7 +32,7 @@ module.exports = (request, response) => {
         }
     );
 
-    calculate(report.accounts, report.date)
+    calculate(report.managers, report.date)
         .then( render )
         .catch( error => {
             console.log('router error', error.message)

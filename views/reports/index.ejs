@@ -6,22 +6,15 @@
 
     <meta property="og:title" content="Mindsales CRM: <%= customer %>"/>
     <meta property="og:description" content="Статистика по лидам c 1 декабря 2016 по 23 февраля 2017"/>
-    <meta property="og:image" content="http://mindsales-crm.com/assets/images/stats-splash.png">
+    <meta property="og:image" content="http://mindsales-crm.com/assets/images/report-splash.png">
     <meta property="og:type" content="article"/>
     <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>" />
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
 
     <!-- amCharts javascript sources -->
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
-
-
-    <link href="assets/charts/c3.css" rel="stylesheet">
-    <script type="text/javascript" src="assets/charts/d3.js"></script>
-    <script type="text/javascript" src="assets/charts/c3.js"></script>
 
     <style>
         a[title="JavaScript charts"] {
@@ -76,37 +69,12 @@
     <h1>Общая статистика по лидам</h1>
     <h2>c <%= range.start %> по <%= range.end %></h2>
     <p style="padding-top: 2rem; font-size: 1.5rem;">
-        Всего <strong><%= general['all customers'] %></strong> клиента
+        Всего лидов <strong><%= general['all customers'] %></strong>
     </p>
 </div>
 
 
 <div id="chartdiv" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
 
-<p></p>
-
-<div id="c3"></div>
 </body>
-<script>
-    var chart = c3.generate({
-        bindTo: '#c3',
-        data: {
-            x : 'x',
-            columns: [
-                ['x', 'AAAA', 'BBBB', 'CCCC', 'DDDD','EEEE'],
-                ['Successful', 980, 439, 274, 390, 3],
-                ['Failed', 289, 114, 36, 53, 386]
-            ],
-            groups: [
-                ['Successful', 'Failed']
-            ],
-            type: 'bar'
-        },
-        axis: {
-            x: {
-                type: 'category' // this needed to load string x value
-            }
-        }
-    });
-</script>
 </html>
