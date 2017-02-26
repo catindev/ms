@@ -1,3 +1,5 @@
+const orderBy = require("lodash").orderBy;
+
 const mongoose = require("mongoose");
 // mongoose.Promise = Promise;
 // mongoose.connect('mongodb://localhost/MindSalesCRM');
@@ -49,15 +51,13 @@ module.exports = function getFieldStats( fieldObject, accountsList, startDateStr
         });
 
         return Promise.all( pipeline )
-            .then( results => ({ name: fieldObject.name, values: results.filter( result => result.value && result.count > 0 ) }) )
+            .then( results => ({
+                name: fieldObject.name,
+                values: orderBy(results.filter( result => result.value && result.count > 0 ), 'count', 'desc')
+            }))
             .catch( errorCallback );
 
     }
-
-    function calculatePercents() {
-
-    }
-
 };
 
 
