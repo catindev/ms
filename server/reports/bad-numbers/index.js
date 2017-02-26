@@ -11,21 +11,15 @@ module.exports = function calculateBadNumbersStats( accounts, numbers, dateStrin
 
     function calculateBadNumbers( general ) {
 
+        const remap = numbers => numbers.map(
+            number => ({ name: number.name, count : number['invalid customers'] })
+        );
+        const format = count => numbers => ({ count, numbers });
+        const formatOutput = format( general['invalid customers'] );
+
         return numbersStats( numbers, dateString )
-            .then( calculate )
-            .then( remap( general['invalid customers'] ) )
+            .then( remap )
+            .then( formatOutput )
             .catch( errorCallback );
-
-        function calculate( numbers ) {
-            return numbers.map(
-                number => ({ name: number.name, count : number['invalid customers'] })
-            );
-        }
-
-        function remap( count ) {
-            return function( numbers ) {
-                return { count, numbers }
-            }
-        }
     }
 };

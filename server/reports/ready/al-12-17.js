@@ -31,7 +31,6 @@ module.exports = {
         { id : "57ef9d477d53c326f17b97bd", name : "Пол" },
         { id : "57ef9d477d53c326f17b97be", name : "Возраст" },
         { id : "57ef9d477d53c326f17b97bf", name : "Семейное положение" },
-        { id : "57ef9d477d53c326f17b97c0", name : "Марка авто" },
-        { id : "57f0fe0c73c19820b34b6ff2", name : "Модель" }
+        { id : "57ef9d477d53c326f17b97c0", name : "Марка авто" }
     ],
 };

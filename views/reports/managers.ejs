@@ -37,36 +37,15 @@
             color: #FFAD01;
         }
 
-        /* Portrait and Landscape */
-        @media only screen
-        and (min-device-width: 414px)
-        and (max-device-width: 736px)
-        and (-webkit-min-device-pixel-ratio: 3) {
-            .ml {
-                font-size: 1rem;
-            }
+        .nl {
+            display: inline-block;
+            padding: 2rem 1rem;
+            font-size: 1rem;
+            color: #fff;
         }
 
-        /* Portrait */
-        @media only screen
-        and (min-device-width: 414px)
-        and (max-device-width: 736px)
-        and (-webkit-min-device-pixel-ratio: 3)
-        and (orientation: portrait) {
-            .ml {
-                font-size: .5rem;
-            }
-        }
-
-        /* Landscape */
-        @media only screen
-        and (min-device-width: 414px)
-        and (max-device-width: 736px)
-        and (-webkit-min-device-pixel-ratio: 3)
-        and (orientation: landscape) {
-            .ml {
-                font-size: .5rem;
-            }
+        .nl-active {
+            color: #FFAD01;
         }
     </style>
 </head>
@@ -76,6 +55,11 @@
     <a href="/report/<%= reportID %>" class="ml">Общий отчёт</a>
     <a class="ml ml-active">Отдел продаж</a>
     <a href="/report/<%= reportID %>/bad-numbers" class="ml">Маркетинг</a>
+</div>
+
+<div style="text-align: center;background: #000;">
+    <a class="nl nl-active">Менеджеры</a>
+    <a href="/report/<%= reportID %>/fields" class="nl">Портрет клиента</a>
 </div>
 
 <div style="height: 1rem;"></div>

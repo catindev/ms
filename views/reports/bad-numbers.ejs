@@ -11,7 +11,7 @@
     <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>/badnumbers" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
-
+    <link rel="stylesheet" href="/assets/css/report-tables.css">
     <!-- amCharts javascript sources -->
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
@@ -49,37 +49,19 @@
             color: #FFAD01;
         }
 
-        /* Portrait and Landscape */
-        @media only screen
-        and (min-device-width: 414px)
-        and (max-device-width: 736px)
-        and (-webkit-min-device-pixel-ratio: 3) {
-            .ml {
-                font-size: 1rem;
+        .tw {
+            margin: 0 auto;
+            width: 70%;
+        }
+
+        @media
+        only screen and
+        (max-width: 760px){
+            .tw {
+                width: 100%;
             }
         }
 
-        /* Portrait */
-        @media only screen
-        and (min-device-width: 414px)
-        and (max-device-width: 736px)
-        and (-webkit-min-device-pixel-ratio: 3)
-        and (orientation: portrait) {
-            .ml {
-                font-size: 1rem;
-            }
-        }
-
-        /* Landscape */
-        @media only screen
-        and (min-device-width: 414px)
-        and (max-device-width: 736px)
-        and (-webkit-min-device-pixel-ratio: 3)
-        and (orientation: landscape) {
-            .ml {
-                font-size: 1rem;
-            }
-        }
     </style>
 
     <script type="text/javascript">
@@ -133,6 +115,32 @@
 </div>
 
 <div id="chartdiv" style="width: 100%; height: 500px; background-color: #eee;" ></div>
+<div style="height: 2rem;"></div>
+
+
+<div class="tw">
+    <table>
+        <thead>
+        <tr>
+            <th>Источник</th>
+            <th>Нецелевых лидов</th>
+            <th>% от всех нецелевых</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <% numbers.forEach( function (number, index) { %>
+        <tr>
+            <td data-label="Источник"><%= number.name %></td>
+            <td data-label="Нецелевых лидов"><%= number.count %></td>
+            <td data-label="% от всех нецелевых"><%= (number.count/count*100).toFixed(2) %>%</td>
+        </tr>
+        <% }); %>
+
+        </tbody>
+    </table>
+</div>
+
 <div style="height: 2rem;"></div>
 </body>
 </html>
