@@ -1,4 +1,4 @@
-
+const orderBy = require("lodash").orderBy;
 const generalStats = require('../general');
 const numbersStats = require('../numbers');
 
@@ -16,10 +16,12 @@ module.exports = function calculateBadNumbersStats( accounts, numbers, dateStrin
         );
         const format = count => numbers => ({ count, numbers });
         const formatOutput = format( general['invalid customers'] );
+        const orderByCount = ({ count, numbers }) => ({ count, numbers: orderBy(numbers, 'count', 'desc') });
 
         return numbersStats( numbers, dateString )
             .then( remap )
             .then( formatOutput )
+            .then( orderByCount )
             .catch( errorCallback );
     }
 };
