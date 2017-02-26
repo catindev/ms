@@ -132,8 +132,8 @@
         <% numbers.forEach( function (number, index) { %>
         <tr>
             <td data-label="Источник"><%= number.name %></td>
-            <td data-label="Нецелевых лидов"><%= number.count %></td>
-            <td data-label="% от всех нецелевых"><%= (number.count/count*100).toFixed(2) %>%</td>
+            <td data-label="Нецелевых"><%= number.count %></td>
+            <td data-label="% от нецелевых"><%= (number.count/count*100).toFixed(2) %>%</td>
         </tr>
         <% }); %>
 
