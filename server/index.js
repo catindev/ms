@@ -134,6 +134,7 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 // Reports
 App.get('/report/:id',  require('./reports/general/route'));
 App.get('/report/:id/managers',  require('./reports/managers/route'));
+App.get('/report/:id/bad-numbers',  require('./reports/bad-numbers/route'));
 App.get('/report/:id/numbers',  require('./reports/numbers/route'));
 
 

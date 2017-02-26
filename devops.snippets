@@ -71,3 +71,8 @@ ObjectId("57efa0f67d53c326f17b97c1") Alt
     Всего
     db.contacts.find({ number: ObjectId("57ef9d477d53c326f17b97ba"), account: ObjectId("57ef9d477d53c326f17b97b5"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") } }).count()
 
+Портрет
+    Поля
+    db.customfields.find({ account: ObjectId("57efa0f67d53c326f17b97c1") }, { name:1, id:1, list:1 })
+
+    db.contacts.find({ account: ObjectId("57ef9d477d53c326f17b97b5"), pol:{ $exists: true }, created: { $gte: new ISODate("2016-12-01T00:00:00.000Z") } }).count()
