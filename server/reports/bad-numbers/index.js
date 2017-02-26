@@ -12,11 +12,18 @@ module.exports = function calculateBadNumbersStats( accounts, numbers, dateStrin
     function calculateBadNumbers( general ) {
 
         const remap = numbers => numbers.map(
-            number => ({ name: number.name, count : number['invalid customers'] })
+            number => ({
+                name: number.name,
+                count : number['invalid customers']
+            })
         );
+
         const format = count => numbers => ({ count, numbers });
         const formatOutput = format( general['invalid customers'] );
-        const orderByCount = ({ count, numbers }) => ({ count, numbers: orderBy(numbers, 'count', 'desc') });
+
+        const orderByCount = ({ count, numbers }) => ({
+            count, numbers: orderBy(numbers, 'count', 'desc')
+        });
 
         return numbersStats( numbers, dateString )
             .then( remap )

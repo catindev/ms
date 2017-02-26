@@ -1,13 +1,18 @@
 const orderBy = require("lodash").orderBy;
-
 const mongoose = require("mongoose");
-// mongoose.Promise = Promise;
-// mongoose.connect('mongodb://localhost/MindSalesCRM');
 
 const Field = require("../../models/field");
 const Contact = require("../../models/contact")();
 
 const errorCallback = error => { throw error; };
+
+function calcPercents(number, from) {
+    const p = ( number / from * 100).toFixed(1);
+    const splitted = (p + "").split('.');
+    const fst = parseInt( splitted[0] );
+    const scnd = parseInt( splitted[1] );
+    return scnd === 0 ? fst : p;
+}
 
 module.exports = function getFieldStats( fieldObject, accountsList, startDateString ) {
 
@@ -46,7 +51,10 @@ module.exports = function getFieldStats( fieldObject, accountsList, startDateStr
             query.created =  { $gte: startDate };
 
             return Contact.find( query ).count()
-                .then( count => ({ value, count, percents: (count/generalCount * 100).toFixed(2) }))
+                .then( count => ({
+                    value, count,
+                    percents: calcPercents(count, generalCount)
+                }))
                 .catch( errorCallback );
         });
 

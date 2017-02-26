@@ -1,3 +1,13 @@
+<%
+    function cp(number, from) {
+        const p = (number/from*100).toFixed(1);
+        const splitted = (p + "").split('.');
+        const fst = parseInt( splitted[0] );
+        const scnd = parseInt( splitted[1] );
+        return scnd === 0 ? fst : p;
+    }
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -134,7 +144,7 @@
         <tr>
             <td data-label="Источник"><%= number.name %></td>
             <td data-label="Нецелевых"><%= number.count %></td>
-            <td data-label="% от нецелевых"><%= (number.count/count*100).toFixed(2) %>%</td>
+            <td data-label="% от нецелевых"><%= cp(number.count, count) %>%</td>
         </tr>
         <% }); %>
 
