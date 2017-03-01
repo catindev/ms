@@ -10,7 +10,7 @@ function Login({ login, password }, callback) {
 
     const query = {
         $or: [
-            { 'email': login },
+            { 'email': login.toLowerCase() },
             { 'phones': formatNumber( login, false ) }
         ]
     };
