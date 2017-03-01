@@ -2,7 +2,7 @@
     $("#login").on('click', login);
 
     $('#login-data input').keypress(function (event) {
-        if (e.which == 13) {
+        if (event.which == 13) {
             login(event);
             return false;
         }
