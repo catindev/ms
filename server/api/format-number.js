@@ -9,6 +9,9 @@ module.exports = function formatNumber( phone, strict = true ) {
     let formatted = phone.replace(/ /g,'');
     if ( formatted[0] === '+' && formatted[1] === '7' ) formatted = formatted.replace('+7','');
     if ( formatted[0] === '8' ) formatted = formatted.replace('8','');
+
+    formatted = formatted.replace(/\D/g,'');
+
     if ( !/^\d+$/.test(formatted) )
         if ( strict ) error('Номер может содержать только цифры')
         else return false;
