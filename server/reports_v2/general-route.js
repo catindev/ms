@@ -2,7 +2,7 @@ const calculate = require('./general-stats');
 
 module.exports = (request, response) => {
 
-    const pathToReport = '../ready/' + request.params.id + '.js';
+    const pathToReport = './ready/' + request.params.id + '.js';
 
     try {
         var report = require( pathToReport );
