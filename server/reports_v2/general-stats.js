@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const Contact = require("../../models/contact")();
-const Call = require("../../models/call");
-const User = require("../../models/user");
-const Number = require("../../models/number");
+const Contact = require("../models/contact")();
+const Call = require("../models/call");
+const User = require("../models/user");
+const Number = require("../models/number");
 
 
 const _ = require("lodash");
