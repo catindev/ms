@@ -132,6 +132,9 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 
 
 // Reports
+
+App.get('/rprt/:id',  require('./reports_v2/general-route'));
+
 App.get('/report/:id',  require('./reports/general/route'));
 App.get('/report/:id/managers',  require('./reports/managers/route'));
 App.get('/report/:id/bad-numbers',  require('./reports/bad-numbers/route'));
