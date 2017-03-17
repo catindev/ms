@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const calculate = require('./general-stats');
 
 module.exports = (request, response) => {
@@ -10,14 +11,11 @@ module.exports = (request, response) => {
         return response.render( 'reports/error' );
     }
 
-    // const render = general => response.render(
-    //     'reports/index', {
-    //         customer: report.customer, general, range, reportID: request.params.id
-    //     }
-    // );
+    const render = data => response.render( 'reports_v2/general', Object.assign({}, data, { _ }) );
 
     calculate( report )
-        .then(  data => response.json(data) )
+        // .then(  data => response.json(data) )
+        .then( render )
         .catch( error => {
             console.log('router error', error.message)
             response.end(error.message)

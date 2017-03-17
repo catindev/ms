@@ -1,18 +1,20 @@
+const moment = require('moment');
+const _ = require("lodash");
+
 const mongoose = require("mongoose");
 const Contact = require("../models/contact")();
 const Call = require("../models/call");
 const User = require("../models/user");
 const Number = require("../models/number");
 
-
-const _ = require("lodash");
+const portrait = require('./stats-by-field');
 
 const errorCallback = error => {
     throw error;
 };
 
 function roundp(number, from) {
-    const p = (number/from*100).toFixed(1);
+    const p = ( number / from * 100).toFixed(1);
     const splitted = (p + "").split('.');
     const fst = parseInt( splitted[0] );
     const scnd = parseInt( splitted[1] );
@@ -20,7 +22,7 @@ function roundp(number, from) {
 }
 
 function pround(number, from) {
-    const p = (number*100/from).toFixed(1);
+    const p = (number * 100 / from ).toFixed(1);
     const splitted = (p + "").split('.');
     const fst = parseInt( splitted[0] );
     const scnd = parseInt( splitted[1] );
@@ -33,6 +35,16 @@ module.exports = function getGeneralStats(reportConfig) {
     const account = mongoose.Types.ObjectId(reportConfig.account);
 
     // callbacks
+
+    const allCustomers = customers => ({
+        id: reportConfig.id,
+        account: reportConfig.name,
+        period: {
+          start: moment(startDate).format('D MMMM YYYY'),
+          end: moment(endDate).format('D MMMM YYYY'),
+        },
+        all_customers: customers.map( customer => customer._id )
+    });
 
     const noProfile = data => {
         return Contact.find({
@@ -49,7 +61,8 @@ module.exports = function getGeneralStats(reportConfig) {
     const missing = data => {
         const missingPipeline = data.no_profile.map(id => Call.find({
             contact: mongoose.Types.ObjectId( id ),
-            status: 3
+            status: 3,
+            user: { $exists: false }
         }).count());
 
         return Promise.all( missingPipeline )
@@ -87,17 +100,19 @@ module.exports = function getGeneralStats(reportConfig) {
             Contact.populate( contacts, { path: 'user', model: 'User' },
                 (error, contacts) => {
                     if (error) reject (error);
-                    else resolve(contacts)
+                    else resolve( contacts )
                 }
             );
         }))
-        .then( contacts => Object.assign({}, data, {
-            managers: {
-                no_profile: _(contacts)
-                    .groupBy('user.name')
-                    .mapValues( value => value.length)
-            }
-        }) );
+        .then( contacts => {
+            const remapped = contacts.map(contact => ({ name: contact.user.name }));
+            const summed = remapped.reduce((acc, el) => {
+                acc[el.name] = (acc[el.name] || 0) + 1;
+                return acc;
+            }, {});
+
+            return Object.assign({}, data, { managers_no_profile: summed })
+        });
     };
 
     const badNumbers = data => {
@@ -156,14 +171,21 @@ module.exports = function getGeneralStats(reportConfig) {
     };
 
 
+    const workaround = data => {
+        const clone = _.clone( data );
+        let msum = 0;
+        _.mapKeys(clone.managers_no_profile, (value, key) => { msum += value });
+        clone.no_profile_fix = clone.no_profile.length !== msum
+            ? msum : false;
+        return clone;
+    };
+
+
     // rock & roll!
     return Contact.find({account, created: {$gte: startDate, $lt: endDate}})
 
         // всего обратилось
-        .then(customers => ({
-            account: reportConfig.name,
-            all_customers: customers.map( customer => customer._id )
-        }))
+        .then( allCustomers )
 
         // без профиля
         .then( noProfile )
@@ -183,6 +205,13 @@ module.exports = function getGeneralStats(reportConfig) {
         // хорошие источники
         .then( goodNumbers )
 
-        .catch(errorCallback);
+        // портрет клиента
+        .then( data => portrait( account, startDate, endDate, data ) )
+
+
+        // костыль
+        .then( workaround )
+
+        .catch( errorCallback );
 
 };

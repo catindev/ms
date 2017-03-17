@@ -1,20 +1,16 @@
-const orderBy = require("lodash").orderBy;
+const _ = require("lodash");
 const mongoose = require("mongoose");
 
-const Field = require("../../models/field");
-const Contact = require("../../models/contact")();
+const Field = require("../models/field");
+const Contact = require("../models/contact")();
 
 const errorCallback = error => { throw error; };
 
 let fieldz;
 
-module.exports = function getFieldStats( account, startDateString, endDateString) {
+module.exports = function getFieldStats( account, startDate, endDate, collection ) {
 
-    const startDate = new Date( startDateString ).toISOString();
-    const endDate = new Date( endDateString ).toISOString();
-    const account = mongoose.Types.ObjectId( account );
-
-    return Field.find({ account })
+    return Field.find({ account, type: 'list' })
         .then( findContactsCountForFields )
         .then( findContactsForField )
         .catch( errorCallback );
@@ -26,38 +22,42 @@ module.exports = function getFieldStats( account, startDateString, endDateString
             let query = { account };
             query[field.id] = { $exists: true };
             query.created =  { $gte: startDate };
-            return Contact.find(query).count();
+            return Contact.find(query);
         });
 
         return Promise.all( pipeline );
     }
 
     function findContactsForField( results ) {
-        let query = {};
-        query.$or = accountsList.map(
-            account => ({ account: mongoose.Types.ObjectId( account.id ) })
-        );
 
-        const pipeline = list.map( val => {
+        const portrait = fieldz.map( (field, index) => {
+           const fieldName = field.name;
+           let data = { field: fieldName, count: results[index].length };
 
-            const value = val.replace('\r','');
-            query[id] = value;
-            query.created =  { $gte: startDate };
+           if ( results[index].length === 0 ) {
+               data.values = false;
+               return data;
+           }
 
-            return Contact.find( query ).count()
-                .then( count => ({
-                    value, count,
-                    percents: calcPercents(count, generalCount)
-                }))
-                .catch( errorCallback );
+            data.values = [];
+            const customers = results[index];
+            field.list.forEach( value => {
+                const val = value.replace(/(\r\n|\n|\r)/gm,"");
+
+                const search = customers.filter( customer => {
+                    const clone = customer.toObject();
+                    return clone[field.id] === val;
+                });
+
+                const count = search ? search.length : 0;
+                data.values.push({ name: val, count })
+            });
+
+            data.values = _.orderBy(data.values, 'count', 'desc');
+            data.values = data.values.filter( value => value.count > 0);
+            return data;
         });
 
-        return Promise.all( pipeline )
-            .then( results => ({
-                name: fieldObject.name,
-                values: orderBy(results.filter( result => result.value && result.count > 0 ), 'count', 'desc')
-            }))
-            .catch( errorCallback );
-
+        return Object.assign({}, collection, { portrait });
     }
 };
