@@ -54,7 +54,7 @@ module.exports = function getFieldStats( account, startDate, endDate, collection
             });
 
             data.values = _.orderBy(data.values, 'count', 'desc');
-            data.values = data.values.filter( value => value.count > 1);
+            data.values = data.values.filter( value => value.count > 0);
             data.values.length === 0 && (data.values = false );
             return data;
         });
