@@ -20,21 +20,20 @@
     </ul>
     <% } %>
 
-    <p>
-        Неэффективные источники:
-
-        <% if (!numbers_bad) { %>
-        <b>нет данных</b>
-        <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
-        <% } %>
-    </p>
-
-    <% if (numbers_bad) { %>
-    <br><small>% от нецелевых клиентов</small>
-    <ul>
-        <% numbers_bad.forEach(number => { %>
-        <li><%= number.name %>: <b><%= roundp(number.count, no_target.length) %>%</b></li>
-        <% }); %>
-    </ul>
+    <% if (!numbers_bad) { %>
+        <p>
+            Неэффективные источники: <b>нет данных</b>
+            <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
+        </p>
+    <% } else { %>
+        <p>
+            Неэффективные источники:
+            <br><small>% от нецелевых клиентов</small>
+        </p>
+        <ul>
+            <% numbers_bad.forEach(number => { %>
+            <li><%= number.name %>: <b><%= roundp(number.count, no_target.length) %>%</b></li>
+            <% }); %>
+        </ul>
     <% } %>
 </section>
