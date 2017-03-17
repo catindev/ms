@@ -50,6 +50,7 @@ function roundp(number, from) {
             <li>Обработанные клиенты: <b><%= with_profile.length %></b></li>
         </ul>
 
+        <% if (managers_no_profile && _.values(managers_no_profile)) { %>
         <section>
             <h2>
                 <a id="managers" href="#managers" aria-hidden="true"></a>
@@ -58,10 +59,11 @@ function roundp(number, from) {
             <p>Менеджеры, которым нужно заполнить профили своих клиентов:</p>
             <ul>
                 <% _.mapKeys(managers_no_profile, (value, key) => { %>
-                    <li><%= key %>: <b><%= value %></b></li>
+                <li><%= key %>: <b><%= value %></b></li>
                 <% }); %>
             </ul>
         </section>
+        <% } %>
 
         <section>
             <h2>
@@ -80,19 +82,37 @@ function roundp(number, from) {
                 <a id="adsources" href="#adsources" aria-hidden="true"></a>
                 Эффективность рекламных источников
             </h2>
-            <p>Эффективные источники (% целевых клиентов):</p>
-            <ul>
-                <% numbers_good.forEach(number => { %>
-                <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
-                <% }); %>
-            </ul>
+            <p>
+                Эффективные источники (% целевых клиентов):
+                <% if (!numbers_good) { %>
+                    <b>нет данных</b>
+                    <br><small>Менеджеры не отмечают в профилях целевых клиентов.</small>
+                <% } %>
+            </p>
 
-            <p>Неэффективные источники (% нецелевых клиентов):</p>
-            <ul>
-                <% numbers_bad.forEach(number => { %>
-                <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
-                <% }); %>
-            </ul>
+            <% if (numbers_good) { %>
+                <ul>
+                    <% numbers_good.forEach(number => { %>
+                    <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
+                    <% }); %>
+                </ul>
+            <% } %>
+
+            <p>
+                Неэффективные источники (% нецелевых клиентов):
+                <% if (!numbers_bad) { %>
+                    <b>нет данных</b>
+                    <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
+                <% } %>
+            </p>
+
+            <% if (numbers_bad) { %>
+                <ul>
+                    <% numbers_bad.forEach(number => { %>
+                    <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
+                    <% }); %>
+                </ul>
+            <% } %>
         </section>
 
         <section>
