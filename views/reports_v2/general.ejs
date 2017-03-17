@@ -27,24 +27,28 @@ function roundpw(number, from) {
     <link rel="stylesheet" href="/assets/css/awsm.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans%7CPT+Serif:400,400i,700,700i&amp;subset=cyrillic"
           rel="stylesheet">
+    <style>
+        nav > ul > li { font-size: 1rem; }
+    </style>
 </head>
 <body>
-
-<header style="max-width: 50rem;">
+<header style="max-width: 55rem;margin-bottom: 1em;">
     <h1><%= account %>. Отчёт по клиентам</h1>
     <p>Обращения клиентов с <i><%= period.start %></i> по <i><%= period.end %></i></p>
 
-    <!--    hidden      -->
-    <nav style="display:none">
+    <nav>
         <ul>
-            <li><a href="index.html">Overview</a></li>
-            <li>Elements</li>
+            <li><a href="#funnel">Общий отчёт</a></li>
+            <li><a href="#managers">О менеджерах</a></li>
+            <li><a href="#target">Целевые и нецелевые клиенты</a></li>
+            <li><a href="#adsources">Эффективность источников</a></li>
+            <li><a href="#portrait">Портрет клиента</a></li>
         </ul>
     </nav>
 </header>
 
-<main style="max-width: 50rem; padding-bottom: 2em;">
-    <article style="max-width: 50rem;">
+<main style="max-width: 55rem; padding-bottom: 2em;">
+    <article style="max-width: 55rem;">
         <%- include funnel.ejs %>
 
         <%- include managers.ejs %>
