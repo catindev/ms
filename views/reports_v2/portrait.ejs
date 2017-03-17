@@ -3,24 +3,30 @@
         <a id="portrait" href="#portrait" aria-hidden="true"></a>
         Портрет клиента
     </h2>
-    <p>Подсчёт % клиентов по данным из профилей</p>
+    <p>
+        Подсчёт % клиентов по данным из профилей
+        <br><small>В портрет входят все параметры из профилей значения которых больше 1%</small>
+    </p>
 
     <% portrait.forEach(field => { %>
     <h4><%= field.field %></h4>
 
     <% if (field.values) { %>
-    <p>
-        Клиентов у которых заполнен этот параметр:  <b><%= field.count %></b>
-        <br/><small>
-            Это <b><%= roundp(field.count, target.length) %>%</b> от общего количества целевых клиентов. Из них:
-        </small>
-    </p>
-    <ul><% field.values.forEach(value => { %>
-        <li><%= value.name %>: <b><%= roundp(value.count, field.count) %>%</b></li>
-        <% }); %></ul>
+        <p>
+            Клиентов у которых заполнен этот параметр:  <b><%= field.count %></b>
+            <br/><small>
+                Это <b><%= roundp(field.count, target.length) %>%</b> от общего количества целевых клиентов. Из них:
+            </small>
+        </p>
+
+        <ul>
+            <% field.values.forEach(value => { %>
+                <li><%= value.name %>: <b><%= roundp(value.count, field.count) %>%</b></li>
+            <% }); %>
+        </ul>
     <% } else { %>
-    <p><small>
-            За отчётный период нет клиентов у которых заполнен этот параметр в профиле.
+        <p><small>
+                За отчётный период нет клиентов у которых заполнен этот параметр в профиле.
         </small></p>
     <% } %>
 

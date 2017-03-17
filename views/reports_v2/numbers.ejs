@@ -4,7 +4,8 @@
         Эффективность рекламных источников
     </h2>
     <p>
-        Эффективные источники (% целевых клиентов):
+        Эффективные источники:
+        <br><small>% от целевых клиентов</small>
         <% if (!numbers_good) { %>
         <b>нет данных</b>
         <br><small>Менеджеры не отмечают в профилях целевых клиентов.</small>
@@ -14,13 +15,14 @@
     <% if (numbers_good) { %>
     <ul>
         <% numbers_good.forEach(number => { %>
-        <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
+        <li><%= number.name %>: <b><%= roundp(number.count, target.length) %>%</b></li>
         <% }); %>
     </ul>
     <% } %>
 
     <p>
-        Неэффективные источники (% нецелевых клиентов):
+        Неэффективные источники:
+        <br><small>% от нецелевых клиентов</small>
         <% if (!numbers_bad) { %>
         <b>нет данных</b>
         <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
@@ -30,7 +32,7 @@
     <% if (numbers_bad) { %>
     <ul>
         <% numbers_bad.forEach(number => { %>
-        <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
+        <li><%= number.name %>: <b><%= roundp(number.count, no_target.length) %>%</b></li>
         <% }); %>
     </ul>
     <% } %>
