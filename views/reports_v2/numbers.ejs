@@ -1,0 +1,37 @@
+<section>
+    <h2>
+        <a id="adsources" href="#adsources" aria-hidden="true"></a>
+        Эффективность рекламных источников
+    </h2>
+    <p>
+        Эффективные источники (% целевых клиентов):
+        <% if (!numbers_good) { %>
+        <b>нет данных</b>
+        <br><small>Менеджеры не отмечают в профилях целевых клиентов.</small>
+        <% } %>
+    </p>
+
+    <% if (numbers_good) { %>
+    <ul>
+        <% numbers_good.forEach(number => { %>
+        <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
+        <% }); %>
+    </ul>
+    <% } %>
+
+    <p>
+        Неэффективные источники (% нецелевых клиентов):
+        <% if (!numbers_bad) { %>
+        <b>нет данных</b>
+        <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
+        <% } %>
+    </p>
+
+    <% if (numbers_bad) { %>
+    <ul>
+        <% numbers_bad.forEach(number => { %>
+        <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
+        <% }); %>
+    </ul>
+    <% } %>
+</section>

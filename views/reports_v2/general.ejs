@@ -38,113 +38,18 @@ function roundp(number, from) {
     </nav>
 </header>
 
-<main style="max-width: 60rem;padding-bottom: 2em;">
+<main style="max-width: 60rem; padding-bottom: 2em;">
     <article style="max-width: 60rem;">
-        <h1>Общий отчёт</h1>
-        <p>Воронка клиентов:</p>
-        <ul>
-            <li>Всего обращений: <b><%= all_customers.length %></b></li>
-            <li>Клиенты, которым никто не ответил: <b><%= missing.length %></b></li>
-            <li>Клиенты, у которых не заполнен профиль: <b><%= no_profile_fix || no_profile.length %></b></li>
-            <hr style="margin: .5em 0;">
-            <li>Обработанные клиенты: <b><%= with_profile.length %></b></li>
-        </ul>
+        <%- include funnel.ejs %>
 
-        <% if (managers_no_profile && _.values(managers_no_profile)) { %>
-        <section>
-            <h2>
-                <a id="managers" href="#managers" aria-hidden="true"></a>
-                Отчёт по менеджерам
-            </h2>
-            <p>Менеджеры, которым нужно заполнить профили своих клиентов:</p>
-            <ul>
-                <% _.mapKeys(managers_no_profile, (value, key) => { %>
-                <li><%= key %>: <b><%= value %></b></li>
-                <% }); %>
-            </ul>
-        </section>
-        <% } %>
+        <%- include managers.ejs %>
 
-        <section>
-            <h2>
-                <a id="target" href="#target" aria-hidden="true"></a>
-                Целевые и нецелевые клиенты
-            </h2>
-            <p>Клиенты с заполненными профилями и распределённые на целевых и не целевых:</p>
-            <ul>
-                <li>Целевых: <b><%= target.length %></b></li>
-                <li>Нецелевых: <b><%= no_target.length %></b></li>
-            </ul>
-        </section>
+        <%- include target.ejs %>
 
-        <section>
-            <h2>
-                <a id="adsources" href="#adsources" aria-hidden="true"></a>
-                Эффективность рекламных источников
-            </h2>
-            <p>
-                Эффективные источники (% целевых клиентов):
-                <% if (!numbers_good) { %>
-                    <b>нет данных</b>
-                    <br><small>Менеджеры не отмечают в профилях целевых клиентов.</small>
-                <% } %>
-            </p>
+        <%- include numbers.ejs %>
 
-            <% if (numbers_good) { %>
-                <ul>
-                    <% numbers_good.forEach(number => { %>
-                    <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
-                    <% }); %>
-                </ul>
-            <% } %>
-
-            <p>
-                Неэффективные источники (% нецелевых клиентов):
-                <% if (!numbers_bad) { %>
-                    <b>нет данных</b>
-                    <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
-                <% } %>
-            </p>
-
-            <% if (numbers_bad) { %>
-                <ul>
-                    <% numbers_bad.forEach(number => { %>
-                    <li><%= number.name %>: <b><%= roundp(number.count, all_customers.length) %>%</b></li>
-                    <% }); %>
-                </ul>
-            <% } %>
-        </section>
-
-        <section>
-            <h2>
-                <a id="portrait" href="#portrait" aria-hidden="true"></a>
-                Портрет клиента
-            </h2>
-            <p>Подсчёт % клиентов по данным из профилей</p>
-
-            <% portrait.forEach(field => { %>
-            <h4><%= field.field %></h4>
-
-            <% if (field.values) { %>
-                <p>
-                    Клиентов у которых заполнен этот параметр:  <b><%= field.count %></b>
-                    <br/><small>
-                        Это <b><%= roundp(field.count, target.length) %>%</b> от общего количества целевых клиентов. Из них:
-                    </small>
-                </p>
-                <ul><% field.values.forEach(value => { %>
-                    <li><%= value.name %>: <b><%= roundp(value.count, field.count) %>%</b></li>
-                <% }); %></ul>
-            <% } else { %>
-                <p><small>
-                        За отчётный период нет клиентов у которых заполнен этот параметр в профиле.
-                    </small></p>
-            <% } %>
-
-            <hr style="margin: .5em 0;">
-            <% }); %>
-        </section>
-
+        <%- include portrait.ejs %>
+    </article>
 </main>
 
 </body>

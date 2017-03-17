@@ -1,0 +1,14 @@
+<% if (managers_no_profile && _.values(managers_no_profile)) { %>
+<section>
+    <h2>
+        <a id="managers" href="#managers" aria-hidden="true"></a>
+        Отчёт по менеджерам
+    </h2>
+    <p>Менеджеры, которым нужно заполнить профили своих клиентов:</p>
+    <ul>
+        <% _.mapKeys(managers_no_profile, (value, key) => { %>
+        <li><%= key %>: <b><%= value %></b></li>
+        <% }); %>
+    </ul>
+</section>
+<% } %>

@@ -111,7 +111,7 @@ module.exports = function getGeneralStats(reportConfig) {
                 return acc;
             }, {});
 
-            return Object.assign({}, data, { managers_no_profile: summed })
+            return Object.assign({}, data, { managers_no_profile: summed || false })
         });
     };
 
