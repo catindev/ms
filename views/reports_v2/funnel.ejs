@@ -1,9 +1,23 @@
 <h1>Общий отчёт</h1>
-<p>Воронка клиентов:</p>
+<p>Воронка клиентов за отчётный период:</p>
 <ul>
     <li>Всего обращений: <b><%= all_customers.length %></b></li>
-    <li>Клиенты, которым никто не ответил: <b><%= missing.length %></b></li>
-    <li>Клиенты, у которых не заполнен профиль: <b><%= no_profile_fix || no_profile.length %></b></li>
+
+    <% if (missing.length){ %>
+        <li>Клиенты, которым никто не ответил: <b><%= missing.length %></b></li>
+    <% } else { %>
+        <li>Менеджеры поговорили со всеми этими клиентами</li>
+    <% } %>
+
+
+    <% if (!no_profile_fix && !no_profile.length){ %>
+        <li>У всех клиентов заполнен профиль</li>
+    <% } else { %>
+        <li>Клиенты, у которых не заполнен профиль: <b><%= no_profile_fix || no_profile.length %></b></li>
+    <% } %>
+
+
+
     <hr style="margin: .5em 0;">
     <li>Обработанные клиенты: <b><%= with_profile.length %></b></li>
 </ul>

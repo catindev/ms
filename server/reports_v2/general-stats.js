@@ -10,6 +10,7 @@ const Number = require("../models/number");
 const portrait = require('./stats-by-field');
 
 const errorCallback = error => {
+    console.log(error.stack)
     throw error;
 };
 
@@ -53,7 +54,7 @@ module.exports = function getGeneralStats(reportConfig) {
             name: {$exists: false}
         })
             .then( contacts => Object.assign({}, data, {
-                no_profile: contacts.map( contact => contact._id)
+                no_profile: contacts.map( contact => contact._id) || false
             }))
             .catch(errorCallback);
     };
@@ -66,10 +67,14 @@ module.exports = function getGeneralStats(reportConfig) {
         }).count());
 
         return Promise.all( missingPipeline )
-            .then( counts => Object.assign({}, data, {
-                missing: data.no_profile.filter( (item, index) => counts[index] === 0 ),
-                no_profile: data.no_profile.filter( (item, index) => counts[index] > 0 )
-            }) );
+            .then( counts => {
+                const missing = data.no_profile.filter( (item, index) => counts[index] === 0 );
+                const no_profile_recalc = data.no_profile.filter( (item, index) => counts[index] > 0 );
+                return Object.assign({}, data, { missing,
+                    no_profile: no_profile_recalc ? no_profile_recalc : false
+                })
+
+            });
     };
 
     const withProfile = data => {
@@ -87,8 +92,8 @@ module.exports = function getGeneralStats(reportConfig) {
     };
 
     const managersProfile = data => {
-        if ( data.no_profile.length === 0 )
-            return Object.assign({}, data, { managers: { no_profile: false } });
+        if ( !data.no_profile )
+            return Object.assign({}, data, { managers_no_profile: false });
 
         return Contact.find({
             account,
@@ -111,7 +116,7 @@ module.exports = function getGeneralStats(reportConfig) {
                 return acc;
             }, {});
 
-            return Object.assign({}, data, { managers_no_profile: summed || false })
+            return Object.assign({}, data, { managers_no_profile: summed })
         });
     };
 
@@ -172,6 +177,7 @@ module.exports = function getGeneralStats(reportConfig) {
 
 
     const workaround = data => {
+        if ( !data.no_profile ) return data;
         const clone = _.clone( data );
         let msum = 0;
         _.mapKeys(clone.managers_no_profile, (value, key) => { msum += value });
