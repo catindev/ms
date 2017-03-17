@@ -13,7 +13,7 @@
 
     <% if (field.values) { %>
 
-        <% const $perc = roundp(field.count, target.length); %>
+        <% const $perc = roundpw(field.count, target.length); %>
 
         <p><small>
             <% if ( $perc <= 50 && $perc < 100 ) { %>
@@ -28,7 +28,7 @@
 
         <ul>
             <% field.values.forEach(value => { %>
-                <li><%= value.name %>: <b><%= roundp(value.count, field.count) %>%</b></li>
+                <li><%= value.name %> — <b><%= roundp(value.count, field.count) %>%</b></li>
             <% }); %>
         </ul>
     <% } else { %>

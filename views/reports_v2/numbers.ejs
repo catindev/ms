@@ -3,26 +3,27 @@
         <a id="adsources" href="#adsources" aria-hidden="true"></a>
         Эффективность рекламных источников
     </h2>
-    <p>
-        Эффективные источники:
-        <br><small>% от целевых клиентов</small>
-        <% if (!numbers_good) { %>
-        <b>нет данных</b>
-        <br><small>Менеджеры не отмечают в профилях целевых клиентов.</small>
-        <% } %>
-    </p>
 
-    <% if (numbers_good) { %>
-    <ul>
-        <% numbers_good.forEach(number => { %>
-        <li><%= number.name %>: <b><%= roundp(number.count, target.length) %>%</b></li>
-        <% }); %>
-    </ul>
+    <% if ( !numbers_good ) { %>
+        <p>
+            Эффективные источники — <b>нет данных</b>
+            <br><small>Менеджеры не отмечают в профилях целевых клиентов.</small>
+        </p>
+    <% } else { %>
+        <p>
+            Эффективные источники:
+            <br><small>% от целевых клиентов</small>
+        </p>
+        <ul>
+            <% numbers_good.forEach(number => { %>
+            <li><%= number.name %> — <b><%= roundp(number.count, target.length) %>%</b></li>
+            <% }); %>
+        </ul>
     <% } %>
 
     <% if (!numbers_bad) { %>
         <p>
-            Неэффективные источники: <b>нет данных</b>
+            Неэффективные источники — <b>нет данных</b>
             <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
         </p>
     <% } else { %>
@@ -32,7 +33,7 @@
         </p>
         <ul>
             <% numbers_bad.forEach(number => { %>
-            <li><%= number.name %>: <b><%= roundp(number.count, no_target.length) %>%</b></li>
+                <li><%= number.name %> — <b><%= roundp(number.count, no_target.length) %>%</b></li>
             <% }); %>
         </ul>
     <% } %>

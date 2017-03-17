@@ -6,14 +6,14 @@
     <p>Клиенты с заполненными профилями и распределённые на целевых и не целевых:</p>
     <ul>
 
-        <% if(target.length) { %>
-            <li>Целевых: <b><%= target.length %></b></li>
+        <% if ( target.length ) { %>
+            <li>Целевых — <b><%= target.length %></b></li>
         <% } else { %>
             <li>Целевых нет</li>
         <% } %>
 
-        <% if(no_target.length) { %>
-            <li>Нецелевых: <b><%= no_target.length %></b></li>
+        <% if ( no_target.length ) { %>
+            <li>Нецелевых — <b><%= no_target.length %></b></li>
         <% } else { %>
             <li>Нецелевых нет <br><small>Возможно менеджеры заполняют профили неправильно</small></li>
         <% } %>

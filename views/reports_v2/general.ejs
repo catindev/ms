@@ -1,4 +1,5 @@
 <%
+
 function roundp(number, from) {
     const p = ( number / from * 100).toFixed(1);
     const splitted = (p + "").split('.');
@@ -6,6 +7,11 @@ function roundp(number, from) {
     const scnd = parseInt(splitted[1]);
     return scnd === 0 ? fst : p;
 }
+
+function roundpw(number, from) {
+    return Math.round( number / from * 100);
+}
+
 %>
 <!DOCTYPE html>
 <html lang="en">

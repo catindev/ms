@@ -7,7 +7,7 @@
     <p>Менеджеры, которым нужно заполнить профили своих клиентов:</p>
     <ul>
         <% _.mapKeys(managers_no_profile, (value, key) => { %>
-        <li><%= key %>: <b><%= value %></b></li>
+            <li><%= key %> — <b><%= value %></b></li>
         <% }); %>
     </ul>
 </section>
