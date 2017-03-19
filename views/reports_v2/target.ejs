@@ -1,3 +1,8 @@
+<style>
+    .tpb {
+        padding-bottom: 15px;
+    }
+</style>
 <section>
     <h2>
         <a id="target" href="#target" aria-hidden="true"></a>
@@ -9,9 +14,9 @@
     <ul>
 
         <% if ( target.length ) { %>
-            <li>Целевых — <b><%= target.length %></b></li>
+            <li class="tpb">Целевых — <b><%= target.length %></b></li>
         <% } else { %>
-            <li>Целевых нет</li>
+            <li class="tpb">Целевых нет</li>
         <% } %>
 
         <% if ( no_target.length ) { %>
