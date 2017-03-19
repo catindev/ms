@@ -9,26 +9,9 @@ const Number = require("../models/number");
 
 const portrait = require('./stats-by-field');
 
-const errorCallback = error => {
-    console.log(error.stack)
-    throw error;
-};
-
-function roundp(number, from) {
-    const p = ( number / from * 100).toFixed(1);
-    const splitted = (p + "").split('.');
-    const fst = parseInt( splitted[0] );
-    const scnd = parseInt( splitted[1] );
-    return scnd === 0 ? fst : p;
-}
-
-function pround(number, from) {
-    const p = (number * 100 / from ).toFixed(1);
-    const splitted = (p + "").split('.');
-    const fst = parseInt( splitted[0] );
-    const scnd = parseInt( splitted[1] );
-    return scnd === 0 ? fst : p;
-}
+// lib
+const $ = require('./lib');
+const errorCallback = $.errorCallback;
 
 module.exports = function getGeneralStats(reportConfig) {
     const startDate = new Date(reportConfig.date.start).toISOString();
@@ -37,105 +20,6 @@ module.exports = function getGeneralStats(reportConfig) {
 
     // callbacks
 
-    const allCustomers = customers => ({
-        id: reportConfig.id,
-        account: reportConfig.name,
-        period: {
-          start: moment(startDate).format('D MMMM YYYY'),
-          end: moment(endDate).format('D MMMM YYYY'),
-        },
-        all_customers: customers.map( customer => customer._id )
-    });
-
-    const noProfile = data => {
-        return Contact.find({
-            account,
-            created: {$gte: startDate, $lt: endDate},
-            name: {$exists: false}
-        })
-            .then( contacts => Object.assign({}, data, {
-                no_profile: contacts.map( contact => contact._id) || false
-            }))
-            .catch(errorCallback);
-    };
-
-    const missing = data => {
-        const missingPipeline = data.no_profile.map(id => Call.find({
-            contact: mongoose.Types.ObjectId( id ),
-            status: 3,
-            user: { $exists: false }
-        }).count());
-
-        return Promise.all( missingPipeline )
-            .then( counts => {
-                const missing = data.no_profile.filter( (item, index) => counts[index] === 0 );
-                const no_profile_recalc = data.no_profile.filter( (item, index) => counts[index] > 0 );
-                return Object.assign({}, data, { missing,
-                    no_profile: no_profile_recalc ? no_profile_recalc : false
-                })
-
-            });
-    };
-
-    const withProfile = data => {
-        return Contact.find({
-            account,
-            created: {$gte: startDate, $lt: endDate},
-            name: {$exists: true}
-        })
-            .then( contacts => {
-                const newData = Object.assign({}, data, {
-                    with_profile: contacts.map( contact => contact._id),
-                    no_target: (contacts.filter( contact => contact.noTargetReason )).map( contact => contact._id ),
-                    target: (contacts.filter( contact => !contact.noTargetReason )).map( contact => contact._id ),
-                });
-
-                return { contacts, data: newData }
-            })
-            .then( ({ contacts, data }) => {
-                if ( !data.no_target.length ) return data;
-
-                const no_target = contacts.filter(contact => contact.noTargetReason );
-                const remapped = no_target.map( ({ noTargetReason }) => ({ reason: noTargetReason }));
-                const summed = remapped.reduce((acc, el) => {
-                    acc[el.reason] = (acc[el.reason] || 0) + 1;
-                    return acc;
-                }, {});
-
-                return Object.assign({}, data, { no_target_reasons: summed })
-
-            })
-            .catch(errorCallback);
-    };
-
-    const managersProfile = data => {
-        if ( !data.no_profile )
-            return Object.assign({}, data, { managers_no_profile: false });
-
-        return Contact.find({
-            account,
-            created: { $gte: startDate, $lt: endDate },
-            name: { $exists: false },
-            user: { $exists: true }
-        })
-        .then( contacts => new Promise((resolve, reject) => {
-            Contact.populate( contacts, { path: 'user', model: 'User' },
-                (error, contacts) => {
-                    if (error) reject (error);
-                    else resolve( contacts )
-                }
-            );
-        }))
-        .then( contacts => {
-            const remapped = contacts.map(contact => ({ name: contact.user.name }));
-            const summed = remapped.reduce((acc, el) => {
-                acc[el.name] = (acc[el.name] || 0) + 1;
-                return acc;
-            }, {});
-
-            return Object.assign({}, data, { managers_no_profile: summed })
-        });
-    };
 
     const badNumbers = data => {
         if (data.no_target.length === 0 )
@@ -205,25 +89,27 @@ module.exports = function getGeneralStats(reportConfig) {
 
 
     // rock & roll!
-    return Contact.find({account, created: {$gte: startDate, $lt: endDate}})
+    return Contact.find({ account, created: { $gte: startDate, $lt: endDate } })
 
         // всего обратилось
-        .then( allCustomers )
+        // .then( allCustomers )
+
+        .then( $.getAllCustomersStats(reportConfig) )
 
         // без профиля
-        .then( noProfile )
+        .then( $.getCustomersWithoutProfile(reportConfig) )
 
         // не ответили
-        .then( missing )
+        .then( $.getCustomersWithMissingCallsOnly )
 
-        // с профилем
-        .then( withProfile )
+        // с профилем, целевые и нецелевые
+        .then( $.getCustomersWithProfileTargetAndNotarger(reportConfig) )
 
         // заполнить профили
-        .then( managersProfile )
+        .then( $.getBadManagers(reportConfig) )
 
         // хуёвые источники
-        .then( badNumbers )
+        .then( $.getBadNumbers(reportConfig) )
 
         // хорошие источники
         .then( goodNumbers )
