@@ -11,7 +11,7 @@ module.exports = (request, response) => {
         return response.render( 'reports/error' );
     }
 
-    const render = data => response.render( 'reports_v2/general', Object.assign({}, data, { _ }) );
+    const render = data => response.render( 'reports/', Object.assign({}, data, { _ }) );
 
     calculate( report )
         // .then(  data => response.json(data) )

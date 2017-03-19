@@ -1,123 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Mindsales CRM</title>
-    <meta name="description" content="Статистика по рекламным источникам" />
+<section>
+    <h2>
+        <a id="adsources" href="#adsources" aria-hidden="true"></a>
+        Эффективность рекламных источников
+    </h2>
 
-    <meta property="og:title" content="Mindsales CRM: <%= customer %>"/>
-    <meta property="og:description" content="Статистика по рекламным источникам"/>
-    <meta property="og:image" content="http://mindsales-crm.com/assets/images/report-splash.png">
-    <meta property="og:type" content="article"/>
-    <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>/numbers" />
+    <% if ( !numbers_good ) { %>
+        <p>
+            Эффективные источники — <b>нет данных</b>
+            <br><small>Менеджеры не отмечают в профилях целевых клиентов.</small>
+        </p>
+    <% } else { %>
+        <p>
+            Эффективные источники:
+            <br><small>% от целевых клиентов</small>
+        </p>
+        <ul>
+            <% numbers_good.forEach(number => { %>
+            <li><%= number.name %> — <b><%= roundp(number.count, target.length) %>%</b></li>
+            <% }); %>
+        </ul>
+    <% } %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
-
-    <!-- amCharts javascript sources -->
-    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
-
-    <style>
-        body {
-            padding: 0; margin: 0;
-            font-family:"Helvetica Neue",Helvetica,Verdana,sans-serif;
-            background: #E7E6E1;
-        }
-        a[title="JavaScript charts"] {
-            display: none !important;
-        }
-
-        .ml {
-            display: inline-block;
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            color: #fff;
-        }
-
-        .ml-active {
-            color: #FFAD01;
-        }
-
-        .nl {
-            display: inline-block;
-            padding: 2rem 1rem;
-            font-size: 1rem;
-            color: #fff;
-        }
-
-        .nl-active {
-            color: #FFAD01;
-        }
-    </style>
-</head>
-<body>
-
-<div style="text-align: center;background: #000;">
-    <a href="/report/<%= reportID %>" class="ml">Общий отчёт</a>
-    <a href="/report/<%= reportID %>/managers" class="ml">Отдел продаж</a>
-    <a class="ml ml-active">Маркетинг</a>
-</div>
-
-<div style="text-align: center;background: #000;">
-    <a href="/report/<%= reportID %>/bad-numbers" class="nl">Нецелевой траффик</a>
-    <a class="nl nl-active">Детализация по источникам</a>
-</div>
-
-<div style="height: 1rem;"></div>
-
-<div style="text-align: center;">
-    <h1>Cтатистика по рекламным источникам</h1>
-    <h2>c <%= range.start %> по <%= range.end %></h2>
-</div>
-
-<div style="height: 1.5rem;"></div>
-
-
-<% numbers.forEach( function (number, index) { %>
-<div style="text-align: center;font-family: Verdana;">
-    <h3><%= number.name %> (всего <%= number['all customers'] %>)</h3>
-</div>
-<div id="chartdiv<%= index %>" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
-<div style="height: 1.5rem;"></div>
-<script type="text/javascript">
-    AmCharts.makeChart("chartdiv<%= index %>",
-        {
-            "type": "pie",
-            "balloonText": "[[title]]",
-            "marginBottom": 5,
-            "titleField": "category",
-            "valueField": "column-1",
-            "fontSize": 14,
-            "theme": "default",
-            "allLabels": [],
-            "balloon": {},
-            "legend": {
-                "enabled": true,
-                "align": "center",
-                "labelWidth": 0,
-                "markerType": "circle",
-                "maxColumns": -1,
-                "rollOverGraphAlpha": 0.13
-            },
-            "titles": [],
-            "dataProvider": [
-                {
-                    "category": "Целевые клиенты",
-                    "column-1": "<%= number['valid customers'] %>"
-                },
-                {
-                    "category": "Не целевые",
-                    "column-1": "<%= number['invalid customers'] %>"
-                },
-                {
-                    "category": "Профиль не заполнен",
-                    "column-1": "<%= number['without profile'] %>"
-                }
-            ]
-        }
-    );
-</script>
-<% }); %>
-
-
-</body>
-</html>
+    <% if (!numbers_bad) { %>
+        <p>
+            Неэффективные источники — <b>нет данных</b>
+            <br><small>Менеджеры не отмечают в профилях нецелевых клиентов.</small>
+        </p>
+    <% } else { %>
+        <p>
+            Неэффективные источники:
+            <br><small>% от нецелевых клиентов</small>
+        </p>
+        <ul>
+            <% numbers_bad.forEach(number => { %>
+                <li><%= number.name %> — <b><%= roundp(number.count, no_target.length) %>%</b></li>
+            <% }); %>
+        </ul>
+    <% } %>
+</section>

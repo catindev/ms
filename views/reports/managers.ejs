@@ -1,123 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Mindsales CRM</title>
-    <meta name="description" content="Статистика по менеджерам" />
-
-    <meta property="og:title" content="Mindsales CRM: <%= customer %>"/>
-    <meta property="og:description" content="Статистика по менеджерам"/>
-    <meta property="og:image" content="http://mindsales-crm.com/assets/images/report-splash.png">
-    <meta property="og:type" content="article"/>
-    <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>/managers" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
-
-    <!-- amCharts javascript sources -->
-    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
-
-    <style>
-        body {
-            padding: 0; margin: 0;
-            font-family:"Helvetica Neue",Helvetica,Verdana,sans-serif;
-            background: #E7E6E1;
-        }
-        a[title="JavaScript charts"] {
-            display: none !important;
-        }
-
-        .ml {
-            display: inline-block;
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            color: #fff;
-        }
-
-        .ml-active {
-            color: #FFAD01;
-        }
-
-        .nl {
-            display: inline-block;
-            padding: 2rem 1rem;
-            font-size: 1rem;
-            color: #fff;
-        }
-
-        .nl-active {
-            color: #FFAD01;
-        }
-    </style>
-</head>
-<body>
-
-<div style="text-align: center;background: #000;">
-    <a href="/report/<%= reportID %>" class="ml">Общий отчёт</a>
-    <a class="ml ml-active">Отдел продаж</a>
-    <a href="/report/<%= reportID %>/bad-numbers" class="ml">Маркетинг</a>
-</div>
-
-<div style="text-align: center;background: #000;">
-    <a class="nl nl-active">Менеджеры</a>
-    <a href="/report/<%= reportID %>/fields" class="nl">Портрет клиента</a>
-</div>
-
-<div style="height: 1rem;"></div>
-
-<div style="text-align: center;">
-    <h1>Cтатистика по менеджерам</h1>
-    <h2>c <%= range.start %> по <%= range.end %></h2>
-</div>
-
-<div style="height: 1.5rem;"></div>
-
-
-<% managers.forEach( function (manager, index) { %>
-<div style="text-align: center;font-family: Verdana;">
-    <h3><%= manager.name %> (всего <%= manager['all customers'] %>)</h3>
-</div>
-<div id="chartdiv<%= index %>" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
-<div style="height: 1.5rem;"></div>
-<script type="text/javascript">
-    AmCharts.makeChart("chartdiv<%= index %>",
-        {
-            "type": "pie",
-            "balloonText": "[[title]]",
-            "marginBottom": 5,
-            "titleField": "category",
-            "valueField": "column-1",
-            "fontSize": 14,
-            "theme": "default",
-            "allLabels": [],
-            "balloon": {},
-            "legend": {
-                "enabled": true,
-                "align": "center",
-                "labelWidth": 0,
-                "markerType": "circle",
-                "maxColumns": -1,
-                "rollOverGraphAlpha": 0.13
-            },
-            "titles": [],
-            "dataProvider": [
-                {
-                    "category": "Целевые",
-                    "column-1": "<%= manager['valid customers'] %>"
-                },
-                {
-                    "category": "Нецелевые",
-                    "column-1": "<%= manager['invalid customers'] %>"
-                },
-                {
-                    "category": "Профиль не заполнен",
-                    "column-1": "<%= manager['without profile'] %>"
-                }
-            ]
-        }
-    );
-</script>
-<% }); %>
-
-
-</body>
-</html>
+<% if (managers_no_profile && (_.values(managers_no_profile)).length !== 0) { %>
+<section>
+    <h2>
+        <a id="managers" href="#managers" aria-hidden="true"></a>
+        О менеджерах
+    </h2>
+    <p>Менеджеры, которым нужно заполнить профили своих клиентов:</p>
+    <ul>
+        <% _.mapKeys(managers_no_profile, (value, key) => { %>
+            <li><%= key %> — <b><%= value %></b></li>
+        <% }); %>
+    </ul>
+</section>
+<% } %>

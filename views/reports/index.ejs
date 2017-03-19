@@ -1,103 +1,88 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Mindsales CRM</title>
-    <meta name="description" content="Статистика по лидам c <%= range.start %> по <%= range.end %>" />
+<%
 
-    <meta property="og:title" content="<%= customer %>: cтатистика по лидам"/>
-    <meta property="og:description" content="c <%= range.start %> по <%= range.end %>"/>
+function roundp(number, from) {
+    const p = ( number / from * 100).toFixed(1);
+    const splitted = (p + "").split('.');
+    const fst = parseInt(splitted[0]);
+    const scnd = parseInt(splitted[1]);
+    return scnd === 0 ? fst : p;
+}
+
+function roundpw(number, from) {
+    return Math.round( number / from * 100);
+}
+
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindsales: Отчёт</title>
+    <meta property="og:title" content="<%= account %>: отчёт по клиентам"/>
+    <meta property="og:description" content="c <%= period.start %> по <%= period.end %>"/>
     <meta property="og:image" content="http://mindsales-crm.com/assets/images/report-splash.png">
     <meta property="og:type" content="article"/>
-    <meta property="og:url" content= "http://mindsales-crm.com/report/<%= reportID %>" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
-
-    <!-- amCharts javascript sources -->
-    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-    <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
-
-    <style>
-        body {
-            padding: 0; margin: 0;
-            font-family:"Helvetica Neue",Helvetica,Verdana,sans-serif;
-            background: #E7E6E1;
-        }
-        a[title="JavaScript charts"] {
-            display: none !important;
-        }
-
-        .ml {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border: 1px;
-            font-size: 1.2rem;
-            color: #fff;
-        }
-
-        .ml-active {
-            color: #FFAD01;
-        }
-    </style>
-
-    <script type="text/javascript">
-        AmCharts.makeChart("chartdiv",
-            {
-                "type": "pie",
-                "balloonText": "[[title]]",
-                "marginBottom": 5,
-                "titleField": "category",
-                "valueField": "column-1",
-                "fontSize": 14,
-                "theme": "default",
-                "allLabels": [],
-                "balloon": {},
-                "legend": {
-                    "enabled": true,
-                    "align": "center",
-                    "labelWidth": 0,
-                    "markerType": "circle",
-                    "maxColumns": -1,
-                    "rollOverGraphAlpha": 0.13
-                },
-                "titles": [],
-                "dataProvider": [
-                    {
-                        "category": "Целевые клиенты",
-                        "column-1": "<%= general['valid customers'] %>"
-                    },
-                    {
-                        "category": "Не целевые",
-                        "column-1": "<%= general['invalid customers'] %>"
-                    },
-                    {
-                        "category": "Профиль не заполнен",
-                        "column-1": "<%= general['without profile'] %>"
-                    }
-                ]
-            }
-        );
-    </script>
-
+    <meta property="og:url" content="http://mindsales-crm.com/rprt/<%= id %>"/>
+    <link rel="stylesheet" href="/assets/css/awsm.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans%7CPT+Serif:400,400i,700,700i&amp;subset=cyrillic"
+          rel="stylesheet">
 </head>
 <body>
 
-<div style="text-align: center;background: #000;">
-    <a class="ml ml-active">Общий отчёт</a>
-    <a href="/report/<%= reportID %>/managers" class="ml">Отдел продаж</a>
-    <a href="/report/<%= reportID %>/bad-numbers" class="ml">Маркетинг</a>
-</div>
+<header style="max-width: 50rem;margin-bottom: 1em;">
+    <h1 id="top"><%= account %>. Отчёт по клиентам</h1>
+    <p>Обращения клиентов с <i><%= period.start %></i> по <i><%= period.end %></i></p>
+</header>
 
-<div style="height: 1rem;"></div>
+<main style="max-width: 50rem; padding-bottom: 2em;">
+    <article style="max-width: 50rem;">
+        <%- include funnel.ejs %>
 
-<div style="text-align: center;">
-    <h1>Общая статистика по лидам</h1>
-    <h2>c <%= range.start %> по <%= range.end %></h2>
-    <p style="padding-top: 2rem; font-size: 1.5rem;">
-        Всего лидов <strong><%= general['all customers'] %></strong>
-    </p>
-</div>
+        <%- include managers.ejs %>
 
-<div id="chartdiv" style="width: 100%; min-height: 500px; background-color: #eee;" ></div>
-<div style="height: 2rem;"></div>
+        <%- include target.ejs %>
+
+        <%- include numbers.ejs %>
+
+        <%- include portrait.ejs %>
+    </article>
+</main>
+
 </body>
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function () {
+            try {
+                w.yaCounter40269234 = new Ya.Metrika({
+                    id: 40269234,
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true,
+                    webvisor: true,
+                    trackHash: true
+                });
+            } catch (e) {
+            }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () {
+                n.parentNode.insertBefore(s, n);
+            };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else {
+            f();
+        }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/40269234" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
 </html>
