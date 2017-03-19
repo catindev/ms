@@ -24,14 +24,17 @@ const dateToISO = date => new Date(date).toISOString();
 
 /* Calculators */
 
-const getAllCustomersStats = ({ id, name, date }) => customers => ({
+const getCustomers = ({ account, date }) => Contact.find({
+    account: strToOID(account),
+    created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) }
+}).then(customers => ({
     id: id, account: name,
     period: {
         start: formatDate(date.start) ,
         end: formatDate(date.end),
     },
     all_customers: customers.map( customer => customer._id )
-});
+}));
 
 const getCustomersWithoutProfile = ({ account, name, date }) => data => {
     return Contact.find({
@@ -152,13 +155,44 @@ const getBadNumbers = ({ account, date }) => data => {
         }) );
 };
 
+const getGoodNumbers = ({ date }) => data => {
+    if (data.with_profile.length === 0 )
+        return Object.assign({}, data, { numbers_good: false });
+
+    let numberz;
+    return Number.find({ account })
+        .then( numbers => {
+            numberz = numbers;
+            const pipeline = numbers.map( number => Contact.find({
+                created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) },
+                noTargetReason: { $exists: false },
+                name: { $exists: true }
+            }).count());
+            return Promise.all( pipeline );
+        })
+        .then( contacts => Object.assign({}, data, {
+            numbers_good: _.orderBy(
+                ( numberz.map(
+                    (number, index) => {
+                        return {
+                            name: number.name,
+                            count: contacts[index]
+                        }
+                    }
+                ) ).filter( number => number.count > 0 )
+                , 'count', 'desc'
+            )
+        }) );
+};
+
 module.exports = {
     errorCallback,
 
-    getAllCustomersStats,
+    getCustomers,
     getCustomersWithoutProfile,
     getCustomersWithMissingCallsOnly,
     getCustomersWithProfileTargetAndNotarger,
     getBadManagers,
-    getBadNumbers
+    getBadNumbers,
+    getGoodNumbers
 };

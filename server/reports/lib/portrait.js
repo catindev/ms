@@ -4,16 +4,16 @@ const mongoose = require("mongoose");
 const Field = require("../models/field");
 const Contact = require("../models/contact")();
 
-const errorCallback = error => { throw error; };
+const _h = require("./helpers");
 
 let fieldz;
 
-module.exports = function getFieldStats( account, startDate, endDate, collection ) {
+const calcPortrait = ({ account, date }) => collection => {
 
-    return Field.find({ account, type: 'list' })
+    return Field.find({ account: _h.strToOID(account), type: 'list' })
         .then( findContactsCountForFields )
         .then( findContactsForField )
-        .catch( errorCallback );
+        .catch( error => { throw error; } );
 
     function findContactsCountForFields( fields ) {
         fieldz = fields;
@@ -21,7 +21,7 @@ module.exports = function getFieldStats( account, startDate, endDate, collection
         const pipeline = fields.map( field => {
             let query = { account };
             query[field.id] = { $exists: true };
-            query.created =  { $gte: startDate };
+            query.created = { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) };
             return Contact.find(query);
         });
 
@@ -31,13 +31,13 @@ module.exports = function getFieldStats( account, startDate, endDate, collection
     function findContactsForField( results ) {
 
         const portrait = fieldz.map( (field, index) => {
-           const fieldName = field.name;
-           let data = { field: fieldName, count: results[index].length };
+            const fieldName = field.name;
+            let data = { field: fieldName, count: results[index].length };
 
-           if ( results[index].length === 0 ) {
-               data.values = false;
-               return data;
-           }
+            if ( results[index].length === 0 ) {
+                data.values = false;
+                return data;
+            }
 
             data.values = [];
             const customers = results[index];
@@ -62,3 +62,5 @@ module.exports = function getFieldStats( account, startDate, endDate, collection
         return Object.assign({}, collection, { portrait });
     }
 };
+
+module.exports = calcPortrait;
