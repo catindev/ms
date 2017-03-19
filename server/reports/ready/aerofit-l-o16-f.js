@@ -7,6 +7,6 @@ module.exports = {
 
     date: {
         start: '2016-10-17',
-        end: '2017-02-01'
+        end: '2017-03-01'
     },
 };

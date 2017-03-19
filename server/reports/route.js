@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const calculate = require('./stats');
+const calculate = require('./index');
 
 module.exports = (request, response) => {
 

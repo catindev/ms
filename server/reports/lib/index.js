@@ -1,69 +1,49 @@
-const moment = require('moment');
 const _ = require("lodash");
 
 // db deps
 const mongoose = require("mongoose");
-const Contact = require("../models/contact")();
-const Call = require("../models/call");
-const User = require("../models/user");
-const Number = require("../models/number");
-
+const ObjectId = mongoose.Types.ObjectId;
+const Contact = require("../../models/contact")();
+const Call = require("../../models/call");
+const User = require("../../models/user");
+const Number = require("../../models/number");
 
 /* Helpers */
-
-const strToOID = _id => mongoose.Types.ObjectId(_id);
-
-const errorCallback = error => {
-    console.log(error.stack)
-    throw error;
-};
-
-const formatDate = date => moment( new Date(date) ).format('D MMMM YYYY');
-const dateToISO = date => new Date(date).toISOString();
-
+const _h = require("./helpers");
 
 /* Calculators */
 
-const getCustomers = ({ account, date }) => Contact.find({
-    account: strToOID(account),
-    created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) }
-}).then(customers => ({
-    id: id, account: name,
-    period: {
-        start: formatDate(date.start) ,
-        end: formatDate(date.end),
-    },
-    all_customers: customers.map( customer => customer._id )
-}));
+const getCustomersWithoutProfile = ({ account, name, date }) => state => {
 
-const getCustomersWithoutProfile = ({ account, name, date }) => data => {
+    const stateAssign = contacts => _h.assign(state, {
+        no_profile: contacts.map( contact => contact._id) || false
+    });
+
     return Contact.find({
-        account: strToOID(account),
-        created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) },
+        account: _h.strToOID(account),
+        created: { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) },
         name: { $exists: false }
     })
-        .then( contacts => Object.assign({}, data, {
-            no_profile: contacts.map( contact => contact._id) || false
-        }))
-        .catch(errorCallback);
+    .then( stateAssign ).catch(_h.onError);
 };
 
-const getCustomersWithMissingCallsOnly = data => {
+const getCustomersWithMissingCallsOnly = state => {
+    const { no_profile } = state;
 
-    const findGoodCalls = id => Call.find({
-        contact: strToOID( id ),
-        status: 3,
-        user: { $exists: false }
+    const findGoodCalls = _id => Call.find({
+        contact: _h.strToOID( _id ),
+        status: 3
     }).count();
 
-    const missingPipeline = data.no_profile.map( id => findGoodCalls );
+    const missingPipeline = no_profile.map( findGoodCalls );
 
     const resultsCallback = counts => {
-        const missing = data.no_profile.filter( (item, index) => counts[index] === 0 );
-        const no_profile_recalc = data.no_profile.filter( (item, index) => counts[index] > 0 );
-        return Object.assign({}, data, { missing,
+        const missing = no_profile.filter( (item, index) => counts[index] === 0 );
+        const no_profile_recalc = no_profile.filter( (item, index) => counts[index] > 0 );
+        return _h.assign(state, {
+            missing,
             no_profile: no_profile_recalc ? no_profile_recalc : false
-        })
+        });
     };
 
     return Promise.all( missingPipeline ).then( resultsCallback );
@@ -71,8 +51,8 @@ const getCustomersWithMissingCallsOnly = data => {
 
 const getCustomersWithProfileTargetAndNotarger = ({ account, date }) => data => {
     return Contact.find({
-        account: strToOID(account),
-        created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) },
+        account: _h.strToOID(account),
+        created: { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) },
         name: { $exists: true }
     })
     .then( contacts => {
@@ -97,7 +77,7 @@ const getCustomersWithProfileTargetAndNotarger = ({ account, date }) => data => 
         return Object.assign({}, data, { no_target_reasons: summed })
 
     })
-    .catch(errorCallback);
+    .catch(_h.onError);
 };
 
 const getBadManagers = ({ account, date }) => data => {
@@ -105,8 +85,8 @@ const getBadManagers = ({ account, date }) => data => {
         return Object.assign({}, data, { managers_no_profile: false });
 
     return Contact.find({
-        account: strToOID(account),
-        created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) },
+        account: _h.strToOID(account),
+        created: { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) },
         name: { $exists: false },
         user: { $exists: true }
     })
@@ -134,12 +114,12 @@ const getBadNumbers = ({ account, date }) => data => {
         return Object.assign({}, data, { numbers_bad: false });
 
     let numberz;
-    return Number.find({ account: strToOID(account) })
+    return Number.find({ account: _h.strToOID(account) })
         .then( numbers => {
             numberz = numbers;
             const pipeline = numbers.map( number => Contact.find({
                 number,
-                created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) },
+                created: { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) },
                 noTargetReason: { $exists: true },
                 name: { $exists: true }
             }).count());
@@ -155,16 +135,16 @@ const getBadNumbers = ({ account, date }) => data => {
         }) );
 };
 
-const getGoodNumbers = ({ date }) => data => {
+const getGoodNumbers = ({ account, date }) => data => {
     if (data.with_profile.length === 0 )
         return Object.assign({}, data, { numbers_good: false });
 
     let numberz;
-    return Number.find({ account })
+    return Number.find({ account: _h.strToOID(account) })
         .then( numbers => {
             numberz = numbers;
             const pipeline = numbers.map( number => Contact.find({
-                created: { $gte: dateToISO(date.start), $lt: dateToISO(date.end) },
+                created: { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) },
                 noTargetReason: { $exists: false },
                 name: { $exists: true }
             }).count());
@@ -186,9 +166,6 @@ const getGoodNumbers = ({ date }) => data => {
 };
 
 module.exports = {
-    errorCallback,
-
-    getCustomers,
     getCustomersWithoutProfile,
     getCustomersWithMissingCallsOnly,
     getCustomersWithProfileTargetAndNotarger,

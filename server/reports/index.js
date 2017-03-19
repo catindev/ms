@@ -1,9 +1,21 @@
 const _ = require("lodash");
 
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
+const Contact = require("../models/contact")();
+const Call = require("../models/call");
+const User = require("../models/user");
+const Number = require("../models/number");
+
 // lib
 const $ = require('./lib');
-const errorCallback = $.errorCallback;
-const portrait = require('./stats-by-field');
+
+const getCustomers = require('./lib/all')({ Contact, ObjectId });
+const getCustomersWithoutProfile = require('./lib/no-profile')({ Contact, ObjectId });
+const getCustomersWithMissingCallsOnly = require('./lib/missing')({ Call, ObjectId })
+
+const calcPortrait = require('./lib/portrait');
+
 
 module.exports = function getGeneralStats(reportConfig) {
 
@@ -20,16 +32,13 @@ module.exports = function getGeneralStats(reportConfig) {
         return clone;
     };
 
-    return $.getCustomers(reportConfig)
-
-        // всего
-        .then( $.getAllCustomersStats(reportConfig) )
+    return getCustomers(reportConfig)
 
         // без профиля
-        .then( $.getCustomersWithoutProfile(reportConfig) )
+        .then( getCustomersWithoutProfile(reportConfig) )
 
         // не ответили
-        .then( $.getCustomersWithMissingCallsOnly )
+        .then( getCustomersWithMissingCallsOnly )
 
         // с профилем, целевые и нецелевые
         .then( $.getCustomersWithProfileTargetAndNotarger(reportConfig) )
@@ -44,11 +53,15 @@ module.exports = function getGeneralStats(reportConfig) {
         .then( $.getGoodNumbers(reportConfig) )
 
         // портрет клиента
-        .then( data => portrait( account, startDate, endDate, data ) )
+        .then( calcPortrait( reportConfig ) )
 
         // костыль
         .then( workaround )
 
-        .catch( errorCallback );
+        .catch( error => {
+            console.error('Reports error!');
+            console.error(error.stack);
+            throw error;
+        });
 
 };

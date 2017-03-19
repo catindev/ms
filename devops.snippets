@@ -7,7 +7,7 @@ db.copyDatabase("MindSalesCRM", "MindSalesCRMtest")
 /* Dump && restore DB */
 cd /var/www/ms/stuff
 mongodump --archive=nameOfArchive.archive --db MindSalesCRM
-mongorestore --archive=19feb.archive.archive --db MindSalesCRM
+mongorestore --archive=dump.archive --db MindSalesCRM
 
 server {
     listen 80;

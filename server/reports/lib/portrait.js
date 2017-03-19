@@ -1,8 +1,8 @@
 const _ = require("lodash");
 const mongoose = require("mongoose");
 
-const Field = require("../models/field");
-const Contact = require("../models/contact")();
+const Field = require("../../models/field");
+const Contact = require("../../models/contact")();
 
 const _h = require("./helpers");
 
