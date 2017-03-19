@@ -83,11 +83,28 @@ module.exports = function getGeneralStats(reportConfig) {
             created: {$gte: startDate, $lt: endDate},
             name: {$exists: true}
         })
-            .then( contacts => Object.assign({}, data, {
-                with_profile: contacts.map( contact => contact._id),
-                no_target: (contacts.filter( contact => contact.noTargetReason )).map( contact => contact._id ),
-                target: (contacts.filter( contact => !contact.noTargetReason )).map( contact => contact._id ),
-            }))
+            .then( contacts => {
+                const newData = Object.assign({}, data, {
+                    with_profile: contacts.map( contact => contact._id),
+                    no_target: (contacts.filter( contact => contact.noTargetReason )).map( contact => contact._id ),
+                    target: (contacts.filter( contact => !contact.noTargetReason )).map( contact => contact._id ),
+                });
+
+                return { contacts, data: newData }
+            })
+            .then( ({ contacts, data }) => {
+                if ( !data.no_target.length ) return data;
+
+                const no_target = contacts.filter(contact => contact.noTargetReason );
+                const remapped = no_target.map( ({ noTargetReason }) => ({ reason: noTargetReason }));
+                const summed = remapped.reduce((acc, el) => {
+                    acc[el.reason] = (acc[el.reason] || 0) + 1;
+                    return acc;
+                }, {});
+
+                return Object.assign({}, data, { no_target_reasons: summed })
+
+            })
             .catch(errorCallback);
     };
 

@@ -3,7 +3,9 @@
         <a id="target" href="#target" aria-hidden="true"></a>
         Целевые и нецелевые клиенты
     </h2>
-    <p>Клиенты с заполненными профилями и распределённые на целевых и не целевых:</p>
+    <p><small>Клиенты с заполненными профилями и распределённые на целевых и не целевых</small></p>
+
+
     <ul>
 
         <% if ( target.length ) { %>
@@ -14,6 +16,13 @@
 
         <% if ( no_target.length ) { %>
             <li>Нецелевых — <b><%= no_target.length %></b></li>
+            <ul>
+                <% _.mapKeys(no_target_reasons, (value, reason) => { %>
+                    <li><small><%= reason %> — <b><%= value %></b></small></li>
+                <% }); %>
+            </ul>
+
+
         <% } else { %>
             <li>Нецелевых нет <br><small>Возможно менеджеры заполняют профили неправильно</small></li>
         <% } %>
