@@ -14,8 +14,8 @@ const App = express();
 
 const isAuthenticated = require("./api/is-auth");
 
+App.use( compression({ level: 9 }) );
 App.set('view engine', 'ejs');
-App.use( compression({ threshold: 0 }) );
 App.use( cookieParser() );
 App.use( '/assets', express.static('assets', { maxAge: 86400 }));
 App.use( bodyParser.urlencoded({ extended: true }) );
