@@ -18,6 +18,7 @@ module.exports = (request, response) => {
         .then( render )
         .catch( error => {
             console.log('router error', error.message)
-            response.end(error.message)
+            // response.end(error.message)
+            return response.render( 'reports/error-500' );
         });
 };
