@@ -2,6 +2,7 @@ const _ = require("lodash");
 const calculate = require('./stats');
 
 module.exports = (request, response) => {
+    const { json } = request.query;
 
     const pathToReport = './ready/' + request.params.id + '.js';
 
@@ -15,7 +16,9 @@ module.exports = (request, response) => {
 
     calculate( report )
         // .then(  data => response.json(data) )
-        .then( render )
+        .then( data => {
+            json ? response.json(data) : render(data);
+        })
         .catch( error => {
             console.log('router error', error.message)
             // response.end(error.message)
