@@ -9,12 +9,11 @@ const Number = require("../models/number");
 
 // libs
 const getCustomers = require('./lib/all')({ Contact, ObjectId });
-const withoutProfile = require('./lib/no-profile')({ Contact, ObjectId });
-const withMissingCallsOnly = require('./lib/missing')({ Call, ObjectId });
-const withProfileTargetAndNotarger = require('./lib/with-profile-target-notarget')({ Contact, ObjectId });
+const emptyProfile = require('./lib/no-profile')({ Contact, ObjectId });
+const missing = require('./lib/missing')({ Call, ObjectId });
+const profileTargetAndNotarger = require('./lib/with-profile-target-notarget')({ Contact, ObjectId });
 const badManagers = require('./lib/bad-managers')({ Contact, User, ObjectId });
 const numbers = require('./lib/numbers')({ Contact, Number, ObjectId });
-
 const calcPortrait = require('./lib/portrait');
 
 
@@ -26,22 +25,22 @@ module.exports = function calcStats(reportConfig) {
     const workaround = ( data ) => {
         if ( !data.no_profile ) return data;
         const clone = _.clone( data );
-        let msum = data.managers_no_profile.reduce((sum, manager) => sum + manager.count, 0);
-        clone.no_profile_fix = clone.no_profile.length !== msum
-            ? msum : false;
+        const calcManagers = (sum, manager) => sum + manager.count;
+        const msum = data.managers_no_profile.reduce( calcManagers, 0);
+        clone.no_profile_fix = clone.no_profile.length !== msum ? msum : false;
         return clone;
     };
 
     return getCustomers(reportConfig)
 
         // без профиля
-        .then( withoutProfile(reportConfig) )
+        .then( emptyProfile(reportConfig) )
 
         // не ответили
-        .then( withMissingCallsOnly )
+        .then( missing )
 
         // с профилем, целевые и нецелевые
-        .then( withProfileTargetAndNotarger(reportConfig) )
+        .then( profileTargetAndNotarger(reportConfig) )
 
         // заполнить профили
         .then( badManagers(reportConfig) )

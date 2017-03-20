@@ -1,5 +1,5 @@
-const { orderBy, findIndex }   = require('lodash');
-const { dateToISO } = require('./helpers');
+const { orderBy }   = require('lodash');
+const { dateToISO, reduceResults } = require('./helpers');
 
 // TODO: compose?
 module.exports = function getCustomersWithProfileTargetAndNotarger({ Contact, ObjectId }) {
@@ -14,29 +14,20 @@ module.exports = function getCustomersWithProfileTargetAndNotarger({ Contact, Ob
     });
 
     /* assign helpers */
-    const onlyID        = contact => contact._id;
-    const onlyNoTarget  = contact => contact.noTargetReason;
-    const onlyTarget    = contact => !contact.noTargetReason;
-    const remapContactsReasons  = ({ noTargetReason }) => noTargetReason;
-    const reduceReasons = (reasons, reason) => {
-        const indx = findIndex(reasons, { name: reason });
-        indx === -1
-            ? reasons.push({ name: reason, count: 1 })
-            : reasons[ indx ].count += 1
-        ;
-        return reasons;
-    };
+    const mapID        = ({ _id }) => _id;
+    const isNoTarget  = ({ noTargetReason }) => noTargetReason;
+    const isTarget    = ({ noTargetReason }) => !noTargetReason;
     const calcReasons = contacts => orderBy(
         contacts
-            .filter( onlyNoTarget )
-            .map( remapContactsReasons )
-            .reduce( reduceReasons, [])
+            .filter( isNoTarget )
+            .map( isNoTarget )
+            .reduce( reduceResults, [])
         , 'count', 'desc');
 
     const assign = (state = {}) => contacts => Object.assign({}, state, {
-        with_profile: contacts.map( onlyID ),
-        no_target: contacts.filter( onlyNoTarget ).map( onlyID ),
-        target: contacts.filter( onlyTarget ).map( onlyID ),
+        with_profile: contacts.map( mapID ),
+        no_target: contacts.filter( isNoTarget ).map( mapID ),
+        target: contacts.filter( isTarget ).map( mapID ),
         no_target_reasons: calcReasons( contacts )
     });
 

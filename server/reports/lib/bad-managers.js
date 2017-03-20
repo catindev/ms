@@ -1,6 +1,7 @@
-const { dateToISO } = require('./helpers');
-const { orderBy, findIndex }   = require('lodash');
+const { dateToISO, reduceResults } = require('./helpers');
+const { orderBy } = require('lodash');
 
+// TODO: возможно стоит считать всех клиентов. Не только в периоде
 module.exports = function getBadManagers({ Contact, User, ObjectId }) {
 
     const query = ({ account, date }) => ({
@@ -23,20 +24,11 @@ module.exports = function getBadManagers({ Contact, User, ObjectId }) {
     });
 
     /* assign helpers */
-    const mapNames = ({ user: { name } }) => name;
-    const reduceManagers = (managers, name) => {
-        const indx = findIndex(managers, { name });
-        indx === -1
-            ? managers.push({ name, count: 1 })
-            : managers[ indx ].count += 1
-        ;
-        return managers;
-    };
-
+    const mapName = ({ user: { name } }) => name;
     const calcManagers = contacts => orderBy(
         contacts
-            .map( mapNames )
-            .reduce( reduceManagers, [] )
+            .map( mapName )
+            .reduce( reduceResults, [] )
         , 'count', 'desc');
 
     const assign = (state = {}) => contacts => Object.assign({}, state, {
