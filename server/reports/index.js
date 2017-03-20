@@ -11,13 +11,15 @@ const Number = require("../models/number");
 const $ = require('./lib');
 
 const getCustomers = require('./lib/all')({ Contact, ObjectId });
-const getCustomersWithoutProfile = require('./lib/no-profile')({ Contact, ObjectId });
-const getCustomersWithMissingCallsOnly = require('./lib/missing')({ Call, ObjectId })
+const withoutProfile = require('./lib/no-profile')({ Contact, ObjectId });
+const withMissingCallsOnly = require('./lib/missing')({ Call, ObjectId });
+const withProfileTargetAndNotarger = require('./lib/with-profile-target-notarget')({ Contact, ObjectId });
+const badManagers = require('./lib/bad-managers')({ Contact, User, ObjectId });
 
 const calcPortrait = require('./lib/portrait');
 
 
-module.exports = function getGeneralStats(reportConfig) {
+module.exports = function calcStats(reportConfig) {
 
     // Костыль для фикса разброса контактов из-за кривых тестов.
     // TODO: через 2-3 отчёта проверить ещё раз и выпилить
@@ -35,16 +37,16 @@ module.exports = function getGeneralStats(reportConfig) {
     return getCustomers(reportConfig)
 
         // без профиля
-        .then( getCustomersWithoutProfile(reportConfig) )
+        .then( withoutProfile(reportConfig) )
 
         // не ответили
-        .then( getCustomersWithMissingCallsOnly )
+        .then( withMissingCallsOnly )
 
         // с профилем, целевые и нецелевые
-        .then( $.getCustomersWithProfileTargetAndNotarger(reportConfig) )
+        .then( withProfileTargetAndNotarger(reportConfig) )
 
         // заполнить профили
-        .then( $.getBadManagers(reportConfig) )
+        .then( badManagers(reportConfig) )
 
         // хуёвые источники
         .then( $.getBadNumbers(reportConfig) )
