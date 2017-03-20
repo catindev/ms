@@ -36,22 +36,26 @@ module.exports = function getNumbers({ Contact, Number, ObjectId }) {
         return numbers;
     };
     const clearZero = ({ count }) => count > 0;
-    const getBad = contacts => contacts
-        .filter( isNoTarget )
-        .map( numberName )
-        .reduce( reduceNumbers, [])
-        .filter( clearZero )
-    ;
-    const getGood = contacts => contacts
+
+    const getBad = contacts => orderBy(
+        contacts
+            .filter( isNoTarget )
+            .map( numberName )
+            .reduce( reduceNumbers, [])
+            .filter( clearZero )
+        , 'count', 'desc');
+
+    const getGood = contacts => orderBy(
+        contacts
             .filter( isTarget )
             .map( numberName )
             .reduce( reduceNumbers, [])
             .filter( clearZero )
-        ;
+        , 'count', 'desc');
 
     const assign = (state = {}) => contacts => Object.assign({}, state, {
-        numbers_bad: orderBy(getBad(contacts), 'count', 'desc'),
-        numbers_good: orderBy(getGood(contacts), 'count', 'desc')
+        numbers_bad: getBad(contacts),
+        numbers_good: getGood(contacts)
     });
 
     return function( reportConfig ) {

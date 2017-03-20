@@ -15,10 +15,7 @@ module.exports = (request, response) => {
     const render = data => response.render( 'reports/', Object.assign({}, data, { _ }) );
 
     calculate( report )
-        // .then(  data => response.json(data) )
-        .then( data => {
-            json ? response.json(data) : render(data);
-        })
+        .then( data => json ? response.json(data) : render(data) )
         .catch( error => {
             console.log('router error', error.message)
             // response.end(error.message)

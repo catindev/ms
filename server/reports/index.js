@@ -15,7 +15,7 @@ const withoutProfile = require('./lib/no-profile')({ Contact, ObjectId });
 const withMissingCallsOnly = require('./lib/missing')({ Call, ObjectId });
 const withProfileTargetAndNotarger = require('./lib/with-profile-target-notarget')({ Contact, ObjectId });
 const badManagers = require('./lib/bad-managers')({ Contact, User, ObjectId });
-const badNumbers = require('./lib/numbers')({ Contact, Number, ObjectId });
+const numbers = require('./lib/numbers')({ Contact, Number, ObjectId });
 
 const calcPortrait = require('./lib/portrait');
 
@@ -25,11 +25,10 @@ module.exports = function calcStats(reportConfig) {
     // Костыль для фикса разброса контактов из-за кривых тестов.
     // TODO: через 2-3 отчёта проверить ещё раз и выпилить
     // TODO: решить проблему пересечения юзеров между аккаунтами (?)
-    const workaround = data => {
+    const workaround = ( data ) => {
         if ( !data.no_profile ) return data;
         const clone = _.clone( data );
-        let msum = 0;
-        _.mapKeys(clone.managers_no_profile, (value, key) => { msum += value });
+        let msum = data.managers_no_profile.reduce((sum, manager) => sum + manager.count, 0);
         clone.no_profile_fix = clone.no_profile.length !== msum
             ? msum : false;
         return clone;
@@ -49,11 +48,8 @@ module.exports = function calcStats(reportConfig) {
         // заполнить профили
         .then( badManagers(reportConfig) )
 
-        // хуёвые источники
-        .then( badNumbers(reportConfig) )
-
-        // хорошие источники
-        // .then( $.getGoodNumbers(reportConfig) )
+        // источники: хорошие и плохие
+        .then( numbers(reportConfig) )
 
         // портрет клиента
         .then( calcPortrait( reportConfig ) )

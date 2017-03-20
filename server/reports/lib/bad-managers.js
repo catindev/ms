@@ -1,4 +1,5 @@
 const { dateToISO } = require('./helpers');
+const { orderBy, findIndex }   = require('lodash');
 
 module.exports = function getBadManagers({ Contact, User, ObjectId }) {
 
@@ -22,16 +23,24 @@ module.exports = function getBadManagers({ Contact, User, ObjectId }) {
     });
 
     /* assign helpers */
-    const mapNames = ({ user: { name } }) => ({ name });
-    const reduceManagers = (sum, el) => {
-        sum[el.name] = (sum[el.name] || 0) + 1;
-        return sum;
+    const mapNames = ({ user: { name } }) => name;
+    const reduceManagers = (managers, name) => {
+        const indx = findIndex(managers, { name });
+        indx === -1
+            ? managers.push({ name, count: 1 })
+            : managers[ indx ].count += 1
+        ;
+        return managers;
     };
 
-    const assign = (state = {}) => contacts => Object.assign({}, state, {
-        managers_no_profile: contacts
+    const calcManagers = contacts => orderBy(
+        contacts
             .map( mapNames )
-            .reduce( reduceManagers, {} )
+            .reduce( reduceManagers, [] )
+        , 'count', 'desc');
+
+    const assign = (state = {}) => contacts => Object.assign({}, state, {
+        managers_no_profile: calcManagers( contacts )
     });
 
     return function( reportConfig ) {

@@ -1,3 +1,4 @@
+const { orderBy, findIndex }   = require('lodash');
 const { dateToISO } = require('./helpers');
 
 // TODO: compose?
@@ -16,15 +17,21 @@ module.exports = function getCustomersWithProfileTargetAndNotarger({ Contact, Ob
     const onlyID        = contact => contact._id;
     const onlyNoTarget  = contact => contact.noTargetReason;
     const onlyTarget    = contact => !contact.noTargetReason;
-    const reduceReasons = (sum, el) => {
-        sum[el.reason] = (sum[el.reason] || 0) + 1;
-        return sum;
+    const remapContactsReasons  = ({ noTargetReason }) => noTargetReason;
+    const reduceReasons = (reasons, reason) => {
+        const indx = findIndex(reasons, { name: reason });
+        indx === -1
+            ? reasons.push({ name: reason, count: 1 })
+            : reasons[ indx ].count += 1
+        ;
+        return reasons;
     };
-    const remapContactsReasons  = ({ noTargetReason }) => ({ reason: noTargetReason });
-    const calcReasons = contacts => contacts
-        .filter( onlyNoTarget )
-        .map( remapContactsReasons )
-        .reduce( reduceReasons, {});
+    const calcReasons = contacts => orderBy(
+        contacts
+            .filter( onlyNoTarget )
+            .map( remapContactsReasons )
+            .reduce( reduceReasons, [])
+        , 'count', 'desc');
 
     const assign = (state = {}) => contacts => Object.assign({}, state, {
         with_profile: contacts.map( onlyID ),

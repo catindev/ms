@@ -22,8 +22,8 @@
         <% if ( no_target.length ) { %>
             <li>Нецелевых — <b><%= no_target.length %></b></li>
             <ul>
-                <% _.mapKeys(no_target_reasons, (value, reason) => { %>
-                    <li><small><%= reason %> — <b><%= value %></b></small></li>
+                <% no_target_reasons.forEach( ({ name, count }) => { %>
+                    <li><small><%= name %> — <b><%= count %></b></small></li>
                 <% }); %>
             </ul>
 
