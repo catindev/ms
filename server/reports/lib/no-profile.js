@@ -1,6 +1,5 @@
 const { dateToISO } = require('./helpers');
 
-// TODO: геморно, попробовать функционально
 module.exports = function getCustomersWithoutProfile({ Contact, ObjectId }) {
 
     const query = ({ account, date }) => ({
@@ -12,8 +11,9 @@ module.exports = function getCustomersWithoutProfile({ Contact, ObjectId }) {
         name: { $exists: false }
     });
 
+    const mapID = ({ _id }) => _id;
     const assign = (state = {}) => contacts => Object.assign({}, state, {
-        no_profile: contacts.map( contact => contact._id) || false
+        no_profile: contacts.map( mapID ) || false
     });
 
     return function( reportConfig ) {

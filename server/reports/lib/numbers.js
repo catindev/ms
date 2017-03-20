@@ -1,5 +1,5 @@
 const { dateToISO } = require('./helpers');
-const { orderBy, findIndex }   = require('lodash');
+const { orderBy, findIndex } = require('lodash');
 
 module.exports = function getNumbers({ Contact, Number, ObjectId }) {
 
@@ -27,22 +27,20 @@ module.exports = function getNumbers({ Contact, Number, ObjectId }) {
     const isTarget = contact => !contact.noTargetReason;
     const isNoTarget = contact => contact.noTargetReason;
     const numberName = ({ number: { name } }) => name;
-    const reduceNumbers = (numbers, number) => {
-        const indx = findIndex(numbers, { name: number });
+    const reduceNumbers = (numbers, name) => {
+        const indx = findIndex(numbers, { name });
         indx === -1
-            ? numbers.push({ name: number, count: 1 })
+            ? numbers.push({ name, count: 1 })
             : numbers[ indx ].count += 1
         ;
         return numbers;
     };
-    const clearZero = ({ count }) => count > 0;
 
     const getBad = contacts => orderBy(
         contacts
             .filter( isNoTarget )
             .map( numberName )
             .reduce( reduceNumbers, [])
-            .filter( clearZero )
         , 'count', 'desc');
 
     const getGood = contacts => orderBy(
@@ -50,7 +48,6 @@ module.exports = function getNumbers({ Contact, Number, ObjectId }) {
             .filter( isTarget )
             .map( numberName )
             .reduce( reduceNumbers, [])
-            .filter( clearZero )
         , 'count', 'desc');
 
     const assign = (state = {}) => contacts => Object.assign({}, state, {

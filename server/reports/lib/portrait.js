@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 const Field = require("../../models/field");
 const Contact = require("../../models/contact")();
@@ -10,7 +11,7 @@ let fieldz;
 
 const calcPortrait = ({ account, date }) => collection => {
 
-    return Field.find({ account: _h.strToOID(account), type: 'list' })
+    return Field.find({ account: ObjectId(account), type: 'list' })
         .then( findContactsCountForFields )
         .then( findContactsForField )
         .catch( error => { throw error; } );

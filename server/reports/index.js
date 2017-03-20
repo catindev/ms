@@ -7,9 +7,7 @@ const Call = require("../models/call");
 const User = require("../models/user");
 const Number = require("../models/number");
 
-// lib
-const $ = require('./lib');
-
+// libs
 const getCustomers = require('./lib/all')({ Contact, ObjectId });
 const withoutProfile = require('./lib/no-profile')({ Contact, ObjectId });
 const withMissingCallsOnly = require('./lib/missing')({ Call, ObjectId });

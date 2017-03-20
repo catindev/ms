@@ -10,13 +10,14 @@ module.exports = function getCustomers({ Contact, ObjectId }) {
         }
     });
 
+    const mapID = ({ _id }) => _id;
     const assign = ({ id, name, date }) => customers => ({
         id, account: name,
         period: {
             start: formatDate(date.start),
             end: formatDate(date.end)
         },
-        all_customers: customers.map( customer => customer._id )
+        all_customers: customers.map( mapID )
     });
 
 
