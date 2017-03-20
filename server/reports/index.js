@@ -15,6 +15,7 @@ const withoutProfile = require('./lib/no-profile')({ Contact, ObjectId });
 const withMissingCallsOnly = require('./lib/missing')({ Call, ObjectId });
 const withProfileTargetAndNotarger = require('./lib/with-profile-target-notarget')({ Contact, ObjectId });
 const badManagers = require('./lib/bad-managers')({ Contact, User, ObjectId });
+const badNumbers = require('./lib/numbers')({ Contact, Number, ObjectId });
 
 const calcPortrait = require('./lib/portrait');
 
@@ -49,10 +50,10 @@ module.exports = function calcStats(reportConfig) {
         .then( badManagers(reportConfig) )
 
         // хуёвые источники
-        .then( $.getBadNumbers(reportConfig) )
+        .then( badNumbers(reportConfig) )
 
         // хорошие источники
-        .then( $.getGoodNumbers(reportConfig) )
+        // .then( $.getGoodNumbers(reportConfig) )
 
         // портрет клиента
         .then( calcPortrait( reportConfig ) )

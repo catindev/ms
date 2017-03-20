@@ -110,19 +110,22 @@ const getBadManagers = ({ account, date }) => data => {
 };
 
 const getBadNumbers = ({ account, date }) => data => {
-    if (data.no_target.length === 0 )
-        return Object.assign({}, data, { numbers_bad: false });
+    // if (data.no_target.length === 0 )
+    //     return Object.assign({}, data, { numbers_bad: false });
 
     let numberz;
     return Number.find({ account: _h.strToOID(account) })
         .then( numbers => {
             numberz = numbers;
-            const pipeline = numbers.map( number => Contact.find({
-                number,
-                created: { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) },
-                noTargetReason: { $exists: true },
-                name: { $exists: true }
-            }).count());
+            const pipeline = numbers.map( ({ _id }) => {
+                // console.log(number)
+                return Contact.find({
+                    number: _id,
+                    created: { $gte: _h.dateToISO(date.start), $lt: _h.dateToISO(date.end) },
+                    noTargetReason: { $exists: true },
+                    name: { $exists: true }
+                }).count();
+            });
             return Promise.all( pipeline );
         })
         .then( contacts => Object.assign({}, data, {
