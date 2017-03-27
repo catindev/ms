@@ -1,6 +1,8 @@
 const { dateToISO, reduceResults } = require('./helpers');
 const { orderBy } = require('lodash');
 
+const R = require('ramda');
+
 module.exports = function getNumbers({ Contact, Number, ObjectId }) {
 
     const query = ({ account, date }) => ({

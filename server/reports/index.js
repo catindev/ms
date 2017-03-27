@@ -1,11 +1,11 @@
-const _ = require("lodash");
+const _ = require('lodash');
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const Contact = require("../models/contact")();
-const Call = require("../models/call");
-const User = require("../models/user");
-const Number = require("../models/number");
+const Contact = require('../models/contact')();
+const Call = require('../models/call');
+const User = require('../models/user');
+const Number = require('../models/number');
 
 // libs
 const getCustomers = require('./lib/all')({ Contact, ObjectId });

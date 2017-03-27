@@ -133,6 +133,7 @@ App.get('/whosyourdaddy/:login', require('./api/system/whosyourdaddy'));
 
 // Reports
 App.get('/rprt/:id',  require('./reports/route'));
+App.get('/report/:id',  require('./reports/route'));
 
 
 
