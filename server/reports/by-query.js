@@ -5,7 +5,7 @@ module.exports = (request, response) => {
     const { json, account, start, end } = request.query;
 
     const report = {
-        account, id: 'by-query',
+        account, name, id: 'by-query',
         date: { start, end }
     };
     const render = data => response.render('reports/', Object.assign({}, data, { _ }));
