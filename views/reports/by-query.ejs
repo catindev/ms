@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<title>My Example</title>
+
+<!-- Bootstrap 4 alpha CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+    crossorigin="anonymous">
+
+<style>
+    body {
+        padding-top: 1em;
+    }
+</style>
+
+<div class="container-fluid" style="padding: 2rem 25rem;">
+
+    <form action="http://mindsales-crm.com/report">
+        <legend>Создать отчёт</legend>
+
+        <fieldset class="form-group">
+            <label for="name">Название отчёта</label>
+            <input type="text" class="form-control form-control-lg" id="name" name="name">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label for="account">Аккаунт</label>
+            <select class="form-control" id="account" name="account">
+                <option value="57d9fff08ca2296e2639ca93">AlmaVillage</option>
+                <option value="57ef8520e48d4d0f4cf07618">ТОО MINDPRO GROUP</option>
+                <option value="57ef8fe5dc5a071cb7d6054e">DG Technology</option>
+                <option value="57ef9d477d53c326f17b97b5">Ламбордини Астана</option>
+                <option value="57efa0f67d53c326f17b97c1">Ламбардини Алматы</option>
+                <option value="581d85701610b54c7dc21a00">Aerofit</option>
+                <option value="588a095da0619941426d7945">Aerofit Восток2</option>
+                <option value="588a125ca0619941426d7951">Aerofit Ladies</option>
+                <option value="58205d3b627521466be3a09e">BodyLine</option>
+                <option value="5847f9e4627521466be3a435">Технадзор</option>
+                <option value="588ad8af627521466be3ada1">Gpeople</option>
+                <option value="58c5aec65e1afb3fbe8313cb">Тридэ, Астана</option>
+                <option value="58c749a85e1afb3fbe8314b3">Тридэ, Актау</option>
+                <option value="58c74a635e1afb3fbe8314bd">Тридэ, Атырау</option>
+                <option value="58f825e467e69c554a9bd1b3">PANDA TRAVEL</option>
+            </select>
+        </fieldset>
+
+        <fieldset class="form-group" style="width: 50%">
+            <label for="from">С</label>
+            <input type="text" class="form-control" id="from" name="from">
+        </fieldset>
+
+        <fieldset class="form-group" style="width: 50%">
+            <label for="to">По</label>
+            <input type="text" class="form-control" id="to" name="to">
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">Получить</button>
+    </form>
+
+</div>
+
+<!-- jQuery library -->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+    crossorigin="anonymous"></script>
+
+<!-- Tether -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+    crossorigin="anonymous"></script>
+
+<!-- Bootstrap 4 Alpha JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+
+<!-- Initialize Bootstrap functionality -->
+<script>
+    // Initialize tooltip component
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    // Initialize popover component
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
+</script>
