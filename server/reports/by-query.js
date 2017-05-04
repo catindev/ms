@@ -2,7 +2,7 @@ const _ = require("lodash");
 const calculate = require('./index');
 
 module.exports = (request, response) => {
-    const { account, start, end } = request.query;
+    const { json, account, start, end } = request.query;
 
     const report = {
         account, id: 'by-query',
