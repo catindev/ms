@@ -7,6 +7,11 @@ module.exports = function newCallRoute(request, response) {
     let { status, callerPhoneNumber } = request.body;
     status = parseInt(status);
 
+    saveJournal({
+        name: 'call_' + moment().format("DDMMM_at_hh_mm_ss"),
+        data: JSON.stringify(request.body)
+    });
+
     if (status === 3 || status === 4) {
         // console.log('New call from', callerPhoneNumber, 'with', status);
 
@@ -17,10 +22,6 @@ module.exports = function newCallRoute(request, response) {
 
             // console.log(':D call status', resp);
             response.json(resp);
-            saveJournal({
-                name: request.body.callerPhoneNumber + ' ' + moment().format("DDMMM в hh:mm:ss"),
-                data: JSON.stringify(request.body)
-            });
         });
 
     } else {
