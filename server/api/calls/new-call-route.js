@@ -8,7 +8,7 @@ module.exports = function newCallRoute(request, response) {
     status = parseInt(status);
 
     saveJournal({
-        name: 'call_' + moment().format("DDMMM_at_hh_mm_ss"),
+        name: 'звонок ' + moment().format("DDMMM в hh:mm:ss"),
         data: JSON.stringify(request.body)
     });
 
