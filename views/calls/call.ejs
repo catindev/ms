@@ -23,10 +23,10 @@ function recordUrl( original ) {
                         <%= call.display.date %>
                     </div>
                     <div style="font-size: 22px; line-height: 1.5; font-weight: 400;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-                        <% if ( !call.contact.name) { %>
-                        Новый контакт
+                        <% if (!call.contact.name) { %>
+                            Новый контакт
                         <% } else { %>
-                        <%= call.contact.name %>
+                            <%= call.contact.name %>
                         <% } %>
                     </div>
                 </div>
@@ -34,15 +34,15 @@ function recordUrl( original ) {
             <div class="uncol" style="vertical-align: middle; text-align: right;">
 
                 <% if ( user.type === 'admin' ) { %>
-                <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
+                    <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
                 <% } else { %>
-                <% if ( isMyNewContactCall(call) ) { %>
-                <a url="is-target/<%= call.contact._id %>?backURL=/" call="<%= call._id %>" class="button primary js-newCustomer" role="button">
-                    Заполнить профиль
-                </a>
-                <% } else { %>
-                <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
-                <% } %>
+                    <% if ( isMyNewContactCall(call) ) { %>
+                        <a url="is-target/<%= call.contact._id %>?backURL=/" call="<%= call._id %>" class="button primary js-newCustomer" role="button">
+                            Заполнить профиль
+                        </a>
+                    <% } else { %>
+                        <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
+                    <% } %>
                 <% } %>
             </div>
         </div>
@@ -79,8 +79,8 @@ function recordUrl( original ) {
                 <%= call.contact.user && call.contact.user.name %>
             </div>
         </div>
-        
-        <!--<%- include callback.ejs %>-->
+
+        <%- include callback.ejs %>
     </div>
 
     <div class="newCustomer">
