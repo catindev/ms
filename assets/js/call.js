@@ -21,13 +21,13 @@
 
   $(".js-callback").click(function (e) {
     if (isCallback === true) return;
+
     isCallback = true;
     $("#callLoader").show();
+
     const un = $(this).attr("from").replace('+7', '8');
     const cn = $(this).attr("to").replace('+7', '8');
     const cid = $(this).attr("call-id") || '';
-
-    console.log('Соединяю', un, 'c', cn, 'для', cid);
 
     $.get('http://185.22.65.50/call.php?cn='+ cn +'&un='+ un +'&call_id='+ cid)
       .done(data => {
@@ -37,7 +37,7 @@
       .fail( error => {
         $("#callLoader").hide();
         isCallback = false;
-        alert('Ошибка. Сейчас мы не можем соединить вас с этим номером')
+        alert('Ошибка. Вызов отклонён');
       });
   });
 
