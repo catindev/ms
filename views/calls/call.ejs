@@ -29,7 +29,7 @@ function recordUrl( original ) {
     }
 </style>
 
-<div class="callLoader"></div>
+<div class="callLoader" id="callLoader"></div>
 
 <div class="call cbox" id="call_<%= call._id %>">
     <div class="call-content">
@@ -164,7 +164,8 @@ function recordUrl( original ) {
     $(".js-callback").click(function (e) {
       if (isCallback === true) return;
       isCallback = true;
-      $(".callLoader").show();
+      $("#callLoader").show();
+      console.log('Соединяю!')
     });
 
   })(jQuery);
