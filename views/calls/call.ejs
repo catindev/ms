@@ -14,23 +14,6 @@ function recordUrl( original ) {
 }
 %>
 
-<style>
-    .callCard {
-        padding: 1rem;
-        margin-bottom: 2rem;
-        background: #fff;
-        border: 1px solid rgba(0, 0, 0, .15);
-    }
-
-    .callLoader {
-        display: none;
-        z-index: 9999;
-        background: rgba(0,0,0,.15) url('/assets/images/loader80.gif') center center no-repeat;
-    }
-</style>
-
-<div class="callLoader" id="callLoader"></div>
-
 <div class="call cbox" id="call_<%= call._id %>">
     <div class="call-content">
         <div class="unrow">
@@ -138,28 +121,3 @@ function recordUrl( original ) {
         </div>
     </div>
 </div>
-
-<script>
-  (function ($) {
-
-    var callCard, isCallback = false;
-
-    function resetQuestions() {
-      callCard = null;
-      $(".call").removeClass('call-window');
-      $(".call .call-content").show();
-      $(".call .newCustomer").hide();
-    }
-
-    $(".js-newCustomer").click(function (e) {
-      resetQuestions();
-      callCard = $("#call_" + $(this).attr("call"));
-      callCard.addClass('call-window');
-      $('.call-content', callCard).hide();
-      $('.newCustomer', callCard).show();
-    });
-
-    $(".newCustomerClose").click(resetQuestions);
-
-  })(jQuery);
-</script>
