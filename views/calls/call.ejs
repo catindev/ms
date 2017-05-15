@@ -90,6 +90,9 @@ function recordUrl( original ) {
         </div>
 
         <% if ( user.type !== 'admin' ) { %>
+        <div style="display:none">
+            <%- user %>
+        </div>
         <div class="row" style="text-align:center;padding-top:1rem;">
             <div class="col">
                 <a class="button primary js-callback"
