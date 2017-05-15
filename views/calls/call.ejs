@@ -162,6 +162,7 @@ function recordUrl( original ) {
     $(".newCustomerClose").click(resetQuestions);
 
     $(".js-callback").click(function (e) {
+      e.preventDefault();
       if (isCallback === true) return;
       isCallback = true;
       $("#callLoader").show();
