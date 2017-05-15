@@ -23,7 +23,15 @@
     if (isCallback === true) return;
     isCallback = true;
     $("#callLoader").show();
-    console.log('Соединяю c', $(this).attr("to"))
+    const un = $(this).attr("from").replace('+7', '8');
+    const cn = $(this).attr("to").replace('+7', '8');
+    const cid = $(this).attr("call-id") || '';
+
+    console.log('Соединяю', un, 'c', cn, 'для', cid);
+
+    // $.post('http://185.22.65.50/call.php?cn='+ cn +'&un='+ un +'&call_id='+ cid, { account, users, numbers, fields })
+    //   .done( data => location.reload() )
+    //   .fail( error => alert( error.responseJSON.message ) );
   });
 
 })(jQuery);
