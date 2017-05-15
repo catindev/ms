@@ -88,18 +88,6 @@ function recordUrl( original ) {
                 <%= call.contact.user && call.contact.user.name %>
             </div>
         </div>
-
-        <div class="row" style="text-align: center; padding-top: 1rem;">
-            <div class="col">
-                <a class="button primary js-callback"
-                   role="button"
-                   from="<%= call.contact.user.phone %>"
-                   to="<%= call.contact.phone %>"
-                   call-id="<%= call._id %>">
-                    Позвонить
-                </a>
-            </div>
-        </div>
     </div>
 
     <div class="newCustomer">
