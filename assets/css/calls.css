@@ -96,8 +96,8 @@
 .callLoader {
     display: none;
     z-index: 9999;
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,.15) url('/assets/images/loader80.gif') center center no-repeat;
+    background: rgba(0,0,0,.75) url('/assets/images/loader_call.gif') center center no-repeat;
 }
