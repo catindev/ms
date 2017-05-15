@@ -93,12 +93,12 @@ function recordUrl( original ) {
         <div class="row" style="text-align:center;padding-top:1rem;">
             <% user.phones.forEach( phone => { %>
             <div class="col">
-                <a class="button primary js-callback"
+                <a class="button primary small js-callback"
                    role="button"
                    from="<%= phone %>"
                    to="<%= call.contact.phone %>"
                    call-id="<%= call._id %>">
-                    Соединить с <%= phone %>
+                    Позвонить с <%= phone %>
                 </a>
             </div>
             <% }); %>
