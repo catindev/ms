@@ -89,7 +89,7 @@ function recordUrl( original ) {
             </div>
         </div>
 
-        <% if ( user.type !== 'admin' ) { %>
+        <% if ( user.type === 'manager' ) { %>
         <div class="row" style="text-align:center;padding-top:1rem;">
             <% user.phones.forEach( phone => { %>
             <div class="col">
