@@ -14,131 +14,142 @@ function recordUrl( original ) {
 }
 %>
 
-    <style>
-        .callCard {
-            padding: 1rem;
-            margin-bottom: 2rem;
-            background: #fff;
-            border: 1px solid rgba(0, 0, 0, .15);
-        }
-    </style>
+<style>
+    .callCard {
+        padding: 1rem;
+        margin-bottom: 2rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, .15);
+    }
+</style>
 
-    <div class="call cbox" id="call_<%= call._id %>">
-        <div class="call-content">
-            <div class="unrow">
-                <div class="uncol" style="vertical-align: middle;">
-                    <div>
-                        <div style="font-size: 13px;line-height: 1.5;opacity: .4;">
-                            <%= call.display.date %>
-                        </div>
-                        <div style="font-size: 22px; line-height: 1.5; font-weight: 400;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-                            <% if ( !call.contact.name) { %>
-                                Новый контакт
-                                <% } else { %>
-                                    <%= call.contact.name %>
-                                        <% } %>
-                        </div>
+<div class="call cbox" id="call_<%= call._id %>">
+    <div class="call-content">
+        <div class="unrow">
+            <div class="uncol" style="vertical-align: middle;">
+                <div>
+                    <div style="font-size: 13px;line-height: 1.5;opacity: .4;">
+                        <%= call.display.date %>
                     </div>
-                </div>
-                <div class="uncol" style="vertical-align: middle; text-align: right;">
-
-                    <% if ( user.type === 'admin' ) { %>
-                        <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
+                    <div style="font-size: 22px; line-height: 1.5; font-weight: 400;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                        <% if ( !call.contact.name) { %>
+                        Новый контакт
                         <% } else { %>
-                            <% if ( isMyNewContactCall(call) ) { %>
-                                <a url="is-target/<%= call.contact._id %>?backURL=/" call="<%= call._id %>" class="button primary js-newCustomer" role="button">
-                    Заполнить профиль
-                </a>
-                                <% } else { %>
-                                    <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
-                                    <% } %>
-                                        <% } %>
+                        <%= call.contact.name %>
+                        <% } %>
+                    </div>
                 </div>
             </div>
+            <div class="uncol" style="vertical-align: middle; text-align: right;">
 
-            <% if ( call.recordFile ) { %>
-                <div class="unrow" style="padding: .5rem 0;">
-                    <audio controls="" style="width: 100%">
-                        <source src="<%= recordUrl(call.recordFile); %>" type="audio/mpeg">
-                    </audio>
-                </div>
+                <% if ( user.type === 'admin' ) { %>
+                <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
+                <% } else { %>
+                <% if ( isMyNewContactCall(call) ) { %>
+                <a url="is-target/<%= call.contact._id %>?backURL=/" call="<%= call._id %>" class="button primary js-newCustomer" role="button">
+                    Заполнить профиль
+                </a>
+                <% } else { %>
+                <a href="contacts/<%= call.contact._id %>?backURL=/" class="button primary" role="button">Смотреть профиль</a>
                 <% } %>
-
-                    <% if (!call.recordFile) { %>
-                        <div class="unrow" style=" color:#fff; padding: .5rem .7rem; border-radius: 4px; font-size: .85rem; background: rgba(250,0,22,.6); text-align: center;margin: .5rem 0;">
-                            Без ответа
-                            <%= call.display.waiting %>
-                        </div>
-                        <% } %>
-
-                            <% if ( user.type === 'admin' ) { %>
-                                <div class="unrow" style="padding: .5rem .7rem; border-radius: 4px; font-size: .85rem; background: #eee; margin-bottom: .5rem;">
-                                    <%= call.account.name %>
-                                </div>
-                                <% } %>
-
-                                    <div class="row between" style="text-align: center;font-size: .92rem">
-                                        <div class="col col-3" style="padding-left: 0;">
-                                            <%= call.display.phone %>
-                                        </div>
-                                        <div class="col col-3">
-                                            <%= call.number.name %>
-                                        </div>
-                                        <div class="col col-3">
-                                            <%= call.contact.user && call.contact.user.name %>
-                                        </div>
-                                    </div>
-
-                                    <div class="row" style="text-align: center; padding-top: 1rem;">
-                                        <div class="col">
-                                            <a class="button primary" role="button">Позвонить</a>
-                                        </div>
-                                    </div>
+                <% } %>
+            </div>
         </div>
 
-        <div class="newCustomer">
-            <div class="newCustomerQuestion">
-                <div class="newCustomerClose"></div>
-                <h2 class="newCustomerQuestion__title">
-                    Выберите тип клиента
-                </h2>
-                <div class="row" style="text-align: center">
-                    <div class="col">
-                        <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
-                        Нецелевой
-                    </a>
-                    </div>
-                    <div class="col">
-                        <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
-                        Целевой
-                    </a>
-                    </div>
-                </div>
+        <% if ( call.recordFile ) { %>
+        <div class="unrow" style="padding: .5rem 0;">
+            <audio controls="" style="width: 100%">
+                <source src="<%= recordUrl(call.recordFile); %>" type="audio/mpeg">
+            </audio>
+        </div>
+        <% } %>
+
+        <% if (!call.recordFile) { %>
+        <div class="unrow" style=" color:#fff; padding: .5rem .7rem; border-radius: 4px; font-size: .85rem; background: rgba(250,0,22,.6); text-align: center;margin: .5rem 0;">
+            Без ответа
+            <%= call.display.waiting %>
+        </div>
+        <% } %>
+
+        <% if ( user.type === 'admin' ) { %>
+        <div class="unrow" style="padding: .5rem .7rem; border-radius: 4px; font-size: .85rem; background: #eee; margin-bottom: .5rem;">
+            <%= call.account.name %>
+        </div>
+        <% } %>
+
+        <div class="row between" style="text-align: center;font-size: .92rem">
+            <div class="col col-3" style="padding-left: 0;">
+                <%= call.display.phone %>
+            </div>
+            <div class="col col-3">
+                <%= call.number.name %>
+            </div>
+            <div class="col col-3">
+                <%= call.contact.user && call.contact.user.name %>
+            </div>
+        </div>
+
+        <div class="row" style="text-align: center; padding-top: 1rem;">
+            <div class="col">
+                <a class="button primary js-callback"
+                   role="button"
+                   from="<%= call.contact.user.phone %>"
+                   to="<%= call.contact.phone %>"
+                   call-id="<%= call._id %>">
+                    Позвонить
+                </a>
             </div>
         </div>
     </div>
 
-    <script>
-        (function ($) {
+    <div class="newCustomer">
+        <div class="newCustomerQuestion">
+            <div class="newCustomerClose"></div>
+            <h2 class="newCustomerQuestion__title">
+                Выберите тип клиента
+            </h2>
+            <div class="row" style="text-align: center">
+                <div class="col">
+                    <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
+                        Нецелевой
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
+                        Целевой
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            var callCard;
+<script>
+  (function ($) {
 
-            function resetQuestions() {
-                callCard = null;
-                $(".call").removeClass('call-window');
-                $(".call .call-content").show();
-                $(".call .newCustomer").hide();
-            }
+    var callCard, isCallback = false;
 
-            $(".js-newCustomer").click(function (e) {
-                resetQuestions();
-                callCard = $("#call_" + $(this).attr("call"));
-                callCard.addClass('call-window');
-                $('.call-content', callCard).hide();
-                $('.newCustomer', callCard).show();
-            });
+    function resetQuestions() {
+      callCard = null;
+      $(".call").removeClass('call-window');
+      $(".call .call-content").show();
+      $(".call .newCustomer").hide();
+    }
 
-            $(".newCustomerClose").click(resetQuestions);
+    $(".js-newCustomer").click(function (e) {
+      resetQuestions();
+      callCard = $("#call_" + $(this).attr("call"));
+      callCard.addClass('call-window');
+      $('.call-content', callCard).hide();
+      $('.newCustomer', callCard).show();
+    });
 
-        })(jQuery);
-    </script>
+    $(".newCustomerClose").click(resetQuestions);
+
+    $(".js-callback").click(function (e) {
+      if (isCallback === true) return;
+      isCallback = true;
+    });
+
+  })(jQuery);
+</script>
