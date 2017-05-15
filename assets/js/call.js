@@ -29,9 +29,16 @@
 
     console.log('Соединяю', un, 'c', cn, 'для', cid);
 
-    // $.post('http://185.22.65.50/call.php?cn='+ cn +'&un='+ un +'&call_id='+ cid, { account, users, numbers, fields })
-    //   .done( data => location.reload() )
-    //   .fail( error => alert( error.responseJSON.message ) );
+    $.get('http://185.22.65.50/call.php?cn='+ cn +'&un='+ un +'&call_id='+ cid)
+      .done(data => {
+          $("#callLoader").hide();
+          isCallback = false;
+      })
+      .fail( error => {
+        $("#callLoader").hide();
+        isCallback = false;
+        alert('Ошибка. Сейчас мы не можем соединить вас с этим номером')
+      });
   });
 
 })(jQuery);
