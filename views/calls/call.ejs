@@ -161,13 +161,5 @@ function recordUrl( original ) {
 
     $(".newCustomerClose").click(resetQuestions);
 
-    $(".js-callback").click(function (e) {
-      if (isCallback === true) return;
-      isCallback = true;
-      $("#callLoader").show();
-      console.log('Соединяю c', $(this).attr("to"))
-      return;
-    });
-
   })(jQuery);
 </script>
