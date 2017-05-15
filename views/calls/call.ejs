@@ -89,17 +89,19 @@ function recordUrl( original ) {
             </div>
         </div>
 
+        <% if ( user.type === 'admin' ) { %>
         <div class="row" style="text-align:center;padding-top:1rem;">
             <div class="col">
                 <a class="button primary js-callback"
                    role="button"
                    from="<%= call.contact.user.phone %>"
-                   to="<%= call.contact.phone %>"
+                   to="<%= call.contact.phone || user.phone %>"
                    call-id="<%= call._id %>">
                     Позвонить
                 </a>
             </div>
         </div>
+        <% } %>
     </div>
 
     <div class="newCustomer">
