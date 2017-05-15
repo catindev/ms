@@ -94,8 +94,8 @@ function recordUrl( original ) {
             <div class="col">
                 <a class="button primary js-callback"
                    role="button"
-                   from="<%= call.contact.user.phone %>"
-                   to="<%= call.contact.phone || user.phone %>"
+                   from="<%= call.contact.user.phone || user.phone %>"
+                   to="<%= call.contact.phone %>"
                    call-id="<%= call._id %>">
                     Позвонить
                 </a>
