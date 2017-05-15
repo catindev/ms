@@ -90,19 +90,18 @@ function recordUrl( original ) {
         </div>
 
         <% if ( user.type !== 'admin' ) { %>
-        <div style="display:none">
-            <%- user %>
-        </div>
         <div class="row" style="text-align:center;padding-top:1rem;">
+            <% user.phones.forEach( phone => { %>
             <div class="col">
                 <a class="button primary js-callback"
                    role="button"
-                   from="<%= user.phone %>"
+                   from="<%= phone %>"
                    to="<%= call.contact.phone %>"
                    call-id="<%= call._id %>">
-                    Позвонить
+                    Соединить с <%= phone %>
                 </a>
             </div>
+            <% }); %>
         </div>
         <% } %>
     </div>
