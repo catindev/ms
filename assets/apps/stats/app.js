@@ -5,6 +5,7 @@
                 width: 960px;
                 margin: 0 auto;
                 padding: 2rem 0;
+                padding-top: 5rem;
             }
             .chartBox {
                 padding: 2rem 3rem;
