@@ -4,13 +4,18 @@ const saveJournal = require('../system/save-call-data');
 const mixpanelEvent = require('../system/mixpanel');
 
 module.exports = function newCallRoute(request, response) {
-    let { status, callerPhoneNumber } = request.body;
+    let { status, callerPhoneNumber, crm_call_id = false } = request.body;
     status = parseInt(status);
 
     saveJournal({
         name: 'звонок ' + moment().format("DDMMM в hh:mm:ss"),
         data: JSON.stringify(request.body)
     });
+
+    if (crm_call_id) {
+        console.log('Callback call for', crm_call_id, 'ignored');
+        return;
+    }
 
     if (status === 3 || status === 4) {
         // console.log('New call from', callerPhoneNumber, 'with', status);
