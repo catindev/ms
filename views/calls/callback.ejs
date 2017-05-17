@@ -6,7 +6,7 @@
            role="button"
            from="<%= phone %>"
            to="<%= call.contact.phone %>"
-           call-id="<%= call._id %>">
+           call-id="<%= call.status === 4 && call._id %>">
             Позвонить с <%= phone %>
         </a>
     </div>
