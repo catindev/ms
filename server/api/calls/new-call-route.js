@@ -12,7 +12,7 @@ module.exports = function newCallRoute(request, response) {
         data: JSON.stringify(request.body)
     });
 
-    if (crm_call_id) {
+    if (crm_call_id && status === 4) {
         console.log('Callback call for', crm_call_id, 'ignored');
         return;
     }
