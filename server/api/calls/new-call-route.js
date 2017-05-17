@@ -33,8 +33,3 @@ module.exports = function newCallRoute(request, response) {
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
 }
-
-{ "phone" : "+77780218788", "name" : "Google mindpro.kz", }
-{ "phone" : "+77780218785", "name" : "Яндекс mindpro-video.kz", }
-{ "phone" : "+77750204545", "name" : "Google mindpro-video.kz", }
-{ "phone" : "+77780218787", "name" : "Яндекс mindpro.kz", }
