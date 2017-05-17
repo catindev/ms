@@ -15,10 +15,7 @@ module.exports = function fetchAllCalls({ limit = 20, skip = 0, user }, callback
 
     // условия
     user.account && pipeline.push({
-        $match: {
-            account: user.account._id,
-            direction: 1
-        }
+        $match: { account: user.account._id }
     });
 
     // сортировка
