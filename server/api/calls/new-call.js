@@ -39,7 +39,7 @@ function saveCall({
     const endpointNumber = endpointPhoneNumber && formatNumber(endpointPhoneNumber);
 
     // ignore calls from managers
-    User.findOne({ phone: caller })
+    User.findOne({ phones: caller })
         .then( user => {
             if (user) {
               console.log('Ignore call from manager', callerPhoneNumber);
