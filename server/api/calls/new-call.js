@@ -29,7 +29,8 @@ function saveCall({
     recordFile = null,
     displayCallDuration = '--:--',
     displayWatingDuration = '--:--',
-    displayConvDuration = '--:--'
+    displayConvDuration = '--:--',
+    crm_call_id = false
 }, callback) {
 
     let newCall, newContact;
@@ -37,116 +38,124 @@ function saveCall({
     const callee = formatNumber(calleePhoneNumber);
     const endpointNumber = endpointPhoneNumber && formatNumber(endpointPhoneNumber);
 
-    Number.findOne({ phone: callee })
-        .populate('account')
-        .then(findSourceNumber)
-        .then(findContact)
-        .then(isNewContact)
-        .then(checkUserForContact)
-        .then(saveContact)
-        .then(saveCallToSystem)
-        .catch(error => { throw error; });
+    // ignore calls from managers
+    User.findOne({ phone: caller })
+        .then( user => {
+            if (user) {
+              console.log('Ignore call from manager', callerPhoneNumber);
+              callback(null); return false;
+            }
 
-    function findSourceNumber(number) {
-        if (!number) {
-            callback(null); return false;
-        }
+        Number.findOne({ phone: callee })
+            .populate('account')
+            .then(findSourceNumber)
+            .then(findContact)
+            .then(isNewContact)
+            .then(checkUserForContact)
+            .then(saveContact)
+            .then(saveCallToSystem)
+            .catch( error => { throw error; });
 
-        newCall = new Call({
-            "account": number.account._id,
-            "number": number._id,
-            "direction": direction,
-            "date": startedAt,
-            "answerDate": answeredAt,
-            "status": parseInt(status),
-            "duration": {
+        function findSourceNumber(number) {
+            if (!number) {
+              callback(null); return false;
+            }
+
+            newCall = new Call({
+              "account": number.account._id,
+              "number": number._id,
+              "direction": direction,
+              "date": startedAt,
+              "answerDate": answeredAt,
+              "status": parseInt(status),
+              "duration": {
                 "waiting": watingDuration,
                 "call": callDuration,
                 "conversation": conversationDuration
-            },
-            "recordFile": recordFile,
-            "display": {
+              },
+              "recordFile": recordFile,
+              "display": {
                 "call": displayCallDuration,
                 "waiting": displayWatingDuration,
                 "conversation": displayConvDuration
-            }
-        });
-        return newCall;
-    }
+              }
+            });
+            return newCall;
+        }
 
-    function findContact() {
-        return Contact.findOne({
-            phone: caller,
-            account: newCall.account
-        })
+        function findContact() {
+            return Contact.findOne({
+              phone: caller,
+              account: newCall.account
+            })
             .then(contact => contact)
             .catch(error => { throw error; });
-    }
+        }
 
-    function isNewContact(contact) {
-        if (contact) return contact;
-        newContact = new Contact({
-            account: newCall.account,
-            phone: caller,
-            number: newCall.number,
-            created: new Date(startedAt)
-        });
-        return newContact;
-    }
+        function isNewContact(contact) {
+            if (contact) return contact;
+            newContact = new Contact({
+              account: newCall.account,
+              phone: caller,
+              number: newCall.number,
+              created: new Date(startedAt)
+            });
+            return newContact;
+        }
 
-    function checkUserForContact(contact) {
-        if (contact.user || newCall.status === 4) return contact;
+        function checkUserForContact(contact) {
+            if (contact.user || newCall.status === 4) return contact;
 
-        return User.findOne({
-            $or: [
+            return User.findOne({
+              $or: [
                 { phones: endpointNumber },
                 { phones: callee }
-            ]
-        })
+              ]
+            })
             .then(findUser)
             .catch(error => { throw error; });
 
-        function findUser(user) {
-            if (user) {
+            function findUser(user) {
+              if (user) {
                 incrementCalls(user._id, status);
                 contact.user = user._id;
+              }
+              return contact;
             }
-            return contact;
         }
-    }
 
-    function saveContact(contact) {
-
-        if (newContact) {
-            Mixpanel.track({
+        function saveContact(contact) {
+            if (newContact) {
+              Mixpanel.track({
                 name: 'New customer',
                 data: {
-                    distinct_id: contact.user,
-                    account_id: contact.account,
-                    manager: contact.user || undefined,
-                    phone: caller,
-                    date: new Date().toISOString()
+                  distinct_id: contact.user,
+                  account_id: contact.account,
+                  manager: contact.user || undefined,
+                  phone: caller,
+                  date: new Date().toISOString()
                 }
-            });
+              });
 
-            return contact.save()
-                .then(contact => {
-                    newCall.contact = contact._id;
-                    return newCall;
-                })
-                .catch(error => { throw error });
+              return contact.save()
+              .then(contact => {
+                newCall.contact = contact._id;
+                return newCall;
+              })
+              .catch(error => { throw error });
+            }
+
+            newCall.contact = contact._id;
+            return newCall;
+
         }
 
-        newCall.contact = contact._id;
-        return newCall;
-
-    }
-
-    function saveCallToSystem(call) {
-        call.save()
-            .then(call => callback(call))
-            .catch(error => { throw error; });
-    }
+        function saveCallToSystem(call) {
+            call.save()
+                .then(call => callback(call))
+                .catch(error => { throw error; });
+        }
+        });
 }
 
 module.exports = saveCall;
