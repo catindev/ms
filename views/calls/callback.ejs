@@ -6,6 +6,7 @@
            role="button"
            from="<%= phone %>"
            to="<%= call.contact.phone %>"
+           trunk="<%= call.number.phone %>"
            <% if (call.status === 4 && !call.user) { %>
             call-id="<%= call._id %>"
            <% } %>
