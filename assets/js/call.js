@@ -27,9 +27,10 @@
 
     const un = $(this).attr("from").replace('+7', '8');
     const cn = $(this).attr("to").replace('+7', '8');
+    const tr = $(this).attr("trunk").replace('+7', '8');
     const cid = $(this).attr("call-id") || '';
 
-    $.get('http://185.22.65.50/call.php?cn='+ cn +'&un='+ un +'&call_id='+ cid)
+    $.get('http://185.22.65.50/call.php?cn='+ cn +'&un='+ un + '&tr=' + tr + '&call_id='+ cid)
       .done(data => {
           $("#callLoader").hide();
           isCallback = false;
