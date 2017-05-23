@@ -9,6 +9,8 @@
            trunk="<%= call.number.phone %>"
            <% if (call.status === 4 && !call.user) { %>
             call-id="<%= call._id %>"
+           <% } else { %>
+            call-id="false"
            <% } %>
            >
             Позвонить с <%= phone %>
