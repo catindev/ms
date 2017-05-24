@@ -7,6 +7,7 @@ const accountSchema = new Schema({
     "maxWaitingTime": Number,
     "maxAnswerTime": Number,
     "noTargetReasons": [String],
+    "targetQuestion": String,
     "created": {
         type: Date,
         default: Date.now()
