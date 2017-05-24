@@ -85,7 +85,7 @@ function recordUrl( original ) {
 
     <div class="newCustomer">
         <div class="newCustomerQuestion">
-            <span style="display: none"><%- call.account %></span>
+            <span style="display: none"><%- call.account.targetQuestion %></span>
             <div class="newCustomerClose"></div>
             <% if (call.account.targetQuestion) { %>
                 <h2 class="newCustomerQuestion__title">
