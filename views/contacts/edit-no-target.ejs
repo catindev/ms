@@ -31,7 +31,7 @@ function trim(val) {
                 </div>
 
                 <div class="form-item">
-                    <label>Причина</label>
+                    <label>Цель обращения</label>
                     <select class="select" name="noTargetReason">
                         <option value=""></option>
                     <% contact.account.noTargetReasons.forEach( function (reason, index) { %>
@@ -45,7 +45,6 @@ function trim(val) {
                         </option>
                     <% }); %>
                     </select>
-                    <div class="desc">Как зовут клиента?</div>
                 </div>
 
                 <div class="form-item">
