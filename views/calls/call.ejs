@@ -87,7 +87,7 @@ function recordUrl( original ) {
         <div class="newCustomerQuestion">
             <span style="display: none">
                 <%= call.account.name %>
-                <%= call.account.targetQuestion %>
+                <%= typeof call.account.targetQuestion %>
             </span>
             <div class="newCustomerClose"></div>
             <% if ( call.account.targetQuestion === false ) { %>
