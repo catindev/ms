@@ -87,23 +87,7 @@ function recordUrl( original ) {
         <div class="newCustomerQuestion">
             <span style="display: none"><%- call.account %></span>
             <div class="newCustomerClose"></div>
-            <% if ( call.account.targetQuestion !== false ) { %>
-                <h2 class="newCustomerQuestion__title">
-                    <%= call.account.targetQuestion %>
-                </h2>
-                <div class="row" style="text-align: center">
-                    <div class="col">
-                        <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
-                            Нет
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
-                            Да
-                        </a>
-                    </div>
-                </div>
-            <% } else { %>
+            <% if ( call.account.targetQuestion === false ) { %>
                 <h2 class="newCustomerQuestion__title">
                     Выберите тип клиента
                 </h2>
@@ -116,6 +100,22 @@ function recordUrl( original ) {
                     <div class="col">
                         <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
                             Целевой
+                        </a>
+                    </div>
+                </div>
+            <% } else { %>
+                <h2 class="newCustomerQuestion__title">
+                    <%= call.account.targetQuestion %>
+                </h2>
+                <div class="row" style="text-align: center">
+                    <div class="col">
+                        <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
+                            Нет
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
+                            Да
                         </a>
                     </div>
                 </div>
