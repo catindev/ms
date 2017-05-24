@@ -86,21 +86,39 @@ function recordUrl( original ) {
     <div class="newCustomer">
         <div class="newCustomerQuestion">
             <div class="newCustomerClose"></div>
-            <h2 class="newCustomerQuestion__title">
-                Выберите тип клиента
-            </h2>
-            <div class="row" style="text-align: center">
-                <div class="col">
-                    <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
-                        Нецелевой
-                    </a>
+            <% if (call.account.targetQuestion) { %>
+                <h2 class="newCustomerQuestion__title">
+                    <%= call.account.targetQuestion %>
+                </h2>
+                <div class="row" style="text-align: center">
+                    <div class="col">
+                        <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
+                            Нет
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
+                            Да
+                        </a>
+                    </div>
                 </div>
-                <div class="col">
-                    <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
-                        Целевой
-                    </a>
+            <% } else { %>
+                <h2 class="newCustomerQuestion__title">
+                    Выберите тип клиента
+                </h2>
+                <div class="row" style="text-align: center">
+                    <div class="col">
+                        <a href="contacts/no-target/<%= call.contact._id %>" class="button default">
+                            Нецелевой
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="contacts/edit/<%= call.contact._id %>" class="button primary">
+                            Целевой
+                        </a>
+                    </div>
                 </div>
-            </div>
+            <% } %>
         </div>
     </div>
 </div>
