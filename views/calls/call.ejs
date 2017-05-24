@@ -90,7 +90,7 @@ function recordUrl( original ) {
                 <%= JSON.stringify(call.account) %>
             </span>
             <div class="newCustomerClose"></div>
-            <% if ( call.account.targetQuestion === false ) { %>
+            <% if ( !call.account.targetQuestion || call.account.targetQuestion === "" ) { %>
                 <h2 class="newCustomerQuestion__title">
                     Выберите тип клиента
                 </h2>
