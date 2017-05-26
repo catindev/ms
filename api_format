@@ -1,0 +1,40 @@
+
+Формат. Звонки
+
+HTTP-метод показывает что обираемся делать как в REST.
+GET /api/
+
+Запрос 
+limit, offset — опционально.
+Думаю лучше всё опционально т.к. круче если можно как по customerID выгребать так и 
+получать данные звонка по, например, callID
+
+{
+    resource: "calls",
+    params: {
+        customerID: "1111",
+        limit: 25,
+        offset: 25
+    }
+}
+
+Примерно это как-то так будет выглядеть:
+http://apihost.name/api/?resource=calls&params[customerID]=1111&params[limit]=25&params[offset]=25
+
+Ответ
+{
+    count: 1250,
+    items: [
+        {
+            date: "timestamp или ISODate, мне в принципе пофигу",
+            numbers: {
+                caller: "кто звонил",
+                callee: "куда звонил",
+                endpoint: "кто ответил"
+            },
+            record: "запись разговора"
+        },
+        ...
+    ]
+
+}
