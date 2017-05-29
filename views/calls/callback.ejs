@@ -5,21 +5,72 @@
      return false;
  }
 
+ function formatCallbackNumberForHumans( number, notAlmaty ) {
+     const re = /(?:([\d]{1,}?))??(?:([\d]{1,3}?))??(?:([\d]{1,3}?))??(?:([\d]{2}))??([\d]{2})$/;
+     let formatted = (number.replace( re,
+             ( all, a, b, c, d, e ) => ( a ? a + " " : "" ) + ( b ? b + " " : "" ) + ( c ? c + "-" : "" ) + ( d ? d + "-" : "" ) + e
+     )).split(' ');
+
+     if ( notAlmaty && formatted[1] === '727' ) {
+         formatted[1] += formatted[2][0];
+         formatted[2] = formatted[2].substring(1);
+     }
+
+     return `${ formatted[0] } (${ formatted[1] }) ${ formatted[2] }`
+ }
+
 %>
 
 <% if ( user.access === 'manager' ) { %>
-<div class="row" style="text-align:center;padding-top:1rem;">
-    <% user.phones.forEach( phone => { %>
-    <div class="col">
-        <a class="button small primary js-callback"
-           role="button"
-           from="<%= phone %>"
-           to="<%= call.contact.phone %>"
-           trunk="<%= call.number.phone %>"
-           call-id="<%= getCallID(call) %>">
-            Позвонить с <%= phone %>
-        </a>
+    <% if ( user.phones.length >= 3 ) { %>
+        <div style="background: rgba(169,100,158, .05);text-align:center;padding:1rem;margin-top:1rem;">
+            <div style="text-align:center;padding-bottom:.5rem;width: 100%;">Позвонить с номера</div>
+            <div class="row" style="text-align:center;">
+                <% user.phones.forEach( phone => { %>
+                <div class="col">
+                    <a class="button small primary js-callback"
+                       role="button"
+                       from="<%= phone %>"
+                       to="<%= call.contact.phone %>"
+                       trunk="<%= call.number.phone %>"
+                       call-id="<%= getCallID(call) %>">
+                        <%= formatCallbackNumberForHumans(phone) %>
+                    </a>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+
+    <% if ( user.phones.length <= 2 ) { %>
+        <div class="row" style="text-align:center;padding-top:1rem;">
+            <% user.phones.forEach( phone => { %>
+            <div class="col">
+                <a class="button small primary js-callback"
+                   role="button"
+                   from="<%= phone %>"
+                   to="<%= call.contact.phone %>"
+                   trunk="<%= call.number.phone %>"
+                   call-id="<%= getCallID(call) %>">
+                    Позвонить с <%= formatCallbackNumberForHumans(phone) %>
+                </a>
+            </div>
+            <% }); %>
+        </div>
+    <% } %>
+
+    <% if ( user.phones.length === 1 ) { %>
+    <div class="row" style="text-align:center;padding-top:1rem;">
+        <div class="col">
+            <a class="button small primary js-callback"
+               role="button"
+               from="<%= phone %>"
+               to="<%= call.contact.phone %>"
+               trunk="<%= call.number.phone %>"
+               call-id="<%= getCallID(call) %>">
+                Позвонить
+            </a>
+        </div>
     </div>
-    <% }); %>
-</div>
+    <% } %>
 <% } %>
