@@ -1,23 +1,31 @@
 const Account = require("../models/account");
 const User = require("../models/user");
+const Session = require("../models/session");
 
-function checkIn(session, callback) {
-    if ( !session ) return callback({
+function checkIn(token, callback) {
+    if ( !token ) return callback({
         status: 403,
         message: "session invalid"
     }, null);
 
-    User.findOne({ session }).populate( 'account' ).exec( findUserBySession );
+    const options = {
+      path: 'user', model: 'User',
+      populate: {
+        path: 'account',
+        model: 'Account'
+      }
+    };
 
-    function findUserBySession(error, user) {
+    Session.findOne({ token }).populate( options ).exec( findSession );
+
+    function findSession(error, session) {
         if ( error ) throw error;
-
-        if ( !user ) return callback({
+        if ( !session ) return callback({
             status: 403,
             message: "session invalid"
         }, null);
 
-        callback(null, user);
+        callback(null, session.user);
     }
 }
 
