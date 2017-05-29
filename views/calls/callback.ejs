@@ -22,6 +22,8 @@
 %>
 
 <% if ( user.access === 'manager' ) { %>
+    <div style="display:none"><%- user.phones %></div>
+
     <% if ( user.phones.length >= 3 ) { %>
         <div style="background: rgba(169,100,158, .05);text-align:center;padding:1rem;margin-top:1rem;">
             <div style="text-align:center;padding-bottom:.5rem;width: 100%;">Позвонить с номера</div>
@@ -42,7 +44,7 @@
         </div>
     <% } %>
 
-    <% if ( user.phones.length <= 2 ) { %>
+    <% if ( user.phones.length === 2 ) { %>
         <div class="row" style="text-align:center;padding-top:1rem;">
             <% user.phones.forEach( phone => { %>
             <div class="col">
@@ -64,7 +66,7 @@
         <div class="col">
             <a class="button small primary js-callback"
                role="button"
-               from="<%= phone %>"
+               from="<%= user.phones[0] %>"
                to="<%= call.contact.phone %>"
                trunk="<%= call.number.phone %>"
                call-id="<%= getCallID(call) %>">
