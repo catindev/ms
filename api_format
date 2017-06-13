@@ -33,6 +33,11 @@ http://apihost.name/api/?resource=calls&params[customerID]=1111&params[limit]=25
                 endpoint: "кто ответил"
             },
             record: "запись разговора"
+            callback: {
+                  duration: "время ожидания = дата перезвона - дата звонка",
+                  recall_id: "айди последнего исходящего",
+                  attempts: "количество перезвонов"
+            }
         },
         ...
     ]
