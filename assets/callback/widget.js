@@ -90,7 +90,7 @@
   }
 
   window.onload = function () {
-    MSCRMLoadCSS("http://mindsales-crm.com/callback/widget.css");
+    MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css");
 
     var sid = mindsalesCallbackWidget.getAttribute("site-id");
 
