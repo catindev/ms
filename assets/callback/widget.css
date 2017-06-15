@@ -1,0 +1,148 @@
+#mscrmWidgetButton {
+    all: initial;
+    position: fixed;
+    width: 70px;
+    height: 70px;
+    bottom: 100px;
+    right: 100px;
+    background: #A23A99;
+    opacity: .8;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 20000 !important;
+    background-image: url(http://mindsales-crm.com/callback/button-icon.png);
+    box-shadow: 0 8px 32px rgba(51, 51, 51, 0.7);
+}
+
+#mscrmWidgetButton:hover {
+    opacity: 1;
+}
+
+#mscrmWidgetWindow {
+    all: initial;
+    position: fixed;
+    left: 0; top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.75);
+    display:none;
+    z-index: 20000 !important;
+}
+
+.mscrmWidgetWindow__formWrapper {
+    all: initial;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+.mscrmWidgetWindow__formContent {
+    border-radius: 3px;
+    position: relative;
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,'Segoe UI','Segoe WP','Helvetica Neue','Lucida Grande',Verdana,Tahoma,Arial,sans-serif!important;
+    margin: 0 auto;
+    background: #fff;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(51, 51, 51, 0.7);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+.mscrmWidgetWindow__formHeader {
+    padding: 15px 20px 5px 20px;
+    background: #A23A99;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.mscrmWidgetWindow__close {
+    color: #000;
+    opacity: .3;
+    font: 18px/100% arial, sans-serif;
+    position: absolute;
+    right: 12px; top: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mscrmWidgetWindow__close:after {
+    content: '✖';
+}
+
+.mscrmWidgetWindow__close:hover {
+    opacity: 1;
+    color: #fff;
+}
+
+.mscrmWidgetWindow__title {
+    padding: 0; margin: 0;
+    padding-bottom: 5px;
+    font-size: 18px !important;
+    color: #fff !important;
+    line-height: 1 !important;
+    text-align: left !important;
+    font-weight: bold !important;
+}
+
+.mscrmWidgetWindow__subtitle {
+    padding: 0; margin: 0;
+    font-size: 16px !important;
+    color: rgba(255,255,255, .7) !important;
+    line-height: 1 !important;
+    text-align: left !important;
+    padding-bottom: 10px !important;
+}
+
+
+.mscrmWidgetWindow__formForm {
+    padding: 15px 20px 30px 20px;
+}
+
+
+.mscrmWidgetWindow__formLabel {
+    display: block;
+    padding: 12px 0;
+}
+
+.mscrmWidgetWindow__formInput {
+    display: block;
+    margin: 0 auto;
+    padding: 12px;
+    border: 2px solid #000;
+    border-radius: 4px;
+    font-size: 16px;
+    max-width: 50%;
+}
+
+.mscrmWidgetWindow__formButton {
+    display: inline-block;
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    border: solid #222 0;
+    border-radius: 5px;
+    padding: 12px 12px;
+    margin-top: 15px;
+    cursor: pointer;
+    background-color: #A23A99;
+    box-shadow: 6px 6px 0 #222;
+    max-width: 150px;
+}
+
+.mscrmWidgetWindow__formButton:hover {
+    color: #fff;
+    background-color: #A23A99;
+    box-shadow: 2px 2px 0 #222;
+}
