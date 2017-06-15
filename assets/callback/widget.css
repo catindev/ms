@@ -107,38 +107,38 @@
 
 
 .mscrmWidgetWindow__formForm {
-    padding: 15px 20px 30px 20px;
+    padding: 15px 20px 30px 20px !important;
 }
 
 
 .mscrmWidgetWindow__formLabel {
-    display: block;
-    padding: 12px 0;
+    display: block !important;
+    padding: 12px 0 !important;
 }
 
 .mscrmWidgetWindow__formInput {
-    display: block;
-    margin: 0 auto;
-    padding: 12px;
-    border: 2px solid #000;
-    border-radius: 4px;
-    font-size: 16px;
-    max-width: 50%;
+    display: block !important;
+    margin: 0 auto !important;
+    padding: 12px !important;
+    border: 2px solid #000 !important;
+    border-radius: 4px !important;
+    font-size: 16px !important;
+    max-width: 50% !important;
 }
 
 .mscrmWidgetWindow__formButton {
-    display: inline-block;
-    margin: 0;
-    color: #fff;
-    font-weight: 600;
-    border: solid #222 0;
-    border-radius: 5px;
-    padding: 12px 12px;
-    margin-top: 15px;
-    cursor: pointer;
-    background-color: #A23A99;
-    box-shadow: 6px 6px 0 #222;
-    max-width: 150px;
+    display: inline-block !important;
+    margin: 0 !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+    border: solid #222 0 !important;
+    border-radius: 5px !important;
+    padding: 12px 12px !important;
+    margin-top: 15px !important;
+    cursor: pointer !important;
+    background-color: #A23A99 !important;
+    box-shadow: 6px 6px 0 #222 !important;
+    max-width: 150px !important;
 }
 
 .mscrmWidgetWindow__formButton:hover {
