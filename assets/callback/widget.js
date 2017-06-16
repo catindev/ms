@@ -119,7 +119,8 @@
             '</div>' +
           '</div>' +
           '<div class="mscbThxMessage" id="thxMessage">' +
-            'Спасибо, мы свяжемся с вами в ближайшее время' +
+            '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
+            '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
           '</div>' +
         '</div>' +
       '</div>';

@@ -87,7 +87,7 @@
     position: relative;
     font-family: -apple-system,BlinkMacSystemFont,Roboto,'Segoe UI','Segoe WP','Helvetica Neue','Lucida Grande',Verdana,Tahoma,Arial,sans-serif!important;
     margin: 0 auto;
-    padding: 80px 20px 30px 20px;
+    padding: 90px 20px 30px 20px;
     font-size: 20px;
     background: #fff url(https://png.icons8.com/thumb-u/color/50) top 25px center no-repeat;
     color: #2b2b2b;
@@ -97,6 +97,14 @@
     -webkit-animation-duration: 0.4s;
     animation-name: animatescale;
     animation-duration: 0.4s
+}
+
+.mscbThxMessage__title {
+    font-size: 22px;
+}
+
+.mscbThxMessage__subtitle {
+    font-size: 18px;
 }
 
 
