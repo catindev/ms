@@ -119,6 +119,7 @@
             '</div>' +
           '</div>' +
           '<div class="mscbThxMessage" id="thxMessage">' +
+            '<span class="mscbHeader__closeBtn" id="closeBtn2"></span>' +
             '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
             '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
           '</div>' +
