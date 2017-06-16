@@ -136,7 +136,7 @@
       var cn = phoneText.value.replace(/ /g,'');
 
       if (!cn || cn === '') {
-        phoneText.className += "mscbForm__input mscbForm__input--error";
+        phoneText.className += ' mscbForm__input--error';
         return;
       }
 
