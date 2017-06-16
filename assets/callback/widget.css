@@ -42,7 +42,7 @@
 }
 
 
-/* Animations for window */
+/* Animations */
 
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0}
@@ -52,6 +52,16 @@
 @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
+}
+
+@-webkit-keyframes animatebottom {
+    from {bottom:-300px; opacity:0}
+    to {bottom:0; opacity:1}
+}
+
+@keyframes animatebottom {
+    from {bottom:-300px; opacity:0}
+    to {bottom:0; opacity:1}
 }
 
 /* Window content */
@@ -157,4 +167,14 @@
     color: #fff !important;
     background-color: #A23A99 !important;
     box-shadow: 2px 2px 0 #222 !important;
+}
+
+.mscbThxMessage {
+    padding: 30px;
+    font-size: 20px;
+    color: #2b2b2b;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
 }

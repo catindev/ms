@@ -98,17 +98,20 @@
       '<div class="mscbButton" id="widgetButton"></div>' +
       '<div class="mscbWindow" id="widgetWindow">' +
         '<div class="mscbWindow_layout" id="layout">' +
-          '<div class="mscbContent">' +
+          '<div class="mscbContent" id="content">' +
             '<div class="mscbHeader">' +
               '<span class="mscbHeader__closeBtn" id="closeBtn"></span>' +
               '<h1 class="mscbHeader__title">Остались вопросы?</h1>' +
               '<h2 class="mscbHeader__subtitle">Мы позвоним вам и проконсультируем</h2>' +
             '</div>' +
             '<div class="mscbForm">' +
-              '<label class="mscbForm__label">Номер вашего телефона</label>' +
+              '<label class="mscbForm__label" for="phoneText">Номер вашего телефона</label>' +
               '<input type="text" name="mscrmPhone" id="phoneText" class="mscbForm__input"/>' +
               '<input type="button" class="mscbForm__button" id="formButton" value="Жду звонка">' +
             '</div>' +
+          '</div>' +
+          '<div class="mscbThxMessage" id="thxMessage">' +
+            'Спасибо, мы свяжемся с вами в ближайшее время' +
           '</div>' +
         '</div>' +
       '</div>';
@@ -120,6 +123,9 @@
     }, false);
 
     formButton.addEventListener('click', function() {
+      content.style.display = 'none';
+      thxMessage.style.display = 'block';
+      return;
       var cn = phoneText.value;
       MSCRMAjax
       .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
