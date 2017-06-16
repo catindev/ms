@@ -132,19 +132,15 @@
         widgetButton.style.display = 'block';
         widgetWindow.style.display = 'none';
       }, 2500);
-      return;
+
       var cn = phoneText.value;
       MSCRMAjax
       .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
       .done(function (xhr) {
-        console.info('Коллбек: запрос отправлен');
-        widgetButton.style.display = 'block';
-        widgetWindow.style.display = 'none';
+        console.info('MS-CRM: callback success');
       })
       .fail(function (xhr) {
-        console.error('Коллбек: проблемы на сервере');
-        widgetButton.style.display = 'block';
-        widgetWindow.style.display = 'none';
+        console.error('MS-CRM: callback issues');
       });
     }, false);
 
@@ -157,10 +153,11 @@
       if (event.target == layout) {
         widgetButton.style.display = 'block';
         widgetWindow.style.display = 'none';
-        // clear after send state
+
+        // clear requested state
+        clearTimeout(timer);
         thxMessage.style.display = 'none';
         content.style.display = 'block'
-        clearTimeout(timerId);
       }
     }, false);
 
