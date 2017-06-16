@@ -116,6 +116,7 @@
     widgetButton.addEventListener('click', function() {
       widgetButton.style.display = 'none';
       widgetWindow.style.display = 'table';
+      phoneText.focus();
     }, false);
 
     formButton.addEventListener('click', function() {
