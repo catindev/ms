@@ -100,7 +100,7 @@
         '<div class="mscrmWidgetWindow__formWrapper" id="mscrmWidgetFormWrapper">' +
           '<div class="mscrmWidgetWindow__formContent">' +
             '<div class="mscrmWidgetWindow__formHeader">' +
-              '<span class="mscrmWidgetWindow__close"></span>' +
+              '<span class="mscrmWidgetWindow__close" id="mscrmWidgetFormClose"></span>' +
               '<h1 class="mscrmWidgetWindow__title">Остались вопросы?</h1>' +
               '<h2 class="mscrmWidgetWindow__subtitle">Мы позвоним вам и проконсультируем</h2>' +
             '</div>' +
@@ -132,6 +132,11 @@
         mscrmWidgetButton.style.display = 'block';
         mscrmWidgetWindow.style.display = 'none';
       });
+    }, false);
+
+    mscrmWidgetFormClose.addEventListener('click', function() {
+      mscrmWidgetButton.style.display = 'block';
+      mscrmWidgetWindow.style.display = 'none';
     }, false);
 
     document.addEventListener('click', function(event) {
