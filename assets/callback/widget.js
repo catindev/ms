@@ -139,7 +139,7 @@
         content.style.display = 'block';
         widgetButton.style.display = 'block';
         widgetWindow.style.display = 'none';
-      }, 2500);
+      }, 3000);
       return;
       var cn = phoneText.value;
       MSCRMAjax
