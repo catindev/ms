@@ -133,6 +133,14 @@
     }, false);
 
     formButton.addEventListener('click', function() {
+      var cn = phoneText.value.replace(/ /g,'');
+
+      if (!cn || cn === '') {
+        phoneText.className += "mscbForm__input mscbForm__input--error";
+        return;
+      }
+
+
       content.style.display = 'none';
       thxMessage.style.display = 'block';
       timer = setTimeout(function() {
@@ -142,7 +150,6 @@
         widgetWindow.style.display = 'none';
       }, 3000);
       return;
-      var cn = phoneText.value;
       MSCRMAjax
       .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
       .done(function (xhr) {
