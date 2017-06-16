@@ -117,11 +117,11 @@
 
 /* Header content */
 .mscbHeader {
-    padding: 15px 20px 5px 40px;
+    padding: 15px 20px 5px 60px;
     background: #A23A99;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-    background: #A23A99 url(https://png.icons8.com/question/ffffff/30) center left 7px no-repeat;
+    background: #A23A99 url(https://png.icons8.com/question/ffffff/35) center left 12px no-repeat;
 }
 
 .mscbHeader__closeBtn {
