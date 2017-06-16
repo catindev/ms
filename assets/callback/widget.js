@@ -110,6 +110,9 @@
               '<input type="button" class="mscbForm__button" id="formButton" value="Жду звонка">' +
             '</div>' +
           '</div>' +
+          '<div class="mscbThxMessage" id="thxMessage">' +
+            'Спасибо, мы свяжемся с вами в ближайшее время' +
+          '</div>' +
         '</div>' +
       '</div>';
 
