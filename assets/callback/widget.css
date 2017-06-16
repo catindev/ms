@@ -56,12 +56,12 @@
 
 @-webkit-keyframes animatebottom {
     0% {
-        transform:scale(1);
-        opacity:1;
-    }
-    99.9% {
         transform:scale(2);
         opacity:0;
+    }
+    99.9% {
+        transform:scale(1);
+        opacity:1;
     }
     100% {
         transform:scale(0);
@@ -70,12 +70,12 @@
 
 @keyframes animatebottom {
     0% {
-        transform:scale(1);
-        opacity:1;
-    }
-    99.9% {
         transform:scale(2);
         opacity:0;
+    }
+    99.9% {
+        transform:scale(1);
+        opacity:1;
     }
     100% {
         transform:scale(0);
