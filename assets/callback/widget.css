@@ -109,6 +109,26 @@
 }
 
 
+.mscbThxMessage__closeBtn {
+    color: #A23A99;
+    opacity: .3;
+    font: 18px/100% arial, sans-serif;
+    position: absolute;
+    right: 12px; top: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mscbThxMessage__closeBtn:after {
+    content: '✖';
+}
+
+.mscbThxMessage__closeBtn:hover {
+    opacity: 1;
+    color: #000;
+}
+
+
 /* Window content */
 .mscbContent {
     border-radius: 3px;

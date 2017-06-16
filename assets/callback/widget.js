@@ -119,7 +119,7 @@
             '</div>' +
           '</div>' +
           '<div class="mscbThxMessage" id="thxMessage">' +
-            '<span class="mscbHeader__closeBtn" id="closeBtn2"></span>' +
+            '<span class="mscbThxMessage__closeBtn" id="closeThx"></span>' +
             '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
             '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
           '</div>' +
@@ -156,6 +156,16 @@
     closeBtn.addEventListener('click', function() {
       widgetButton.style.display = 'block';
       widgetWindow.style.display = 'none';
+    }, false);
+
+    closeThx.addEventListener('click', function() {
+      widgetButton.style.display = 'block';
+      widgetWindow.style.display = 'none';
+
+      // clear requested state
+      clearTimeout(timer);
+      thxMessage.style.display = 'none';
+      content.style.display = 'block'
     }, false);
 
     document.addEventListener('click', function(event) {
