@@ -92,6 +92,7 @@
   window.onload = function () {
     MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css?p=" + new Date().getTime());
 
+    var timer;
     var sid = mindsalesCallbackWidget.getAttribute("site-id");
 
     mindsalesCallbackWidget.innerHTML =
@@ -125,7 +126,7 @@
     formButton.addEventListener('click', function() {
       content.style.display = 'none';
       thxMessage.style.display = 'block';
-      setTimeout(function() {
+      timer = setTimeout(function() {
         thxMessage.style.display = 'none';
         content.style.display = 'block';
         widgetButton.style.display = 'block';
@@ -156,6 +157,10 @@
       if (event.target == layout) {
         widgetButton.style.display = 'block';
         widgetWindow.style.display = 'none';
+        // clear after send state
+        thxMessage.style.display = 'none';
+        content.style.display = 'block'
+        clearTimeout(timerId);
       }
     }, false);
 
