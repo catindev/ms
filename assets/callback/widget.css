@@ -65,10 +65,12 @@
 }
 
 .mscbThxMessage {
+    display: none;
     border-radius: 3px;
     position: relative;
     font-family: -apple-system,BlinkMacSystemFont,Roboto,'Segoe UI','Segoe WP','Helvetica Neue','Lucida Grande',Verdana,Tahoma,Arial,sans-serif!important;
     margin: 0 auto;
+    padding: 30px 20px 30px 20px;
     font-size: 20px;
     background: #fff;
     color: #2b2b2b;
