@@ -125,6 +125,12 @@
     formButton.addEventListener('click', function() {
       content.style.display = 'none';
       thxMessage.style.display = 'block';
+      setTimeout(function() {
+        thxMessage.style.display = 'none';
+        content.style.display = 'block';
+        widgetButton.style.display = 'block';
+        widgetWindow.style.display = 'none';
+      }, 2500);
       return;
       var cn = phoneText.value;
       MSCRMAjax
