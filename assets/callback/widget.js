@@ -102,8 +102,8 @@
           '<div class="mscbContent" id="content">' +
             '<div class="mscbHeader">' +
               '<span class="mscbHeader__closeBtn" id="closeBtn"></span>' +
-              '<h1 class="mscbHeader__title">Остались вопросы?</h1>' +
-              '<h2 class="mscbHeader__subtitle">Мы позвоним вам и проконсультируем</h2>' +
+              '<h1 class="mscbHeader__title">Есть вопросы?</h1>' +
+              '<h2 class="mscbHeader__subtitle">Мы позвоним вам и расскажем обо всём подробнее</h2>' +
             '</div>' +
             '<div class="mscbForm">' +
               '<label class="mscbForm__label" for="phoneText">Номер вашего телефона</label>' +
