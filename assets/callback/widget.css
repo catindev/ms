@@ -137,10 +137,6 @@
     outline: none !important;
 }
 
-.mscbForm__input:focus {
-    border: 2px solid #A23A99 !important;
-}
-
 .mscbForm__button {
     display: inline-block !important;
     margin: 0 !important;
