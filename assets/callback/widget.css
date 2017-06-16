@@ -55,8 +55,8 @@
 }
 
 @-webkit-keyframes animatebottom {
-    from {left:-1000px; opacity:0}
-    to {left:0; opacity:1}
+    from { transform:translateY(0%); opacity:0}
+    to { transform:translateY(-100%); opacity:1}
 }
 
 @keyframes animatebottom {
