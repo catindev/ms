@@ -90,59 +90,59 @@
   }
 
   window.onload = function () {
-    MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css");
+    MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css?p=" + new Date().getTime());
 
     var sid = mindsalesCallbackWidget.getAttribute("site-id");
 
     mindsalesCallbackWidget.innerHTML =
-      '<div id="mscrmWidgetButton"></div>' +
-      '<div id="mscrmWidgetWindow">' +
-        '<div class="mscrmWidgetWindow__formWrapper" id="mscrmWidgetFormWrapper">' +
-          '<div class="mscrmWidgetWindow__formContent">' +
-            '<div class="mscrmWidgetWindow__formHeader">' +
-              '<span class="mscrmWidgetWindow__close" id="mscrmWidgetFormClose"></span>' +
-              '<h1 class="mscrmWidgetWindow__title">Остались вопросы?</h1>' +
-              '<h2 class="mscrmWidgetWindow__subtitle">Мы позвоним вам и проконсультируем</h2>' +
+      '<div class="mscbButton" id="widgetButton"></div>' +
+      '<div class="mscbWindow" id="widgetWindow">' +
+        '<div class="mscbWindow_layout" id="layout">' +
+          '<div class="mscbContent">' +
+            '<div class="mscbHeader">' +
+              '<span class="mscbHeader__closeBtn" id="closeBtn"></span>' +
+              '<h1 class="mscbHeader__title">Остались вопросы?</h1>' +
+              '<h2 class="mscbHeader__subtitle">Мы позвоним вам и проконсультируем</h2>' +
             '</div>' +
-            '<div class="mscrmWidgetWindow__formForm">' +
-              '<label class="mscrmWidgetWindow__formLabel">Номер вашего телефона</label>' +
-              '<input type="text" name="mscrmCustomerPhoneNumber" id="mscrmCustomerPhoneNumber" class="mscrmWidgetWindow__formInput"/>' +
-              '<input type="button" class="mscrmWidgetWindow__formButton" id="MSCRMCallback" value="Жду звонка">' +
+            '<div class="mscbForm">' +
+              '<label class="mscbForm__label">Номер вашего телефона</label>' +
+              '<input type="text" name="mscrmPhone" id="phoneText" class="mscbForm__input"/>' +
+              '<input type="button" class="mscbForm__button" id="formButton" value="Жду звонка">' +
             '</div>' +
           '</div>' +
         '</div>' +
       '</div>';
 
-    mscrmWidgetButton.addEventListener('click', function() {
-      mscrmWidgetButton.style.display = 'none';
-      mscrmWidgetWindow.style.display = 'table';
+    widgetButton.addEventListener('click', function() {
+      widgetButton.style.display = 'none';
+      widgetWindow.style.display = 'table';
     }, false);
 
-    MSCRMCallback.addEventListener('click', function() {
-      var cn = mscrmCustomerPhoneNumber.value;
+    formButton.addEventListener('click', function() {
+      var cn = phoneText.value;
       MSCRMAjax
       .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
       .done(function (xhr) {
         console.info('Коллбек: запрос отправлен');
-        mscrmWidgetButton.style.display = 'block';
-        mscrmWidgetWindow.style.display = 'none';
+        widgetButton.style.display = 'block';
+        widgetWindow.style.display = 'none';
       })
       .fail(function (xhr) {
         console.error('Коллбек: проблемы на сервере');
-        mscrmWidgetButton.style.display = 'block';
-        mscrmWidgetWindow.style.display = 'none';
+        widgetButton.style.display = 'block';
+        widgetWindow.style.display = 'none';
       });
     }, false);
 
-    mscrmWidgetFormClose.addEventListener('click', function() {
-      mscrmWidgetButton.style.display = 'block';
-      mscrmWidgetWindow.style.display = 'none';
+    closeBtn.addEventListener('click', function() {
+      widgetButton.style.display = 'block';
+      widgetWindow.style.display = 'none';
     }, false);
 
     document.addEventListener('click', function(event) {
-      if (event.target == mscrmWidgetFormWrapper) {
-        mscrmWidgetButton.style.display = 'block';
-        mscrmWidgetWindow.style.display = 'none';
+      if (event.target == layout) {
+        widgetButton.style.display = 'block';
+        widgetWindow.style.display = 'none';
       }
     }, false);
 
