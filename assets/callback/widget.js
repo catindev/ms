@@ -144,16 +144,16 @@
         return;
       }
 
-
       content.style.display = 'none';
       thxMessage.style.display = 'block';
+
       timer = setTimeout(function() {
         thxMessage.style.display = 'none';
         content.style.display = 'block';
         widgetButton.style.display = 'block';
         widgetWindow.style.display = 'none';
       }, 3000);
-      return;
+
       MSCRMAjax
       .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
       .done(function (xhr) {
