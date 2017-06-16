@@ -64,6 +64,23 @@
     to {bottom:0; opacity:1}
 }
 
+.mscbThxMessage {
+    border-radius: 3px;
+    position: relative;
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,'Segoe UI','Segoe WP','Helvetica Neue','Lucida Grande',Verdana,Tahoma,Arial,sans-serif!important;
+    margin: 0 auto;
+    font-size: 20px;
+    background: #fff;
+    color: #2b2b2b;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(51, 51, 51, 0.7);
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatebottom;
+    animation-duration: 0.4s
+}
+
+
 /* Window content */
 .mscbContent {
     border-radius: 3px;
@@ -167,15 +184,4 @@
     color: #fff !important;
     background-color: #A23A99 !important;
     box-shadow: 2px 2px 0 #222 !important;
-}
-
-.mscbThxMessage {
-    padding: 30px;
-    font-size: 20px;
-    color: #2b2b2b;
-    background: #fff;
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s
 }
