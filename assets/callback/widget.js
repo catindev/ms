@@ -137,6 +137,9 @@
 
       if (!cn || cn === '') {
         phoneText.className += ' mscbForm__input--error';
+        setTimeout(function() {
+          phoneText.className = 'mscbForm__input';
+        }, 500);
         return;
       }
 
