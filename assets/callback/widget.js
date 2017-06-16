@@ -110,7 +110,7 @@
             '<div class="mscbHeader">' +
               '<span class="mscbHeader__closeBtn" id="closeBtn"></span>' +
               '<h1 class="mscbHeader__title">Есть вопросы?</h1>' +
-              '<h2 class="mscbHeader__subtitle">Мы позвоним и расскажем обо всём подробнее</h2>' +
+              '<h2 class="mscbHeader__subtitle">Позвоним и расскажем обо всём подробнее!</h2>' +
             '</div>' +
             '<div class="mscbForm">' +
               '<label class="mscbForm__label" for="phoneText">Номер вашего телефона</label>' +
@@ -139,7 +139,7 @@
         widgetButton.style.display = 'block';
         widgetWindow.style.display = 'none';
       }, 2500);
-
+      return;
       var cn = phoneText.value;
       MSCRMAjax
       .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })

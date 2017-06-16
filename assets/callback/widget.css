@@ -87,9 +87,9 @@
     position: relative;
     font-family: -apple-system,BlinkMacSystemFont,Roboto,'Segoe UI','Segoe WP','Helvetica Neue','Lucida Grande',Verdana,Tahoma,Arial,sans-serif!important;
     margin: 0 auto;
-    padding: 30px 20px 30px 20px;
+    padding: 40px 20px 30px 20px;
     font-size: 20px;
-    background: #fff;
+    background: #fff url(https://png.icons8.com/thumb-u/color/70) top 25px center no-repeat;
     color: #2b2b2b;
     max-width: 600px;
     box-shadow: 0 8px 32px rgba(51, 51, 51, 0.7);
@@ -118,7 +118,6 @@
 /* Header content */
 .mscbHeader {
     padding: 15px 20px 5px 60px;
-    background: #A23A99;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background: #A23A99 url(https://png.icons8.com/question/ffffff/35) center left 12px no-repeat;
