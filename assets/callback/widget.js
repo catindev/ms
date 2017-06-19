@@ -191,7 +191,7 @@
       }
     }, false);
 
-    phoneText.addEventListener('keyup', function() {
+    phoneText.addEventListener('keyup keypress keydown', function() {
       console.log('phone', phoneText.value);
       phoneText.value = String(phoneText.value).replace(/\D/g, '');
     }, false);
