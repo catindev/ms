@@ -238,6 +238,8 @@
 
 .mscbForm__button {
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     display: inline-block !important;
     margin: 0 !important;
     color: #fff !important;
