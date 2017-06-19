@@ -191,8 +191,9 @@
       }
     }, false);
 
+
+    // filter user input
     function inputFilter() {
-      console.log('phone', phoneText.value);
       phoneText.value = String(phoneText.value).replace(/\D/g, '');
     }
 
