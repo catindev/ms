@@ -37,7 +37,12 @@
     all: initial;
     display: table-cell;
     text-align: center;
-    vertical-align: middle;
+}
+
+@media (min-width: 1024px) {
+    .mscbWindow_layout {
+        vertical-align: middle;
+    }
 }
 
 
