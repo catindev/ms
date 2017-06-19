@@ -155,13 +155,13 @@
       }, 3000);
 
       MSCRMAjax
-      .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
-      .done(function (xhr) {
-        console.info('MS-CRM: callback success');
-      })
-      .fail(function (xhr) {
-        console.error('MS-CRM: callback issues');
-      });
+        .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
+        .done(function (xhr) {
+          console.info('MS-CRM: callback success');
+        })
+        .fail(function (xhr) {
+          console.error('MS-CRM: callback issues');
+        });
     }, false);
 
     closeBtn.addEventListener('click', function() {
@@ -189,6 +189,10 @@
         thxMessage.style.display = 'none';
         content.style.display = 'block'
       }
+    }, false);
+
+    phoneText.addEventListener('keypress', function() {
+      console.log('phone', phoneText.value)
     }, false);
 
   };
