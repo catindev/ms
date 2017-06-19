@@ -191,7 +191,7 @@
       }
     }, false);
 
-    phoneText.addEventListener('keydown', function() {
+    phoneText.addEventListener('keyup', function() {
       console.log('phone', phoneText.value)
     }, false);
 
