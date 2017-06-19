@@ -191,10 +191,14 @@
       }
     }, false);
 
-    phoneText.addEventListener('keyup keypress keydown', function() {
+    function inputFilter() {
       console.log('phone', phoneText.value);
       phoneText.value = String(phoneText.value).replace(/\D/g, '');
-    }, false);
+    }
+
+    phoneText.addEventListener('keyup', inputFilter, false);
+    phoneText.addEventListener('keypress', inputFilter, false);
+    phoneText.addEventListener('keydown', inputFilter, false);
 
   };
 })();
