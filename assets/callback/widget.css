@@ -237,6 +237,7 @@
 }
 
 .mscbForm__button {
+    -webkit-appearance: none;
     display: inline-block !important;
     margin: 0 !important;
     color: #fff !important;
