@@ -114,7 +114,7 @@
             '</div>' +
             '<div class="mscbForm">' +
               '<label class="mscbForm__label" for="phoneText">Номер вашего телефона</label>' +
-              '<input type="phone" name="phone" id="phoneText" class="mscbForm__input"/>' +
+              '<input type="tel" name="phone" id="phoneText" class="mscbForm__input"/>' +
               '<input type="button" class="mscbForm__button" id="formButton" value="Жду звонка">' +
             '</div>' +
           '</div>' +
