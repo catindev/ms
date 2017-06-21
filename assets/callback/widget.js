@@ -99,16 +99,16 @@
   window.onload = function () {
     MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css?p=" + new Date().getTime());
 
-    var timer;
+    var timer; var trunkNumber;
     var sid = mindsalesCallbackWidget.getAttribute("site-id");
 
     MSCRMAjax
     .request({ url: 'http://185.22.65.50/callback/' })
       .done(function (xhr) {
-        console.log('xhr',xhr);
+        trunkNumber = '+' + xhr.replace(/ /g,'').replace(/\D/g, '');
         var elems = document.querySelectorAll('.number_crm') || [];
         elems.forEach( function(elem) {
-          elem.textContent = xhr + ' !';
+          elem.textContent = xhr;
         });
       })
       .fail(function (xhr) {
@@ -168,7 +168,7 @@
       }, 3000);
 
       MSCRMAjax
-        .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&site_guid=' + sid })
+        .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&tr=' + trunkNumber })
         .done(function (xhr) {
           console.info('MS-CRM: callback success');
         })
