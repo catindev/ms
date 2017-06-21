@@ -103,10 +103,10 @@
     var sid = mindsalesCallbackWidget.getAttribute("site-id");
 
     MSCRMAjax
-    .request({ url: 'http://185.22.65.50/callback/' })
+    .request({ url: 'http://185.22.65.50/callback/?referer=' + document.referrer })
       .done(function (xhr) {
         trunkNumber = '+' + xhr.replace(/ /g,'').replace(/\D/g, '');
-        var elems = document.querySelectorAll('.number_crm') || [];
+        var elems = document.querySelectorAll('.mindsalesTrunkNumber') || [];
         elems.forEach( function(elem) {
           elem.textContent = xhr;
         });
