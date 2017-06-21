@@ -102,6 +102,15 @@
     var timer;
     var sid = mindsalesCallbackWidget.getAttribute("site-id");
 
+    MSCRMAjax
+    .request({ url: 'http://185.22.65.50/callback/' })
+      .done(function (xhr) {
+        console.log('xhr',xhr);
+      })
+      .fail(function (xhr) {
+      console.log('fail xhr',xhr);
+      });
+
     mindsalesCallbackWidget.innerHTML =
       '<div class="mscbButton" id="widgetButton"></div>' +
       '<div class="mscbWindow" id="widgetWindow">' +
