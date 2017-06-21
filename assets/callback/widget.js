@@ -168,7 +168,7 @@
       }, 3000);
 
       MSCRMAjax
-        .request({ url: 'http://185.22.65.50/call2.php?cn=' + cn + '&tr=' + trunkNumber })
+        .request({ url: 'http://185.22.65.50/callback/?cn=' + cn + '&tr=' + trunkNumber })
         .done(function (xhr) {
           console.info('MS-CRM: callback success');
         })
