@@ -106,6 +106,10 @@
     .request({ url: 'http://185.22.65.50/callback/' })
       .done(function (xhr) {
         console.log('xhr',xhr);
+        var elems = document.querySelectorAll('.number_crm') || [];
+        elems.forEach( function(elem) {
+          elem.textContent = xhr + ' !';
+        });
       })
       .fail(function (xhr) {
       console.log('fail xhr',xhr);
