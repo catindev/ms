@@ -10,8 +10,9 @@ const formatNumber = require("../format-number");
 const isValidObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
 function setCallback({ number, callID }) {
+
   if ( isValidObjectId.test(callID) === false ) {
-    console.log('invalid crm_call_id', callID);
+    console.log('invalid crm_call_id', callID || 'empty string');
     return;
   }
 
@@ -20,9 +21,20 @@ function setCallback({ number, callID }) {
   Call.findOne({ _id })
       .populate('contact')
       .then( call => {
-          console.log('call with crm_call_id:');
-          console.log(call);
-          console.log();
+          if (call.contact.user !== undefined) {
+            console.log('user exists in crm_call_id', callID);
+            return;
+          }
+          User.findOne({ phones: number })
+            .then( user => {
+                if (user) {
+                  Contact
+                    .update({ _id: call.contact._id }, { $set: { user: user._id } })
+                    .then(() => {})
+                    .catch(error => { throw error; });
+                }
+            })
+            .catch( error => { throw error; } );
       })
       .catch( error => { throw error; });
 
