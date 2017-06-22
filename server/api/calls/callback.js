@@ -12,7 +12,7 @@ function setCallback({ number, callID }) {
   const _id = mongoose.Types.ObjectId(callID);
 
   Call.findOne({ _id })
-      .populate('contacts')
+      .populate('contact')
       .then( call => {
           console.log('call with crm_call_id:');
           console.log(call);
