@@ -42,5 +42,3 @@ function setCallback({ number, callID }) {
 }
 
 module.exports = setCallback;
-
-db.contacts.remove({ "_id" : ObjectId("594b629e650e0611abff5182") })
