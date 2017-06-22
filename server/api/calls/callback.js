@@ -21,6 +21,7 @@ function setCallback({ number, callID }) {
   Call.findOne({ _id })
       .populate('contact')
       .then( call => {
+          console.log('crm_call_id', callID, 'contact\'s user', call.contact.user, typeof call.contact.user);
           if (call.contact.user !== undefined) {
             console.log('user exists in crm_call_id', callID);
             return;
@@ -41,3 +42,5 @@ function setCallback({ number, callID }) {
 }
 
 module.exports = setCallback;
+
+db.contacts.remove({ "_id" : ObjectId("594b629e650e0611abff5182") })
