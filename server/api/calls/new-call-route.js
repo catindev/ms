@@ -10,7 +10,7 @@ module.exports = function newCallRoute(request, response) {
 
     status = parseInt(status);
 
-    crm_call_id !== false && callback({ callID: crm_call_id });
+    crm_call_id !== false && callback({ number: callerPhoneNumber, callID: crm_call_id });
 
     saveJournal({
         name: 'звонок ' + moment().format("DDMMM в hh:mm:ss"),

@@ -26,7 +26,7 @@ function setCallback({ number, callID }) {
             console.log('user exists in crm_call_id', callID);
             return;
           }
-          User.findOne({ phones: number })
+          User.findOne({ phones: formatNumber(number) })
             .then( user => {
                 if (user) {
                   Contact
