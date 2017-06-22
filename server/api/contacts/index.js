@@ -59,11 +59,12 @@ function saveContact({ _id, user, data, phone }, callback) {
             : require("../../models/contact")();
 
         data.phone && (data.phone = formatNumber(data.phone));
-        // console.log(':D data', data)
 
         eContact
             .update(query, { $set: data })
             .then(newcontact => {
+                console.log('updated contact:');
+                console.log(newcontact);
                 data.distinct_id = user._id;
                 Mixpanel.track({ name: 'Update customer profile', data });
                 return callback(true)
