@@ -7,8 +7,14 @@ const User = require("../../models/user");
 const Contact = require("../../models/contact")();
 
 const formatNumber = require("../format-number");
+const isValidObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
 function setCallback({ number, callID }) {
+  if ( isValidObjectId.test(callID) === false ) {
+    console.log('invalid crm_call_id', callID);
+    return;
+  }
+
   const _id = mongoose.Types.ObjectId(callID);
 
   Call.findOne({ _id })
