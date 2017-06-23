@@ -1,8 +1,6 @@
 const Mixpanel = require('../system/mixpanel');
 const mongoose = require("mongoose");
 const Call = require("../../models/call");
-const Account = require("../../models/account");
-const Number = require("../../models/number");
 const User = require("../../models/user");
 const Contact = require("../../models/contact")();
 
@@ -21,12 +19,7 @@ function setCallback({ number, callID }) {
   Call.findOne({ _id })
       .populate('contact')
       .then( call => {
-          console.log('crm_call_id', callID, 'contact\'s user', call.contact.user, typeof call.contact.user);
-          if (call.contact.user !== undefined) {
-            console.log('user exists in crm_call_id', callID);
-            return;
-          }
-          User.findOne({ phones: formatNumber(number) })
+          User.findOne({ phones: formatNumber(number), account: call.account })
             .then( user => {
                 if (user) {
                   Contact
