@@ -33,11 +33,14 @@ App.use(bodyParser.json({
     limit: 1024 * 1024 * 10000
 }));
 
-App.use((error, request, response, next) => response.status(500).json({
+App.use((error, request, response) => {
+  console.log(request.body);
+  response.status(500).json({
     status: 500,
     message: 'internal server error',
     reason: error.message
-}));
+  });
+});
 
 App.post('/login', (request, response) => {
     const Login = require('./api/login');
