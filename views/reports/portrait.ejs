@@ -9,7 +9,7 @@
     <h5 style="text-transform: uppercase;"><%= field.field %></h5>
 
     <% if (field.values) { %>
-        <ul>
+        <ul style="padding-top: 1rem;">
             <% field.values.forEach(value => { %>
                 <li><%= value.name %> — <b><%= roundp(value.count, field.count) %>%</b></li>
             <% }); %>
@@ -17,7 +17,7 @@
 
     <% const $perc = roundpw(field.count, target.length); %>
 
-    <p style="padding-top: 2rem;"><small>
+    <p><small>
             <% if ( $perc <= 50 ) { %>
             Менеджеры заполнили этот параметр только у <b><%= $perc %>%</b> клиентов.
             <% } %>
