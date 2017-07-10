@@ -22,8 +22,8 @@ App.use(bodyParser.urlencoded({ extended: true }));
 App.use(bodyParser.json());
 App.disable('view cache');
 
-App.use((error, request, response) => {
-  console.log(error);
+App.use((error, request, response, next) => {
+  console.log(error.stack);
   response.status(500).json({
     status: 500,
     message: 'internal server error',
