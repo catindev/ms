@@ -10,6 +10,9 @@ const fetchCalls = {
 module.exports = function fetchCallsRoute(request, response) {
     let { limit = 0, skip = 0, filter = 'all' } = request.query || {};
 
+    limit = parseInt(limit);
+    skip = parseInt(skip);
+
     const params = { limit, skip, user: request.user };
 
     const fetchMetaAndRender = calls => metaInfo(
