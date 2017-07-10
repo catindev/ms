@@ -26,7 +26,9 @@ module.exports = function fetchMissedCalls({ limit = 0, skip = 0, user }, callba
     pipeline.push({ "$sort": { "date": -1 } });
 
     // пагинация
-    limit > 0 && pipeline.push({ "$limit": limit });
+    limit > 0
+      ? pipeline.push({ "$limit": limit })
+      : pipeline.push({ "$limit": 1000 });
     skip > 0 && pipeline.push({ "$skip": skip });
 
     Call.aggregate(pipeline, aggregateCalls);
