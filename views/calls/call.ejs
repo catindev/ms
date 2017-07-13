@@ -69,9 +69,13 @@ function recordUrl( original ) {
         <% } %>
 
         <div class="row between" style="text-align: center;font-size: .92rem">
+
+            <% if (call.account._id !== '57d9fff08ca2296e2639ca93' ) { %>
             <div class="col col-3" style="padding-left: 0;">
                 <%= call.display.phone %>
             </div>
+            <% } %>
+
             <div class="col col-3">
                 <%= call.number.name %>
             </div>
