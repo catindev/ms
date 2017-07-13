@@ -145,10 +145,6 @@
         '</div>' +
       '</div>';
 
-    if (location.href.indexOf('mindsales.kz') !== -1) {
-      widgetButton.style.display = 'block';
-    }
-
     widgetButton.addEventListener('click', function() {
       widgetButton.style.display = 'none';
       widgetWindow.style.display = 'table';
