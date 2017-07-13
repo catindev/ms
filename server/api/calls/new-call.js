@@ -41,10 +41,11 @@ function saveCall({
     // ignore calls from managers
     User.findOne({ phones: caller })
         .then( user => {
-            if (user) {
-              console.log('Ignore call from manager', callerPhoneNumber);
-              callback(null); return false;
-            }
+
+        // if (user) {
+        //   console.log('Ignore call from manager', callerPhoneNumber);
+        //   callback(null); return false;
+        // }
 
         Number.findOne({ phone: callee })
             .populate('account')
