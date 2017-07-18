@@ -22,7 +22,7 @@ module.exports = function formatNumber( phone, strict = true ) {
     // городской без кода
     if ( formatted.length === 6 ) formatted = `7212${ formatted }`;
     // короткий номер
-    if ( formatted.length >= 6 ) formatted = `+7${ formatted }`;
+    // if ( formatted.length >= 6 ) formatted = `+7${ formatted }`;
 
-    return formatted;
+    return `+7${ formatted }`;
 };
