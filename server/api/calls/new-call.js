@@ -108,6 +108,7 @@ function saveCall({
             if (contact.user || newCall.status === 4) return contact;
 
             return User.findOne({
+              account: newCall.account,
               $or: [
                 { phones: endpointNumber },
                 { phones: callee }
