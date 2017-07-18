@@ -19,8 +19,10 @@ module.exports = function formatNumber( phone, strict = true ) {
         if ( strict ) error('Лишние цифры в номере')
         else return false;
 
-    // костыль для аэрофита
-    if ( formatted.length === 6 ) formatted = `7212${ formatted }`
+    // городской без кода
+    if ( formatted.length === 6 ) formatted = `7212${ formatted }`;
+    // короткий номер
+    if ( formatted.length >= 6 ) formatted = `+7${ formatted }`;
 
-    return `+7${ formatted }`;
+    return formatted;
 };
