@@ -118,57 +118,56 @@
 
     var wwwidget = document.createElement('div');
     wwwidget.innerHTML =
-      '<div class="mscbButton" id="widgetButton"></div>' +
-      '<div class="mscbWindow" id="widgetWindow">' +
-        '<div class="mscbWindow_layout" id="layout">' +
-          '<div class="mscbContent" id="content">' +
+      '<div class="mscbButton" id="mscbButton"></div>' +
+      '<div class="mscbWindow" id="mscbWindow">' +
+        '<div class="mscbWindow_layout" id="mscbLayout">' +
+          '<div class="mscbContent" id="mscbContent">' +
             '<div class="mscbHeader">' +
-              '<span class="mscbHeader__closeBtn" id="closeBtn"></span>' +
+              '<span class="mscbHeader__closeBtn" id="mscbCloseBtn"></span>' +
               '<h1 class="mscbHeader__title">Есть вопросы?</h1>' +
               '<h2 class="mscbHeader__subtitle">Позвоним и расскажем обо всём подробнее!</h2>' +
             '</div>' +
             '<div class="mscbForm">' +
-              '<label class="mscbForm__label" for="phoneText">Номер вашего телефона</label>' +
-              '<input type="tel" name="phone" id="phoneText" class="mscbForm__input"/>' +
-              '<input type="button" class="mscbForm__button" id="formButton" value="Жду звонка">' +
+              '<label class="mscbForm__label" for="mscbPhoneText">Номер вашего телефона</label>' +
+              '<input type="tel" name="phone" id="mscbPhoneText" class="mscbForm__input"/>' +
+              '<input type="button" class="mscbForm__button" id="mscbFormButton" value="Жду звонка">' +
             '</div>' +
           '</div>' +
           '<div class="mscbThxMessage" id="thxMessage">' +
-            '<span class="mscbThxMessage__closeBtn" id="closeThx"></span>' +
+            '<span class="mscbThxMessage__mscbCloseBtn" id="closeThx"></span>' +
             '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
             '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
           '</div>' +
         '</div>' +
       '</div>';
-
     document.body.appendChild(wwwidget);
 
-    widgetButton.addEventListener('click', function() {
-      widgetButton.style.display = 'none';
-      widgetWindow.style.display = 'table';
-      phoneText.focus();
+    mscbButton.addEventListener('click', function() {
+      mscbButton.style.display = 'none';
+      mscbWindow.style.display = 'table';
+      mscbPhoneText.focus();
     }, false);
 
-    formButton.addEventListener('click', function() {
-      var cn = phoneText.value.replace(/ /g,'');
+    mscbFormButton.addEventListener('click', function() {
+      var cn = mscbPhoneText.value.replace(/ /g,'');
 
       if (!cn || cn === '') {
-        phoneText.focus();
-        phoneText.className += ' mscbForm__input--error';
+        mscbPhoneText.focus();
+        mscbPhoneText.className += ' mscbForm__input--error';
         setTimeout(function() {
-          phoneText.className = 'mscbForm__input';
+          mscbPhoneText.className = 'mscbForm__input';
         }, 1000);
         return;
       }
 
-      content.style.display = 'none';
+      mscbContent.style.display = 'none';
       thxMessage.style.display = 'block';
 
       timer = setTimeout(function() {
         thxMessage.style.display = 'none';
-        content.style.display = 'block';
-        widgetButton.style.display = 'block';
-        widgetWindow.style.display = 'none';
+        mscbContent.style.display = 'block';
+        mscbButton.style.display = 'block';
+        mscbWindow.style.display = 'none';
       }, 3000);
 
       MSCRMAjax
@@ -181,42 +180,42 @@
         });
     }, false);
 
-    closeBtn.addEventListener('click', function() {
-      widgetButton.style.display = 'block';
-      widgetWindow.style.display = 'none';
+    mscbCloseBtn.addEventListener('click', function() {
+      mscbButton.style.display = 'block';
+      mscbWindow.style.display = 'none';
     }, false);
 
     closeThx.addEventListener('click', function() {
-      widgetButton.style.display = 'block';
-      widgetWindow.style.display = 'none';
+      mscbButton.style.display = 'block';
+      mscbWindow.style.display = 'none';
 
       // clear requested state
       clearTimeout(timer);
       thxMessage.style.display = 'none';
-      content.style.display = 'block'
+      mscbContent.style.display = 'block'
     }, false);
 
     document.addEventListener('click', function(event) {
-      if (event.target == layout) {
-        widgetButton.style.display = 'block';
-        widgetWindow.style.display = 'none';
+      if (event.target == mscbLayout) {
+        mscbButton.style.display = 'block';
+        mscbWindow.style.display = 'none';
 
         // clear requested state
         clearTimeout(timer);
         thxMessage.style.display = 'none';
-        content.style.display = 'block'
+        mscbContent.style.display = 'block'
       }
     }, false);
 
 
     // filter user input
     function inputFilter() {
-      phoneText.value = String(phoneText.value).replace(/\D/g, '');
+      mscbPhoneText.value = String(mscbPhoneText.value).replace(/\D/g, '');
     }
 
-    phoneText.addEventListener('keyup', inputFilter, false);
-    phoneText.addEventListener('keypress', inputFilter, false);
-    phoneText.addEventListener('keydown', inputFilter, false);
+    mscbPhoneText.addEventListener('keyup', inputFilter, false);
+    mscbPhoneText.addEventListener('keypress', inputFilter, false);
+    mscbPhoneText.addEventListener('keydown', inputFilter, false);
 
   };
 })();
