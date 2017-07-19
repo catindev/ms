@@ -100,7 +100,6 @@
     MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css?p=" + new Date().getTime());
 
     var timer; var trunkNumber;
-    var sid = mindsalesCallbackWidget.getAttribute("site-id");
 
     MSCRMAjax
     .request({
@@ -113,15 +112,12 @@
       .done(function (xhr) {
         trunkNumber = '+' + xhr.replace(/ /g,'').replace(/\D/g, '');
         var elems = document.querySelectorAll('.mindsalesTrunkNumber') || [];
-        elems.forEach( function(elem) {
-          elem.textContent = xhr;
-        });
+        elems.forEach( function(elem) { elem.textContent = xhr; });
       })
-      .fail(function (xhr) {
-      console.log('fail xhr',xhr);
-      });
+      .fail(function (xhr) { console.log('fail xhr',xhr); });
 
-    mindsalesCallbackWidget.innerHTML =
+    var wwwidget = document.createElement('div');
+    wwwidget.innerHTML =
       '<div class="mscbButton" id="widgetButton"></div>' +
       '<div class="mscbWindow" id="widgetWindow">' +
         '<div class="mscbWindow_layout" id="layout">' +
@@ -144,6 +140,8 @@
           '</div>' +
         '</div>' +
       '</div>';
+
+    document.body.appendChild(wwwidget);
 
     widgetButton.addEventListener('click', function() {
       widgetButton.style.display = 'none';
