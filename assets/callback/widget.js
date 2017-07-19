@@ -133,7 +133,7 @@
               '<input type="button" class="mscbForm__button" id="mscbFormButton" value="Жду звонка">' +
             '</div>' +
           '</div>' +
-          '<div class="mscbThxMessage" id="thxMessage">' +
+          '<div class="mscbThxMessage" id="mscbThxMessage">' +
             '<span class="mscbThxMessage__closeBtn" id="mscbCloseThx"></span>' +
             '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
             '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
@@ -161,10 +161,10 @@
       }
 
       mscbContent.style.display = 'none';
-      thxMessage.style.display = 'block';
+      mscbThxMessage.style.display = 'block';
 
       timer = setTimeout(function() {
-        thxMessage.style.display = 'none';
+        mscbThxMessage.style.display = 'none';
         mscbContent.style.display = 'block';
         mscbButton.style.display = 'block';
         mscbWindow.style.display = 'none';
@@ -191,7 +191,7 @@
 
       // clear requested state
       clearTimeout(timer);
-      thxMessage.style.display = 'none';
+      mscbThxMessage.style.display = 'none';
       mscbContent.style.display = 'block'
     }, false);
 
@@ -202,7 +202,7 @@
 
         // clear requested state
         clearTimeout(timer);
-        thxMessage.style.display = 'none';
+        mscbThxMessage.style.display = 'none';
         mscbContent.style.display = 'block'
       }
     }, false);
