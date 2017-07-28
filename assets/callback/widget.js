@@ -1,7 +1,4 @@
 (function () {
-  console.info('MSCRM wwwidget connected');
-  console.log(':D mscrm', window);
-
   var MSCRMAjax = {
     request: function (ops) {
       if (typeof ops == 'string') ops = { url: ops };
@@ -92,8 +89,10 @@
       document.getElementsByTagName("head")[0].appendChild(fileref)
   }
 
-  window.onload = function () {
-    console.info('wwwidget loaded');
+  window.addEventListener("load", onLoad, false);
+
+  function onLoad() {
+    console.info('mscrm wwwidget loaded');
     MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css?p=" + new Date().getTime());
 
     var timer; var trunkNumber;
