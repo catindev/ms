@@ -1,14 +1,7 @@
-/* TODO: допилить
- - подсвечивать поле и не делать коллбек если номер не введён
- - добавить красивостей в спасибу
- - брендинг (хочу себе такую кнопку и вот это всё)
- - мобильная версия
-*/
-
 (function () {
   var MSCRMAjax = {
     request: function (ops) {
-      if (typeof ops == 'string') ops = {url: ops};
+      if (typeof ops == 'string') ops = { url: ops };
       ops.url = ops.url || '';
       ops.method = ops.method || 'get'
       ops.data = ops.data || {};
@@ -87,74 +80,75 @@
     }
   };
 
-  function MSCRMLoadCSS(filename){
+  function MSCRMLoadCSS(filename) {
     var fileref = document.createElement("link");
     fileref.setAttribute("rel", "stylesheet");
     fileref.setAttribute("type", "text/css");
     fileref.setAttribute("href", filename);
-    if (typeof fileref!="undefined")
+    if (typeof fileref != "undefined")
       document.getElementsByTagName("head")[0].appendChild(fileref)
   }
 
   window.onload = function () {
+    console.info('wwwidget loaded');
     MSCRMLoadCSS("http://mindsales-crm.com/assets/callback/widget.css?p=" + new Date().getTime());
 
     var timer; var trunkNumber;
 
     MSCRMAjax
-    .request({
-      url: 'http://185.22.65.50/callback/',
-      method: 'post',
-      data: {
-        referer: location.href
-      }
-    })
-      .done(function (xhr) {
-        trunkNumber = '+' + xhr.replace(/ /g,'').replace(/\D/g, '');
-        var elems = document.querySelectorAll('.mindsalesTrunkNumber') || [];
-        elems.forEach( function(elem) { elem.textContent = xhr; });
+      .request({
+        url: 'http://185.22.65.50/callback/',
+        method: 'post',
+        data: {
+          referer: location.href
+        }
       })
-      .fail(function (xhr) { console.log('fail xhr',xhr); });
+      .done(function (xhr) {
+        trunkNumber = '+' + xhr.replace(/ /g, '').replace(/\D/g, '');
+        var elems = document.querySelectorAll('.mindsalesTrunkNumber') || [];
+        elems.forEach(function (elem) { elem.textContent = xhr; });
+      })
+      .fail(function (xhr) { console.log('fail xhr', xhr); });
 
     var wwwidget = document.createElement('div');
     wwwidget.innerHTML =
       '<div class="mscbButton" id="mscbButton"></div>' +
       '<div class="mscbWindow" id="mscbWindow">' +
-        '<div class="mscbWindow_layout" id="mscbLayout">' +
-          '<div class="mscbContent" id="mscbContent">' +
-            '<div class="mscbHeader">' +
-              '<span class="mscbHeader__closeBtn" id="mscbCloseBtn"></span>' +
-              '<h1 class="mscbHeader__title">Есть вопросы?</h1>' +
-              '<h2 class="mscbHeader__subtitle">Позвоним и расскажем обо всём подробнее!</h2>' +
-            '</div>' +
-            '<div class="mscbForm">' +
-              '<label class="mscbForm__label" for="mscbPhoneText">Номер вашего телефона</label>' +
-              '<input type="tel" name="phone" id="mscbPhoneText" class="mscbForm__input"/>' +
-              '<input type="button" class="mscbForm__button" id="mscbFormButton" value="Жду звонка">' +
-            '</div>' +
-          '</div>' +
-          '<div class="mscbThxMessage" id="mscbThxMessage">' +
-            '<span class="mscbThxMessage__closeBtn" id="mscbCloseThx"></span>' +
-            '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
-            '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
-          '</div>' +
-        '</div>' +
+      '<div class="mscbWindow_layout" id="mscbLayout">' +
+      '<div class="mscbContent" id="mscbContent">' +
+      '<div class="mscbHeader">' +
+      '<span class="mscbHeader__closeBtn" id="mscbCloseBtn"></span>' +
+      '<h1 class="mscbHeader__title">Есть вопросы?</h1>' +
+      '<h2 class="mscbHeader__subtitle">Позвоним и расскажем обо всём подробнее!</h2>' +
+      '</div>' +
+      '<div class="mscbForm">' +
+      '<label class="mscbForm__label" for="mscbPhoneText">Номер вашего телефона</label>' +
+      '<input type="tel" name="phone" id="mscbPhoneText" class="mscbForm__input"/>' +
+      '<input type="button" class="mscbForm__button" id="mscbFormButton" value="Жду звонка">' +
+      '</div>' +
+      '</div>' +
+      '<div class="mscbThxMessage" id="mscbThxMessage">' +
+      '<span class="mscbThxMessage__closeBtn" id="mscbCloseThx"></span>' +
+      '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
+      '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
+      '</div>' +
+      '</div>' +
       '</div>';
     document.body.appendChild(wwwidget);
 
-    mscbButton.addEventListener('click', function() {
+    mscbButton.addEventListener('click', function () {
       mscbButton.style.display = 'none';
       mscbWindow.style.display = 'table';
       mscbPhoneText.focus();
     }, false);
 
-    mscbFormButton.addEventListener('click', function() {
-      var cn = mscbPhoneText.value.replace(/ /g,'');
+    mscbFormButton.addEventListener('click', function () {
+      var cn = mscbPhoneText.value.replace(/ /g, '');
 
       if (!cn || cn === '') {
         mscbPhoneText.focus();
         mscbPhoneText.className += ' mscbForm__input--error';
-        setTimeout(function() {
+        setTimeout(function () {
           mscbPhoneText.className = 'mscbForm__input';
         }, 1000);
         return;
@@ -163,7 +157,7 @@
       mscbContent.style.display = 'none';
       mscbThxMessage.style.display = 'block';
 
-      timer = setTimeout(function() {
+      timer = setTimeout(function () {
         mscbThxMessage.style.display = 'none';
         mscbContent.style.display = 'block';
         mscbButton.style.display = 'block';
@@ -180,12 +174,12 @@
         });
     }, false);
 
-    mscbCloseBtn.addEventListener('click', function() {
+    mscbCloseBtn.addEventListener('click', function () {
       mscbButton.style.display = 'block';
       mscbWindow.style.display = 'none';
     }, false);
 
-    mscbCloseThx.addEventListener('click', function() {
+    mscbCloseThx.addEventListener('click', function () {
       mscbButton.style.display = 'block';
       mscbWindow.style.display = 'none';
 
@@ -195,7 +189,7 @@
       mscbContent.style.display = 'block'
     }, false);
 
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
       if (event.target == mscbLayout) {
         mscbButton.style.display = 'block';
         mscbWindow.style.display = 'none';
