@@ -1,4 +1,6 @@
 (function () {
+  console.info('wwwidget connected');
+
   var MSCRMAjax = {
     request: function (ops) {
       if (typeof ops == 'string') ops = { url: ops };
