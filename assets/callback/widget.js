@@ -1,5 +1,6 @@
 (function () {
-  console.info('wwwidget connected');
+  console.info('MSCRM wwwidget connected');
+  console.log(':D mscrm', window);
 
   var MSCRMAjax = {
     request: function (ops) {
