@@ -6,6 +6,8 @@ const mixpanelEvent = require('../system/mixpanel');
 const callback = require('./callback');
 
 module.exports = function newCallRoute(request, response) {
+    console.log('>>> New call');
+
     let { status, callerPhoneNumber, crm_call_id = false } = request.body;
 
     status = parseInt(status);
@@ -35,4 +37,6 @@ module.exports = function newCallRoute(request, response) {
     } else {
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
+    console.log('<<<');
+    console.log('');
 }
