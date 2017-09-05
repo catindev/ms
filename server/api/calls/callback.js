@@ -9,7 +9,7 @@ const isValidObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
 function setCallback({ number, callID }) {
 
-  if ( isValidObjectId.test(callID) === false ) {
+  if (isValidObjectId.test(callID) === false) {
     if (callID === false || callID === "false") return console.log('Invalid crm_call_id,', 'false');
     if (callID === "") return console.log('Invalid crm_call_id,', 'empty string');
     return console.log('Invalid crm_call_id,', callID + ',', typeof callID);
@@ -18,23 +18,26 @@ function setCallback({ number, callID }) {
   const _id = mongoose.Types.ObjectId(callID);
 
   Call.findOne({ _id })
-      .populate('contact')
-      .then( call => {
-          User.findOne({ 
-            phones: formatNumber(number), 
-            account: call.account 
-          })
-            .then( user => {
-                if (user) {
-                  Contact
-                    .update({ _id: call.contact._id }, { $set: { user: user._id } })
-                    .then(() => {})
-                    .catch(error => { throw error; });
-                }
-            })
-            .catch( error => { throw error; } );
+    .populate('contact')
+    .then(call => {
+      console.log('>>> call');
+      console.log(call);
+      console.log('<<< call');
+      User.findOne({
+        phones: formatNumber(number),
+        account: call.account
       })
-      .catch( error => { throw error; });
+        .then(user => {
+          if (user) {
+            Contact
+              .update({ _id: call.contact._id }, { $set: { user: user._id } })
+              .then(() => { })
+              .catch(error => { throw error; });
+          }
+        })
+        .catch(error => { throw error; });
+    })
+    .catch(error => { throw error; });
 
 }
 
