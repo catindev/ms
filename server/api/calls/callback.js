@@ -10,8 +10,9 @@ const isValidObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 function setCallback({ number, callID }) {
 
   if ( isValidObjectId.test(callID) === false ) {
-    console.log('invalid crm_call_id', callID || 'empty string');
-    return;
+    if (callID === false || callID === "false") return console.log('Invalid crm_call_id,', 'false');
+    if (callID === "") return console.log('Invalid crm_call_id,', 'empty string');
+    return console.log('Invalid crm_call_id,', callID + ',', typeof callID);
   }
 
   const _id = mongoose.Types.ObjectId(callID);
@@ -19,7 +20,10 @@ function setCallback({ number, callID }) {
   Call.findOne({ _id })
       .populate('contact')
       .then( call => {
-          User.findOne({ phones: formatNumber(number), account: call.account })
+          User.findOne({ 
+            phones: formatNumber(number), 
+            account: call.account 
+          })
             .then( user => {
                 if (user) {
                   Contact

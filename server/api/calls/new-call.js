@@ -6,6 +6,7 @@ const User = require("../../models/user");
 const Contact = require("../../models/contact")();
 
 const formatNumber = require("../format-number");
+const forHumans = require("./human-number");
 
 function incrementCalls(user, status) {
   Mixpanel.increment({
@@ -38,7 +39,7 @@ function saveCall({
   const callee = formatNumber(calleePhoneNumber);
   const endpointNumber = endpointPhoneNumber && formatNumber(endpointPhoneNumber);
 
-  console.log('Caller', caller, '. Callee ', callee);
+  console.log('Caller', forHumans(caller) + '.', 'Callee ', forHumans(callee));
 
   // ignore calls from managers
   User.findOne({ phones: caller })
