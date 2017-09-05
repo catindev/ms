@@ -20,8 +20,9 @@ module.exports = function newCallRoute(request, response) {
     });
 
     if (crm_call_id !== "" && status === 4) {
-        console.log('Callback call for', crm_call_id, 'ignored');
-        return;
+        console.log('<<<');
+        console.log('');
+        return console.log('Callback call for', crm_call_id, 'ignored');
     }
 
     if (status === 3 || status === 4) {
