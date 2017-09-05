@@ -20,9 +20,9 @@ module.exports = function newCallRoute(request, response) {
     });
 
     if (crm_call_id !== "" && status === 4) {
+        console.log('Callback call for', crm_call_id, 'ignored');
         console.log('<<<');
-        console.log('');
-        return console.log('Callback call for', crm_call_id, 'ignored');
+        return;
     }
 
     if (status === 3 || status === 4) {
@@ -31,13 +31,12 @@ module.exports = function newCallRoute(request, response) {
             const resp = call
                 ? { status: 'saved' }
                 : { status: 'ignored', reason: 'number not registered' };
-
+            console.log('<<<');
             response.json(resp);
         });
 
     } else {
+        console.log('<<<');
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
-    console.log('<<<');
-    console.log('');
 }
