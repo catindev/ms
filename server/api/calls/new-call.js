@@ -16,7 +16,7 @@ function incrementCalls(user, status) {
 
 
 function saveCall({
-    calleePhoneNumber,
+  calleePhoneNumber,
   callerPhoneNumber,
   endpointPhoneNumber = null,
   direction,

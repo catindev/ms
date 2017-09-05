@@ -9,6 +9,8 @@ const isValidObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
 function setCallback({ number, callID }) {
 
+  console.log('Callback:', number);
+
   if (isValidObjectId.test(callID) === false) {
     if (callID === false || callID === "false") return console.log('Invalid crm_call_id,', 'false');
     if (callID === "") return console.log('Invalid crm_call_id,', 'empty string');
@@ -20,9 +22,6 @@ function setCallback({ number, callID }) {
   Call.findOne({ _id })
     .populate('contact')
     .then(call => {
-      console.log('>>> call');
-      console.log(call);
-      console.log('<<< call');
       User.findOne({
         phones: formatNumber(number),
         account: call.account
