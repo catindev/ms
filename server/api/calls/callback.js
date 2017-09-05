@@ -30,7 +30,7 @@ function setCallback({ number, callID }) {
           if (user) {
             Contact
               .update({ _id: call.contact._id }, { $set: { user: user._id } })
-              .then(() => { })
+              .then(() => console.log('Contact\'s user changed to', user.name))
               .catch(error => { throw error; });
           }
         })
