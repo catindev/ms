@@ -157,10 +157,9 @@ function saveCall({
 
       function saveCallToSystem(call) {
         call.save()
-          .then(call => {
-            console.log('Call saved to DB');
-            console.log('\n');
-            callback(call);
+          .then(savedcall => {
+            console.log('Call saved to DB', savedcall._id);
+            callback(savedcall);
           })
           .catch(error => { throw error; });
       }
