@@ -156,7 +156,11 @@ function saveCall({
 
       function saveCallToSystem(call) {
         call.save()
-          .then(call => callback(call))
+          .then(call => {
+            console.log('Call saved to DB');
+            console.log('\n');
+            callback(call);
+          })
           .catch(error => { throw error; });
       }
     });
