@@ -9,13 +9,13 @@ const isValidObjectId = new RegExp("^[0-9a-fA-F]{24}$");
 
 function setCallback({ number, callID }) {
 
-  console.log('Callback:', number);
-
   if (isValidObjectId.test(callID) === false) {
     if (callID === false || callID === "false") return console.log('Invalid crm_call_id,', 'false');
     if (callID === "") return console.log('Invalid crm_call_id,', 'empty string');
     return console.log('Invalid crm_call_id,', callID + ',', typeof callID);
   }
+
+  console.log('Callback:', number);
 
   const _id = mongoose.Types.ObjectId(callID);
 
