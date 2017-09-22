@@ -8,7 +8,7 @@ const callback = require('./callback');
 module.exports = function newCallRoute(request, response) {
     console.log('>>> New call');
 
-    let { status, callerPhoneNumber, crm_call_id = false } = request.body;
+    let { status, callerPhoneNumber, startedAt, crm_call_id = false } = request.body;
 
     status = parseInt(status);
 
@@ -22,7 +22,7 @@ module.exports = function newCallRoute(request, response) {
     }
 
     saveJournal({
-        name: 'звонок ' + moment().format("DDMMM в hh:mm:ss"),
+        name: 'звонок ' + moment(new Date(startedAt)).format("DDMMM в hh:mm:ss"),
         data: JSON.stringify(request.body)
     });
 
