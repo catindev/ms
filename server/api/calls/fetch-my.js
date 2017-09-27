@@ -40,7 +40,7 @@ module.exports = function fetchCallsForUserContacts({ limit = 0, skip = 0, user 
         // пагинация
         limit > 0
             ? pipeline.push({ "$limit": limit })
-            : pipeline.push({ "$limit": 50 });
+            : pipeline.push({ "$limit": 1000 });
         skip > 0 && pipeline.push({ "$skip": skip });
 
         // profit
