@@ -39,16 +39,8 @@ function saveCall({
   const callee = formatNumber(calleePhoneNumber);
   const endpointNumber = endpointPhoneNumber && formatNumber(endpointPhoneNumber);
 
-  console.log('Caller', caller + '.', 'Callee', callee);
+  console.log('caller', caller + '.', 'callee', callee, 'endpoint', endpointNumber);
 
-  // ignore calls from managers
-  User.findOne({ phones: caller })
-    .then(user => {
-
-      // if (user) {
-      //   console.log('Ignore call from manager', callerPhoneNumber);
-      //   callback(null); return false;
-      // }
 
       Number.findOne({ phone: callee })
         .populate('account')
@@ -163,7 +155,6 @@ function saveCall({
           })
           .catch(error => { throw error; });
       }
-    });
 }
 
 module.exports = saveCall;
