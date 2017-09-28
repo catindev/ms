@@ -15,13 +15,14 @@ function setCallback({ number, callID }) {
     return console.log('Invalid crm_call_id,', callID + ',', typeof callID);
   }
 
-  console.log('Callback:', number);
 
   const _id = mongoose.Types.ObjectId(callID);
 
   Call.findOne({ _id })
     .populate('contact')
     .then(call => {
+      console.log('callback for call', call._id, 'account', call.account, 'number', number)
+
       User.findOne({
         phones: formatNumber(number),
         account: call.account
