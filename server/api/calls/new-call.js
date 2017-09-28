@@ -39,7 +39,7 @@ function saveCall({
   const callee = formatNumber(calleePhoneNumber);
   const endpointNumber = endpointPhoneNumber && formatNumber(endpointPhoneNumber);
 
-  console.log('caller', caller + '.', 'callee', callee, 'endpoint', endpointNumber);
+  console.log('caller', caller, 'callee', callee, 'endpoint', endpointNumber);
 
 
       Number.findOne({ phone: callee })

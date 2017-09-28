@@ -6,9 +6,8 @@ const mixpanelEvent = require('../system/mixpanel');
 const callback = require('./callback');
 
 module.exports = function newCallRoute(request, response) {
-    console.log('>>> New call');
-
     let { status, callerPhoneNumber, startedAt, crm_call_id = false } = request.body;
+    console.log('>>> New call at', startedAt);
 
     status = parseInt(status);
 
