@@ -6,7 +6,13 @@ const mixpanelEvent = require('../system/mixpanel');
 const callback = require('./callback');
 
 module.exports = function newCallRoute(request, response) {
-    let { status, callerPhoneNumber, startedAt, crm_call_id = false } = request.body;
+    let { 
+        status, 
+        callerPhoneNumber, 
+        endpointPhoneNumber, 
+        startedAt, 
+        crm_call_id = false 
+    } = request.body;
     console.log('>>> New call at', startedAt);
 
     status = parseInt(status);
@@ -17,7 +23,7 @@ module.exports = function newCallRoute(request, response) {
             console.log('<<<');
             return;
         }
-        callback({ number: callerPhoneNumber, callID: crm_call_id });
+        callback({ number: endpointPhoneNumber, callID: crm_call_id });
     }
 
     saveJournal({
