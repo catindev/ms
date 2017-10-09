@@ -1,16 +1,16 @@
 (function () {
 
-  var domainBlackList = ['mindsales.kz'];
-  var blackListed = false;
+  var blacklist = ['art.kkk3.kz'];
+  var blacklisted = false;
 
-  for (var i = 0, len = domainBlackList.length; i < len; i++) {
-    if(location.hostname === domainBlackList[i]) blackListed = true;
+  for (var i = 0, len = blacklist.length; i < len; i++) {
+    if(location.hostname === blacklist[i]) blacklisted = true;
   }
 
-  if (blackListed) {
+  if (blacklisted) {
     return console.warn('Domain in blacklist')
   }
-  
+
   var MSCRMAjax = {
     request: function (ops) {
       if (typeof ops == 'string') ops = { url: ops };
