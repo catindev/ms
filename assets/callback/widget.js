@@ -7,10 +7,6 @@
     if(location.hostname === blacklist[i]) blacklisted = true;
   }
 
-  if (blacklisted) {
-    return console.warn('Domain in blacklist')
-  }
-
   var MSCRMAjax = {
     request: function (ops) {
       if (typeof ops == 'string') ops = { url: ops };
@@ -148,7 +144,12 @@
       '</div>' +
       '</div>' +
       '</div>';
+
+  if (blacklisted) {
+    return console.warn('Domain in blacklist');
+  } else {
     document.body.appendChild(wwwidget);
+  }      
 
     mscbButton.addEventListener('click', function () {
       mscbButton.style.display = 'none';
