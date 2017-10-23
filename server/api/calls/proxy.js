@@ -16,19 +16,25 @@ function proxyCall({
     crm_call_id = false
 }) {
 
-
     const payload = {
         customerNumber: callerPhoneNumber,
         trunkNumber: calleePhoneNumber,
-        managerNumber: endpointPhoneNumber,
         waitingDuration: watingDuration,
         conversationDuration: conversationDuration,
-        record: recordFile,
         isCallback: !!crm_call_id
     }
 
-    request({ url: 'http://hooks.mindsales-crm.com/test', method: 'POST', json: payload }, 
-      function(error, response, body) {
+    crm_call_id && (payload.isCallback = true)
+    endpointPhoneNumber && (payload.managerNumber = endpointPhoneNumber)
+    recordFile && (payload.record = recordFile)
+
+    const endpoint = crm_call_id ? '/callback' : '/call'
+
+    request({ 
+      url: 'http://hooks.mindsales-crm.com' + endpoint, 
+      method: 'POST', 
+      json: payload 
+    }, function(error, response, body) {
         if (error) return console.log(error.message)
         console.log(response.statusCode, body)  
     })
