@@ -27,7 +27,7 @@ function proxyCall({
         isCallback: !!crm_call_id
     }
 
-    request({ url: 'http://hooks.mindsales.crm/test', method: 'POST', json: payload }, 
+    request({ url: 'http://hooks.mindsales-crm.com/test', method: 'POST', json: payload }, 
       function(error, response, body) {
         if (error) return console.log(error.message)
         console.log(response.statusCode, body)  
