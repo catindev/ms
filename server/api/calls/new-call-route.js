@@ -4,6 +4,7 @@ const saveJournal = require('../system/save-call-data');
 const mixpanelEvent = require('../system/mixpanel');
 
 const callback = require('./callback');
+const proxy = require('./proxy');
 
 module.exports = function newCallRoute(request, response) {
     let { 
@@ -45,4 +46,6 @@ module.exports = function newCallRoute(request, response) {
         console.log('<<<');
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
+
+    proxy(request.body)
 }
