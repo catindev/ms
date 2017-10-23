@@ -22,6 +22,7 @@ module.exports = function newCallRoute(request, response) {
         if (status === 4) {
             console.log('Callback call for', crm_call_id, 'ignored');
             console.log('<<<');
+            proxy(request.body)
             return;
         }
         callback({ number: endpointPhoneNumber, callID: crm_call_id });
