@@ -122,6 +122,8 @@
         '</div>' +
         '</div>' +
         '</div>';  
+
+      document.body.appendChild(wwwidget);  
   }
 
 
@@ -148,15 +150,11 @@
         var elems = document.querySelectorAll('.mindsalesTrunkNumber') || [];
         elems.forEach(function (elem) { elem.textContent = xhr; });
 
-        drawWidget();
+        if (blacklisted) {
+          return console.warn('Domain in blacklist');
+        } else drawWidget();            
       })
-      .fail(function (xhr) { console.log('fail xhr', xhr); });
-
-  if (blacklisted) {
-    return console.warn('Domain in blacklist');
-  } else {
-    document.body.appendChild(wwwidget);
-  }      
+      .fail(function (xhr) { console.log('fail xhr', xhr); }); 
 
     mscbButton.addEventListener('click', function () {
       mscbButton.style.display = 'none';
