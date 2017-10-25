@@ -97,36 +97,6 @@
       document.getElementsByTagName("head")[0].appendChild(fileref)
   }
 
-  function drawWidget() {
-      var wwwidget = document.createElement('div');
-      wwwidget.innerHTML =
-        '<div class="mscbButton" id="mscbButton"></div>' +
-        '<div class="mscbWindow" id="mscbWindow">' +
-        '<div class="mscbWindow_layout" id="mscbLayout">' +
-        '<div class="mscbContent" id="mscbContent">' +
-        '<div class="mscbHeader">' +
-        '<span class="mscbHeader__closeBtn" id="mscbCloseBtn"></span>' +
-        '<h1 class="mscbHeader__title">Есть вопросы?</h1>' +
-        '<h2 class="mscbHeader__subtitle">Позвоним и расскажем обо всём подробнее!</h2>' +
-        '</div>' +
-        '<div class="mscbForm">' +
-        '<label class="mscbForm__label" for="mscbPhoneText">Номер вашего телефона</label>' +
-        '<input type="tel" name="phone" id="mscbPhoneText" class="mscbForm__input"/>' +
-        '<input type="button" class="mscbForm__button" id="mscbFormButton" value="Жду звонка">' +
-        '</div>' +
-        '</div>' +
-        '<div class="mscbThxMessage" id="mscbThxMessage">' +
-        '<span class="mscbThxMessage__closeBtn" id="mscbCloseThx"></span>' +
-        '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
-        '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>';  
-
-      document.body.appendChild(wwwidget);  
-  }
-
-
   window.addEventListener("load", onLoad, false);
 
   function onLoad() {
@@ -143,18 +113,43 @@
           referer: location.href
         }
       })
-      .done(function (resp) {
-        if (!resp || resp === '')  return false
-
+      .done(function (xhr) {
         trunkNumber = '+' + xhr.replace(/ /g, '').replace(/\D/g, '');
         var elems = document.querySelectorAll('.mindsalesTrunkNumber') || [];
         elems.forEach(function (elem) { elem.textContent = xhr; });
-
-        if (blacklisted) {
-          return console.warn('Domain in blacklist');
-        } else drawWidget();            
       })
-      .fail(function (xhr) { console.log('fail xhr', xhr); }); 
+      .fail(function (xhr) { console.log('fail xhr', xhr); });
+
+    var wwwidget = document.createElement('div');
+    wwwidget.innerHTML =
+      '<div class="mscbButton" id="mscbButton"></div>' +
+      '<div class="mscbWindow" id="mscbWindow">' +
+      '<div class="mscbWindow_layout" id="mscbLayout">' +
+      '<div class="mscbContent" id="mscbContent">' +
+      '<div class="mscbHeader">' +
+      '<span class="mscbHeader__closeBtn" id="mscbCloseBtn"></span>' +
+      '<h1 class="mscbHeader__title">Есть вопросы?</h1>' +
+      '<h2 class="mscbHeader__subtitle">Позвоним и расскажем обо всём подробнее!</h2>' +
+      '</div>' +
+      '<div class="mscbForm">' +
+      '<label class="mscbForm__label" for="mscbPhoneText">Номер вашего телефона</label>' +
+      '<input type="tel" name="phone" id="mscbPhoneText" class="mscbForm__input"/>' +
+      '<input type="button" class="mscbForm__button" id="mscbFormButton" value="Жду звонка">' +
+      '</div>' +
+      '</div>' +
+      '<div class="mscbThxMessage" id="mscbThxMessage">' +
+      '<span class="mscbThxMessage__closeBtn" id="mscbCloseThx"></span>' +
+      '<div class="mscbThxMessage__title">Спасибо за обращение!</div>' +
+      '<div class="mscbThxMessage__subtitle">Мы свяжемся с вами в ближайшее время</div>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
+
+  if (blacklisted) {
+    return console.warn('Domain in blacklist');
+  } else {
+    document.body.appendChild(wwwidget);
+  }      
 
     mscbButton.addEventListener('click', function () {
       mscbButton.style.display = 'none';
