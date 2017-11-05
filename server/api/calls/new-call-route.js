@@ -14,9 +14,11 @@ module.exports = function newCallRoute(request, response) {
         startedAt, 
         crm_call_id = false 
     } = request.body;
+
     console.log('>>> New call at', startedAt);
 
     status = parseInt(status);
+
 
     if (crm_call_id !== false && crm_call_id !== "false" && crm_call_id !== "") {
         if (status === 4) {
@@ -33,6 +35,8 @@ module.exports = function newCallRoute(request, response) {
         data: JSON.stringify(request.body)
     });
 
+    proxy(request.body)
+
     if (status === 3 || status === 4) {
 
         saveNewCall(request.body, call => {
@@ -47,6 +51,4 @@ module.exports = function newCallRoute(request, response) {
         console.log('<<<');
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
-
-    proxy(request.body)
 }
