@@ -9,13 +9,14 @@ const proxy = require('./proxy');
 module.exports = function newCallRoute(request, response) {
     let { 
         status, 
-        callerPhoneNumber, 
+        callerPhoneNumber,
+        calleePhoneNumber, 
         endpointPhoneNumber, 
         startedAt, 
         crm_call_id = false 
     } = request.body;
 
-    console.log('>>> New call at', startedAt);
+    console.log('>>> New call', startedAt, calleePhoneNumber);
 
     status = parseInt(status);
 
@@ -35,20 +36,18 @@ module.exports = function newCallRoute(request, response) {
         data: JSON.stringify(request.body)
     });
 
-    proxy(request.body)
 
     if (status === 3 || status === 4) {
-
         saveNewCall(request.body, call => {
             const resp = call
                 ? { status: 'saved' }
                 : { status: 'ignored', reason: 'number not registered' };
-            console.log('<<<');
             response.json(resp);
         });
 
     } else {
-        console.log('<<<');
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
+
+    proxy(request.body)
 }

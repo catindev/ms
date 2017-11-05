@@ -39,9 +39,6 @@ function saveCall({
   const callee = formatNumber(calleePhoneNumber);
   const endpointNumber = endpointPhoneNumber && formatNumber(endpointPhoneNumber);
 
-  console.log('caller', caller, 'callee', callee, 'endpoint', endpointNumber);
-
-
       Number.findOne({ phone: callee })
         .populate('account')
         .then(findSourceNumber)
@@ -150,7 +147,7 @@ function saveCall({
       function saveCallToSystem(call) {
         call.save()
           .then(savedcall => {
-            console.log('Call saved to DB', savedcall._id);
+            // console.log('Call saved to DB', savedcall._id);
             callback(savedcall);
           })
           .catch(error => { throw error; });
