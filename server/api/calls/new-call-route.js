@@ -25,7 +25,7 @@ module.exports = function newCallRoute(request, response) {
         if (status === 4) {
             console.log('Callback call for', crm_call_id, 'ignored');
             console.log('<<<');
-            // proxy(request.body)
+            proxy(request.body)
             return;
         }
         callback({ number: endpointPhoneNumber, callID: crm_call_id });
@@ -49,5 +49,5 @@ module.exports = function newCallRoute(request, response) {
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
 
-    // proxy(request.body)
+    proxy(request.body)
 }
