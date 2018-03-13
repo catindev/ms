@@ -12,10 +12,10 @@ const numberSchema = new Schema({
     "name": String
 });
 
-numberSchema.pre('save', function( next ) {
-    if ( !this.isModified('phone') ) return next();
+numberSchema.pre('save', function(next) {
+    if (!this.isModified('phone')) return next();
 
-    this.phone = formatNumber( this.phone );
+    this.phone = formatNumber(this.phone);
 
     next();
 });

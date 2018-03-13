@@ -1,3 +1,12 @@
+рестарт сервера
+sudo nginx -t
+sudo systemctl restart nginx
+
+
+db.calls.find({ "$where": "this.date.getMonth() === 2" })
+
+use MindSalesCRM
+
 
 /* Clone DB */
 use MindSalesCRMtest
@@ -18,64 +27,50 @@ server {
     }
 }
 
-ln -s /etc/nginx/sites-available/stage /etc/nginx/sites-enabled/
+`
 
 pm2 start server/stage.js --name="stage"
 
 
-//// REPORT
+Чистить логи
+cd /var/www/ms && rm server/journal/*.* && pm2 flush
 
-ObjectId("57ef9d477d53c326f17b97b5") Ast
-{ "_id" : ObjectId("57ef9d477d53c326f17b97b6"), "name" : "Менеджер Астаны" }
+Деплой
+git pull && pm2 restart ms
 
-{ "_id" : ObjectId("57ef9d477d53c326f17b97b7"), "name" : "Яндекс" }
-{ "_id" : ObjectId("57ef9d477d53c326f17b97b8"), "name" : "Google" }
-{ "_id" : ObjectId("57ef9d477d53c326f17b97b9"), "name" : "Instagram" }
-{ "_id" : ObjectId("57ef9d477d53c326f17b97ba"), "name" : " Face Book" }
+Дубликаты транков
+db.numbers.aggregate(
+    {"$group" : { "_id": "$phone", "count": { "$sum": 1 } } },
+    {"$match": { "count" : {"$gt": 1} } }, 
+    {"$project": { "_id" : 0, count: "$count", "number" : "$_id" } },
+    {"$sort": {"count" : -1} }
+)
 
+Номера по аккаутам
+db.numbers.aggregate(
+    {   "$group" : { 
+            "account": "$account", 
+            "count": { "$sum": 1 },  
+            "numbers": { 
+                "$push": { 
+                    "number": "$phone",
+                    "name": "$name"
+                },
+            },
+        } 
+    }
+)
 
-ObjectId("57efa0f67d53c326f17b97c1") Alt
-{ "_id" : ObjectId("57efa0f67d53c326f17b97c2"), "name" : "Менеджер Алматы" }
-
-{ "_id" : ObjectId("57efa0f67d53c326f17b97c3"), "name" : "Яндекс" }
-{ "_id" : ObjectId("57efa0f67d53c326f17b97c4"), "name" : "Google" }
-{ "_id" : ObjectId("57efa0f67d53c326f17b97c5"), "name" : "Instagram" }
-{ "_id" : ObjectId("57efa0f67d53c326f17b97c6"), "name" : "Face Book" }
-
-
-Сколько пришло новых клиентов
-    Профиль не заполнен
-    db.contacts.find({ account: ObjectId("57ef9d477d53c326f17b97b5"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, name: { $exists: false } }).count()
-
-    Всего
-    db.contacts.find({ account: ObjectId("57efa0f67d53c326f17b97c1"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") } }).count()
-
-Целевые и нецелевые
-    Целевые
-    db.contacts.find({ account: ObjectId("57efa0f67d53c326f17b97c1"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, noTargetReason: { $exists: false }, name: { $exists: true } }).count()
-
-    Нецелевые
-    db.contacts.find({ account: ObjectId("57efa0f67d53c326f17b97c1"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, noTargetReason: { $exists: true }, name: { $exists: true } }).count()
-
-Менеджеры
-    Профиль не заполнен
-    db.contacts.find({ user: ObjectId("57efa0f67d53c326f17b97c2"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, name: { $exists: false } }).count()
-
-    Всего
-    db.contacts.find({ user: ObjectId("57efa0f67d53c326f17b97c2"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") } }).count()
-
-По источникам
-    Нецелевые
-    db.contacts.find({ number: ObjectId("57ef9d477d53c326f17b97ba"), account: ObjectId("57ef9d477d53c326f17b97b5"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") }, noTargetReason: { $exists: true } }).count()
-
-    Всего
-    db.contacts.find({ number: ObjectId("57ef9d477d53c326f17b97ba"), account: ObjectId("57ef9d477d53c326f17b97b5"), created: { $gte: new ISODate("2016-11-30T18:00:00.000Z") } }).count()
-
-Портрет
-    Поля
-    db.customfields.find({ account: ObjectId("57efa0f67d53c326f17b97c1") }, { name:1, id:1, list:1 })
-
-    db.contacts.find({ account: ObjectId("57ef9d477d53c326f17b97b5"), pol:{ $exists: true }, created: { $gte: new ISODate("2016-12-01T00:00:00.000Z") } }).count()
-
-    db.contacts.find({ summa_zajma: { '$exists': true }, created: { $gte: new ISODate("2016-12-01T00:00:00.000Z") }, $or: [ { account: ObjectId("57ef9d477d53c326f17b97b5") }, { account: ObjectId("57efa0f67d53c326f17b97c1") } ] }).count()
+db.users.aggregate(
+    {   "$group" : { 
+            "_id": "$account", 
+            "count": { "$sum": 1 },  
+            "numbers": { 
+                "$push": { 
+                    "number": "$phones",
+                    "name": "$name"
+                },
+            },
+        } 
+    }
 )
