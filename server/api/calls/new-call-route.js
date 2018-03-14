@@ -4,7 +4,7 @@ const saveJournal = require('../system/save-call-data');
 const mixpanelEvent = require('../system/mixpanel');
 
 const callback = require('./callback');
-const proxy = require('./proxy');
+// const proxy = require('./proxy');
 
 module.exports = function newCallRoute(request, response) {
     let {
@@ -25,7 +25,7 @@ module.exports = function newCallRoute(request, response) {
         if (status === 4) {
             console.log('Callback call for', crm_call_id, 'ignored');
             console.log('<<<');
-            proxy(request.body)
+            // proxy(request.body)
             return;
         }
         callback({ number: endpointPhoneNumber, callID: crm_call_id });
@@ -49,5 +49,5 @@ module.exports = function newCallRoute(request, response) {
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
 
-    proxy(request.body)
+    // proxy(request.body)
 }
