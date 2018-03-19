@@ -7,7 +7,7 @@ const callback = require('./callback');
 const proxy = require('./proxy');
 
 module.exports = function newCallRoute(request, response) {
-    let {
+    let {   
         status,
         callerPhoneNumber,
         calleePhoneNumber,
@@ -25,7 +25,7 @@ module.exports = function newCallRoute(request, response) {
         if (status === 4) {
             console.log('Callback call for', crm_call_id, 'ignored');
             console.log('<<<');
-            proxy(request.body)
+            // proxy(request.body)
             response.json({ status: 'ignored', reason: 'missed callback' })
             return;
         }
@@ -50,5 +50,5 @@ module.exports = function newCallRoute(request, response) {
         response.json({ status: 'ignored', reason: 'call not finished' });
     }
 
-    proxy(request.body)
+    // proxy(request.body)
 }
