@@ -23,12 +23,12 @@ App.use(bodyParser.json());
 App.disable('view cache');
 
 App.use((error, request, response, next) => {
-  console.log(error.stack);
-  response.status(500).json({
-    status: 500,
-    message: 'internal server error',
-    reason: error.message
-  });
+    console.log(error.stack);
+    response.status(500).json({
+        status: 500,
+        message: 'internal server error',
+        reason: error.message
+    });
 });
 
 App.post('/login', (request, response) => {
@@ -128,6 +128,5 @@ App.get('/rprt/:id', require('./reports/route'));
 App.get('/report/:id', require('./reports/route'));
 App.get('/ohmystats', require('./reports/by-query'));
 
-
-
 App.listen(8080);
+console.log('Server started at 8080');
